@@ -2,9 +2,10 @@
 
 ## 구성
 
-- TypeScript
-- TailwindCSS
-- Eslint
-- Prettier
-- lint-staged
-- husky
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/ko/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Eslint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [lint-staged](https://github.com/okonet/lint-staged)
+- [husky](https://typicode.github.io/husky/)
