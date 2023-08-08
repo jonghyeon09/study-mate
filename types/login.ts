@@ -8,13 +8,13 @@ export interface TokenResponse {
   scope?: string;
 }
 
-export interface User {
+export interface profile {
   username: string;
   profileImage: string;
 }
 
 export interface LoginUser {
   token: string;
-  user: User;
+  user: profile;
   isNew: boolean;
 }

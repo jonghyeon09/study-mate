@@ -1,33 +1,35 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import { profile } from '@/types';
 import { useRouter } from 'next/router';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
 function Login() {
-  const { getToken } = useAuthKakao();
-  const { storage, setStorage } = useLocalStorage<string>('token');
+  const { login } = useAuthKakao();
   const router = useRouter();
+  const [token, setToken] = useLocalStorage<string>('token');
+  const [profile, setProfile] = useLocalStorage<profile>('profile');
 
-  const handleLogin = useCallback(async () => {
+  const handleLogin = async () => {
     const { code } = router.query;
-    if (!code) return;
 
-    const token = await getToken(code);
-
-    setStorage(token);
-    router.push('/');
-  }, [getToken, router, setStorage]);
+    if (code) {
+      const res = await login(code);
+      setToken(res.token);
+      setProfile(res.user);
+      router.push('/');
+    }
+  };
 
   useEffect(() => {
-    if (storage) {
+    if (token) {
       router.push('/');
-      return;
+    } else {
+      handleLogin();
     }
-
-    handleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router]); // 개발모드에서 두번실행 막기
+  }, [router, token]);
 
   return (
     <Layout>

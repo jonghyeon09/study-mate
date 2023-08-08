@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-type RetunType<T> = {
-  storage: T;
-  setStorage: React.Dispatch<T>;
-};
+type RetunType<T> = [value: T, setValue: React.Dispatch<T>];
 
-function useLocalStorage<T>(key: string, initialValue = ''): RetunType<T> {
-  const [storage, setStorage] = useState(() => {
+function useLocalStorage<T = string>(
+  key: string,
+  initialValue = ''
+): RetunType<T> {
+  const [value, setValue] = useState(() => {
     let currentValue;
 
     try {
@@ -21,10 +21,10 @@ function useLocalStorage<T>(key: string, initialValue = ''): RetunType<T> {
   });
 
   useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(storage));
-  }, [key, storage]);
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
 
-  return { storage, setStorage };
+  return [value, setValue];
 }
 
 export default useLocalStorage;
