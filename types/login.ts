@@ -8,7 +8,7 @@ export interface TokenResponse {
   scope?: string;
 }
 
-interface User {
+export interface User {
   username: string;
   profileImage: string;
 }

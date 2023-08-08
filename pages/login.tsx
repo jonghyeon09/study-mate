@@ -1,25 +1,33 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
-import { getLoginUser } from '@/services';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 function Login() {
-  const { getKakaoToken } = useAuthKakao();
+  const { getToken } = useAuthKakao();
+  const { storage, setStorage } = useLocalStorage<string>('token');
   const router = useRouter();
-  const { code } = router.query;
 
-  const handleLogin = async () => {
+  const handleLogin = useCallback(async () => {
+    const { code } = router.query;
     if (!code) return;
-    const res = await getKakaoToken(code);
-    if (!res) return;
 
-    const user = await getLoginUser(res.access_token);
-  };
+    const token = await getToken(code);
 
-  // useEffect(() => {
-  //   handleLogin();
-  // }, [handleLogin]);
+    setStorage(token);
+    router.push('/');
+  }, [getToken, router, setStorage]);
+
+  useEffect(() => {
+    if (storage) {
+      router.push('/');
+      return;
+    }
+
+    handleLogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router]); // 개발모드에서 두번실행 막기
 
   return (
     <Layout>

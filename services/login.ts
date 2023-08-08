@@ -9,6 +9,6 @@ export const getLoginUser = async (accessToken: string) => {
 
     return response.data;
   } catch (error) {
-    alert('로그인 실패');
+    throw new Error('로그인 유저 정보');
   }
 };

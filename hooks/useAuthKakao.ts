@@ -1,16 +1,17 @@
 import config from '@/config';
-import { TokenResponse } from '@/types';
+import { getLoginUser } from '@/services';
+import { TokenResponse, User } from '@/types';
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import useLocalStorage from './useLocalStorage';
 
 function useAuthKakao() {
-  const router = useRouter();
+  const { setStorage } = useLocalStorage<User>('user');
 
   const authURL = `${config.KAKAO_AUTH_URL}?response_type=code&client_id=${config.KAKAO_API_KEY}&redirect_uri=${config.REDIRECT_URI}`;
 
-  const getKakaoToken = async (authCode: string | string[]) => {
+  const getToken = async (authCode: string | string[]) => {
     try {
-      const response = await axios<TokenResponse>({
+      const { data } = await axios<TokenResponse>({
         method: 'post',
         url: config.KAKAO_TOKEN_URL,
         headers: {
@@ -22,15 +23,17 @@ function useAuthKakao() {
           code: authCode,
         },
       });
+      const login = await getLoginUser(data.access_token);
 
-      return response.data;
+      setStorage(login.user);
+      return login.token;
     } catch (error) {
-      alert('카카오 인증 실패');
-      router.push('/');
+      alert('로그인 실패');
+      throw new Error('로그인 실패');
     }
   };
 
-  return { authURL, getKakaoToken };
+  return { authURL, getToken };
 }
 
 export default useAuthKakao;
