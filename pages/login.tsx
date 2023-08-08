@@ -1,21 +1,25 @@
 import Layout from '@/components/common/Layout';
-import { getToken } from '@/services';
+import useAuthKakao from '@/hooks/useAuthKakao';
+import { getLoginUser } from '@/services';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 function Login() {
+  const { getKakaoToken } = useAuthKakao();
   const router = useRouter();
   const { code } = router.query;
 
-  useEffect(() => {
-    const handleLogin = async () => {
-      if (typeof code === 'string') {
-        const data = await getToken(code);
-        router.push('/');
-      }
-    };
-    handleLogin();
-  }, [code, router]);
+  const handleLogin = async () => {
+    if (!code) return;
+    const res = await getKakaoToken(code);
+    if (!res) return;
+
+    const user = await getLoginUser(res.access_token);
+  };
+
+  // useEffect(() => {
+  //   handleLogin();
+  // }, [handleLogin]);
 
   return (
     <Layout>
