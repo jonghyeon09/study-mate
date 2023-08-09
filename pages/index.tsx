@@ -1,9 +1,18 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
+import useLocalStorage from '@/hooks/useLocalStorage';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Home() {
   const { authURL } = useAuthKakao();
+  const [token] = useLocalStorage('token');
+
+  // useEffect(() => {
+  //   if (token) {
+  //     // 스터디로 이동하는 로직 추가
+  //   }
+  // }, [token]);
 
   return (
     <Layout>

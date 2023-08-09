@@ -10,7 +10,8 @@ function useLoginRedirect() {
     if (!token) {
       router.push('/');
     }
-  }, [router, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   return { redirectToMain };
 }

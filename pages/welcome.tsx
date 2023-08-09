@@ -17,8 +17,7 @@ export default function Welcome() {
 
   useEffect(() => {
     redirectToMain();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [redirectToMain]);
 
   return (
     <Layout>
