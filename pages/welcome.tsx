@@ -1,6 +1,7 @@
 import CreateStudy from '@/components/CreateStudy';
 import Layout from '@/components/common/Layout';
 import useLocalStorage from '@/hooks/useLocalStorage';
+import useLoginRedirect from '@/hooks/useLoginRedirect';
 import type { profile } from '@/types';
 import { useState, useEffect } from 'react';
 
@@ -8,10 +9,16 @@ export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile');
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
+  const { redirectToMain } = useLoginRedirect();
 
   useEffect(() => {
     setUserName(profile.username);
   }, [profile.username]);
+
+  useEffect(() => {
+    redirectToMain();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout>
