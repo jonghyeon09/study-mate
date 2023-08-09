@@ -2,17 +2,19 @@ type Props = {
   type: string;
   placeholder?: string;
   value?: string;
+  className?: string;
+  maxLength?: number;
   // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
 };
 
 function Input({
   type = 'text',
   placeholder,
   value,
-  onChange,
   className,
+  maxLength,
+  onChange,
 }: Props) {
   return (
     <input
@@ -21,6 +23,7 @@ function Input({
       value={value}
       onChange={onChange}
       className={`border-2 border-black rounded drop-shadow-[2px_2px_0_#000] focus:outline-none w-full p-1.5 font-medium ${className}`}
+      maxLength={maxLength}
     />
   );
 }

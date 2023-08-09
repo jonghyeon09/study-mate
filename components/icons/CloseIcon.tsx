@@ -2,6 +2,7 @@ import Image from 'next/image';
 import close from '@/public/icons/close.png';
 
 type Props = {
+  // onClick: () => void;
   onClick: () => void;
 };
 
