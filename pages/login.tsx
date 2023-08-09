@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
-function Login() {
+export default function Login() {
   const { login } = useAuthKakao();
   const router = useRouter();
   const [token, setToken] = useLocalStorage<string>('token');
@@ -19,15 +19,19 @@ function Login() {
 
     if (code) {
       const res = await login(code);
+      const newUser = res.isNew;
+
       setToken(res.token);
       setProfile(res.user);
       setIsLogin(true);
-      router.push('/');
+
+      if (newUser) router.push('/welcome');
     }
   };
 
   useEffect(() => {
     if (token) {
+      // 스터디룸으로 라우트하게 수정
       router.push('/');
     } else {
       handleLogin();
@@ -41,5 +45,3 @@ function Login() {
     </Layout>
   );
 }
-
-export default Login;
