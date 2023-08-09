@@ -2,7 +2,8 @@ type Props = {
   type: string;
   placeholder?: string;
   value?: string;
-  onChange?: () => void;
+  // eslint-disable-next-line no-unused-vars
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 };
 
