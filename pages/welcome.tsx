@@ -1,23 +1,26 @@
 import CreateStudy from '@/components/CreateStudy';
 import Layout from '@/components/common/Layout';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import useLoginRedirect from '@/hooks/useLoginRedirect';
+import { isLoginState } from '@/recoil/atoms';
 import type { profile } from '@/types';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile');
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  const { redirectToMain } = useLoginRedirect();
+  const isLogin = useRecoilValue(isLoginState);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLogin) router.push('/');
+  }, [isLogin, router]);
 
   useEffect(() => {
     setUserName(profile.username);
   }, [profile.username]);
-
-  useEffect(() => {
-    redirectToMain();
-  }, [redirectToMain]);
 
   return (
     <Layout>
