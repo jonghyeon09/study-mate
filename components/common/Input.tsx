@@ -16,7 +16,7 @@ function Input({
   type = 'text',
   placeholder,
   value,
-  className,
+  className = '',
   maxLength,
   onChange,
   reset,
@@ -24,11 +24,22 @@ function Input({
   const inputRef = useRef<HTMLInputElement | null>(null);
   const spanRef = useRef<HTMLSpanElement | null>(null);
   const [buttonPosition, setButtonPosition] = useState(0);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => {
+      setIsFocused(false);
+    }, 100);
+  };
 
   useEffect(() => {
     if (spanRef.current) {
       const spanWidth = spanRef.current.offsetWidth;
-      setButtonPosition(spanWidth);
+      setButtonPosition(spanWidth + 12);
     }
   }, [value]);
 
@@ -39,21 +50,27 @@ function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className={`border-2 border-black rounded drop-shadow-[2px_2px_0_#000] focus:outline-none w-full p-1.5 font-medium ${className}`}
+        className={
+          isFocused
+            ? `input input-shadow text-[--color-indigo] ${className}`
+            : `input input-shadow ${className}`
+        }
         maxLength={maxLength}
         ref={inputRef}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
       />
       <span
         ref={spanRef}
-        className="absolute top-0 left-0 whitespace-nowrap opacity-0 pointer-events-none"
+        className="absolute top-0 left- whitespace-nowrap opacity-0 pointer-events-none"
       >
         {value}
       </span>
-      {value && (
-        <span style={{ left: buttonPosition }} className="absolute h-full">
-          <CloseIcon onClick={reset} className="my-auto ml-2" />
+      {value && isFocused ? (
+        <span style={{ left: buttonPosition }} className="absolute">
+          <CloseIcon onClick={reset} className="my-auto" />
         </span>
-      )}
+      ) : null}
     </div>
   );
 }
