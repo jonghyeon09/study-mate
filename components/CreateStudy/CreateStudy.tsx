@@ -3,6 +3,8 @@ import Input from '../common/Input';
 import SaveButton from '../common/SaveButton';
 import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
+import { useMutation } from '@tanstack/react-query';
+import { createStudy } from '@/services';
 
 type Props = {
   onClose: () => void;
@@ -10,6 +12,11 @@ type Props = {
 
 function CreateStudy({ onClose }: Props) {
   const { value, onChange, reset } = useInput();
+  const { mutate } = useMutation(createStudy);
+
+  const handleCreateStudy = () => {
+    mutate({ description: value });
+  };
 
   return (
     <Modal className="flex flex-col justify-between relative">
@@ -32,7 +39,9 @@ function CreateStudy({ onClose }: Props) {
           maxLength={10}
           reset={reset}
         />
-        <SaveButton>저장하기</SaveButton>
+        <SaveButton onClick={handleCreateStudy} disabled={value.length == 0}>
+          저장하기
+        </SaveButton>
       </div>
     </Modal>
   );

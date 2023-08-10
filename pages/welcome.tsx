@@ -13,7 +13,10 @@ import Button from '@/components/common/Button';
 import { SCDream } from './index';
 
 export default function Welcome() {
-  const [profile] = useLocalStorage<profile>('profile');
+  const [profile] = useLocalStorage<profile>('profile', {
+    username: '',
+    profileImage: '',
+  });
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const [underLineWidth, setUnderLineWidth] = useState(0);
@@ -44,10 +47,10 @@ export default function Welcome() {
           <p className="text-4xl z-10" ref={pRef}>
             {userName}
           </p>
-          <p className="text-xl">님 반가워요!</p>
+          <p className="text-xl font-light">님 반가워요!</p>
           <UnderLine width={underLineWidth} height={12} />
         </div>
-        <p>함께 도전할 친구들을 기다려요.</p>
+        <p className="text-xl font-light">함께 도전할 친구들을 기다려요.</p>
       </div>
 
       <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center border-shadow mt-[22px]">

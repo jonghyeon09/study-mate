@@ -1,5 +1,13 @@
 import { LoginUser } from '@/types';
-import apiClient from './apiClient';
+import axios from 'axios';
+import config from '@/config';
+
+const apiClient = axios.create({
+  baseURL: config.API_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export const getLoginUser = async (accessToken: string) => {
   try {
