@@ -1,18 +1,24 @@
 import CreateStudy from '@/components/CreateStudy';
 import Layout from '@/components/common/Layout';
+import UnderLine from '@/components/common/UnderLine';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { isLoginState } from '@/recoil/atoms';
 import type { profile } from '@/types';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+import caleander from '@/public/icons/caleander.png';
+import Image from 'next/image';
+import Button from '@/components/common/Button';
 
 export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile');
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
+  const [underLineWidth, setUnderLineWidth] = useState(0);
   const isLogin = useRecoilValue(isLoginState);
   const router = useRouter();
+  const pRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     if (!isLogin) router.push('/');
@@ -22,17 +28,30 @@ export default function Welcome() {
     setUserName(profile.username);
   }, [profile.username]);
 
+  useEffect(() => {
+    if (pRef.current) {
+      setUnderLineWidth(pRef.current.clientWidth);
+    }
+  }, []);
+
   return (
-    <Layout>
-      <div className="flex flex-col items-center justify-center h-full">
-        <div>
-          <p>{userName}님 반가워요!</p>
-          <p>함께 도전할 친구들을 기다려요.</p>
+    <Layout className="bg-main px-[24px] flex flex-col justify-center">
+      <div className="flex flex-col justify-center">
+        <div className="relative flex items-end">
+          <p className="text-4xl z-10" ref={pRef}>
+            {userName}
+          </p>
+          <p className="text-xl">님 반가워요!</p>
+          <UnderLine width={underLineWidth - 6} height={12} />
         </div>
-        <button className="flex" type="button" onClick={() => setOpen(true)}>
-          스터디 시작하기
-        </button>
+        <p>함께 도전할 친구들을 기다려요.</p>
       </div>
+      <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center">
+        <Image src={caleander} alt="caleander" />
+      </div>
+      <Button onClick={() => setOpen(true)}>
+        <p className="text-white font-bold">스터디 시작하기</p>
+      </Button>
       {open && <CreateStudy onClose={() => setOpen(false)} />}
     </Layout>
   );

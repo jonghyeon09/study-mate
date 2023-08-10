@@ -11,6 +11,7 @@ export default function Home() {
   const [token] = useLocalStorage('token');
   const setIsLogin = useSetRecoilState(isLoginState);
 
+  // 로그아웃 하지 않고 실행
   useEffect(() => {
     if (token) {
       setIsLogin(true);

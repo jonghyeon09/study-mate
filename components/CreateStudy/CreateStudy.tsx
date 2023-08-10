@@ -1,6 +1,6 @@
 import Modal from '@/components/common/Modal';
 import Input from '../common/Input';
-import Button from '../common/Button';
+import SaveButton from '../common/SaveButton';
 import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
 
@@ -32,7 +32,7 @@ function CreateStudy({ onClose }: Props) {
           maxLength={10}
           reset={reset}
         />
-        <Button>저장하기</Button>
+        <SaveButton>저장하기</SaveButton>
       </div>
     </Modal>
   );

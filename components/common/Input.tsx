@@ -25,7 +25,6 @@ function Input({
   const spanRef = useRef<HTMLSpanElement | null>(null);
   const [buttonPosition, setButtonPosition] = useState(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
-  let focusClor = 'text-indigo';
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -52,7 +51,9 @@ function Input({
         value={value}
         onChange={onChange}
         className={
-          isFocused ? `input text-indigo ${className}` : `input ${className}`
+          isFocused
+            ? `input input-shadow text-indigo ${className}`
+            : `input input-shadow ${className}`
         }
         maxLength={maxLength}
         ref={inputRef}
