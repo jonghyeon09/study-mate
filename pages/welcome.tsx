@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil';
 import caleander from '@/public/icons/caleander.png';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import { SCDream } from './index';
 
 export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile');
@@ -35,7 +36,9 @@ export default function Welcome() {
   }, [userName]);
 
   return (
-    <Layout className="bg-[--color-main] px-[24px] flex flex-col justify-center">
+    <Layout
+      className={`${SCDream.className} bg-[--color-main] px-[24px] flex flex-col justify-center`}
+    >
       <div className="flex flex-col justify-center">
         <div className="relative flex items-end">
           <p className="text-4xl z-10" ref={pRef}>

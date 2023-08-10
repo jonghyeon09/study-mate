@@ -8,3 +8,44 @@ const config = {
 } as const;
 
 export default config;
+
+export const font = {
+  src: [
+    {
+      path: '../public/fonts/SCDream1.otf',
+      weight: '100',
+    },
+    {
+      path: '../public/fonts/SCDream2.otf',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/SCDream3.otf',
+      weight: '300',
+    },
+    {
+      path: '../public/fonts/SCDream4.otf',
+      weight: '400',
+    },
+    {
+      path: '../public/fonts/SCDream5.otf',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/SCDream6.otf',
+      weight: '600',
+    },
+    {
+      path: '../public/fonts/SCDream7.otf',
+      weight: '700',
+    },
+    {
+      path: '../public/fonts/SCDream8.otf',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/SCDream9.otf',
+      weight: '900',
+    },
+  ],
+};
