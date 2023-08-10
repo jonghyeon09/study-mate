@@ -9,7 +9,7 @@ type Props = {
 };
 
 function CreateStudy({ onClose }: Props) {
-  const { value, onChange } = useInput();
+  const { value, onChange, reset } = useInput();
 
   return (
     <Modal className="flex flex-col justify-between">
@@ -25,8 +25,9 @@ function CreateStudy({ onClose }: Props) {
           value={value}
           onChange={onChange}
           maxLength={10}
+          reset={reset}
         />
-        <Button>스터디 만들기</Button>
+        <Button>저장하기</Button>
       </div>
     </Modal>
   );

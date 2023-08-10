@@ -1,19 +1,17 @@
 import Image from 'next/image';
 import close from '@/public/icons/close.png';
+import IconLayout from '../common/IconLayout';
 
 type Props = {
-  // onClick: () => void;
-  onClick: () => void;
+  className?: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-function CloseIcon({ onClick }: Props) {
+function CloseIcon({ className, onClick }: Props) {
   return (
-    <button
-      className="w-[24px] h-[24px] flex items-center justify-center"
-      onClick={onClick}
-    >
-      <Image src={close} alt="close icon" width={20} height={20} />
-    </button>
+    <IconLayout onClick={onClick} className={className}>
+      <Image src={close} alt="close icon" width={24} height={24} />
+    </IconLayout>
   );
 }
 
