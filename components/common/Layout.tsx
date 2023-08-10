@@ -6,7 +6,7 @@ type Props = {
 function Layout({ className = '', children }: Props) {
   return (
     <main
-      className={`relative h-screen max-h-screen mx-auto max-w-screen-sm bg-amber-100 ${className}`}
+      className={`relative h-screen max-h-screen mx-auto max-w-screen-sm ${className}`}
     >
       {children}
     </main>

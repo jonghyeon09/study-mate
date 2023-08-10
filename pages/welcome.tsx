@@ -30,28 +30,31 @@ export default function Welcome() {
 
   useEffect(() => {
     if (pRef.current) {
-      setUnderLineWidth(pRef.current.clientWidth);
+      setUnderLineWidth(pRef.current.clientWidth - 6);
     }
-  }, []);
+  }, [userName]);
 
   return (
-    <Layout className="bg-main px-[24px] flex flex-col justify-center">
+    <Layout className="bg-[--color-main] px-[24px] flex flex-col justify-center">
       <div className="flex flex-col justify-center">
         <div className="relative flex items-end">
           <p className="text-4xl z-10" ref={pRef}>
             {userName}
           </p>
           <p className="text-xl">님 반가워요!</p>
-          <UnderLine width={underLineWidth - 6} height={12} />
+          <UnderLine width={underLineWidth} height={12} />
         </div>
         <p>함께 도전할 친구들을 기다려요.</p>
       </div>
-      <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center">
-        <Image src={caleander} alt="caleander" />
+
+      <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center border-shadow mt-[22px]">
+        <Image src={caleander} alt="caleander" className="mb-[-6px]" />
       </div>
-      <Button onClick={() => setOpen(true)}>
+
+      <Button className="mt-[36px]" onClick={() => setOpen(true)}>
         <p className="text-white font-bold">스터디 시작하기</p>
       </Button>
+
       {open && <CreateStudy onClose={() => setOpen(false)} />}
     </Layout>
   );

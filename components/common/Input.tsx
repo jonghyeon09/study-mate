@@ -52,7 +52,7 @@ function Input({
         onChange={onChange}
         className={
           isFocused
-            ? `input input-shadow text-indigo ${className}`
+            ? `input input-shadow text-[--color-indigo] ${className}`
             : `input input-shadow ${className}`
         }
         maxLength={maxLength}

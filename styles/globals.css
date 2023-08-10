@@ -32,15 +32,3 @@
 .input-title {
   @apply text-xl font-bold leading-[30px];
 }
-
-.text-indigo {
-  color: var(--color-indigo);
-}
-
-.bg-indigo {
-  background-color: var(--color-indigo);
-}
-
-.bg-main {
-  background-color: var(--color-main);
-}
