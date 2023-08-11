@@ -11,15 +11,11 @@ export interface TokenResponse {
 export interface profile {
   username: string;
   profileImage: string;
+  lastAccessedStudyId: number;
 }
 
 export interface LoginUser {
   token: string;
   user: profile;
   isNew: boolean;
-}
-
-export interface CreateStudy {
-  createdId: string;
-  status: 'Created';
 }

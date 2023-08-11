@@ -1,21 +1,20 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { isLoginState } from '@/recoil/atoms';
 import { profile } from '@/types';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { setToken } from '@/lib/cookies';
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useState(false);
   const { login } = useAuthKakao();
   const router = useRouter();
-  const [token, setToken] = useLocalStorage<string>('token', '');
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
+    lastAccessedStudyId: 0,
   });
-  const setIsLogin = useSetRecoilState(isLoginState);
 
   const handleLogin = async () => {
     const { code } = router.query;
@@ -33,18 +32,13 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (token) {
-      // 스터디룸으로 라우트하게 수정
+    if (isLogin) {
       router.push('/');
     } else {
       handleLogin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, token]);
+  }, [router, isLogin]);
 
-  return (
-    <Layout>
-      <h1>Loading...</h1>
-    </Layout>
-  );
+  return <Layout></Layout>;
 }
