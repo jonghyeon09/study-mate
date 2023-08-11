@@ -35,7 +35,6 @@ export default function Login() {
 
   useEffect(() => {
     if (token) {
-      // 스터디룸으로 라우트하게 수정
       router.push('/');
     } else {
       handleLogin();

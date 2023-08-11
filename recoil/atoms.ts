@@ -1,3 +1,4 @@
+import type { Study } from '@/types';
 import { atom } from 'recoil';
 
 export const isLoginState = atom({
@@ -5,11 +6,14 @@ export const isLoginState = atom({
   default: false,
 });
 
-export const currentStudy = atom({
+export const currentState = atom<Study>({
   key: 'currentStudy',
   default: {
-    id: null,
-    name: null,
-    role: null,
+    studyId: '',
+    enabled: false,
+    studyLeadUserId: 0,
+    description: '',
+    role: '',
+    openDate: '',
   },
 });

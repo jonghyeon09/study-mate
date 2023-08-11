@@ -1,13 +1,32 @@
+import type { Study } from '@/types';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
 
 type Props = {
-  studyName: string;
+  isOpen: boolean;
+  studyList: Study[] | undefined;
+  children: React.ReactNode;
+  onClick: (study: Study) => void;
 };
 
-function Dropdown({ studyName }: Props) {
+function Dropdown({ isOpen, studyList, children, onClick }: Props) {
   return (
-    <div>
-      <p>{studyName}</p>
+    <div className="flex items-center  cursor-pointer">
+      {children}
+      {isOpen && (
+        <ul className="flex flex-col absolute top-[54px] font-medium leading-6 bg-white input-shadow py-[12px]">
+          {studyList?.map((study) => (
+            <>
+              <li
+                className="cursor-pointer p-[12px] hover:bg-slate-100"
+                onClick={() => onClick(study)}
+              >
+                {study.description}
+              </li>
+            </>
+          ))}
+        </ul>
+      )}
+
       <ArrowDownIcon />
     </div>
   );

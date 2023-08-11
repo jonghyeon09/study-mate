@@ -16,17 +16,17 @@ function Study() {
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
   });
-  // const { status, data: studyDetail } = useQuery(
-  //   ['studyDetail', studyId],
-  //   () => getStudyDetail(studyId),
-  //   {
-  //     enabled: !!studyId,
-  //   }
-  // );
 
   return (
-    <Layout>
-      {isLoading ? <div>로딩...</div> : <StudyHeader></StudyHeader>}
+    <Layout className="bg-red-100">
+      {isLoading ? (
+        <div>로딩...</div>
+      ) : (
+        <>
+          <StudyHeader />
+          <main></main>
+        </>
+      )}
     </Layout>
   );
 }
