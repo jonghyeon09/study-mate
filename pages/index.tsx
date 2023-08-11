@@ -7,6 +7,11 @@ import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
+import Image from 'next/image';
+import kakaoLogin from '@/public/icons/kakao_login.png';
+import Splash from '@/components/Splash/Splash';
+import { token } from '@/lib/cookies';
+import { useState } from 'react';
 
 export const SCDream = localFont({
   src: [
@@ -50,11 +55,13 @@ export const SCDream = localFont({
 });
 
 export default function Home() {
+  const [isToken, setIsToken] = useState(false);
   const { authURL } = useAuthKakao();
   const router = useRouter();
   const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
+    enabled: isToken,
   });
 
   // 로그아웃 하지 않고 실행
@@ -67,23 +74,19 @@ export default function Home() {
     }
   }, [studyList, router]);
 
+  useEffect(() => {
+    if (token) {
+      setIsToken(true);
+    }
+  }, []);
+
   return (
     <Layout className={SCDream.className}>
-      {/* {isLoading ? (
-        <div>로딩중...</div>
-      ) : (
-        <>
-          <h1 className="text-xl">Home</h1>
-          <div className="flex flex-col justify-center items-center h-full">
-            <Link href={authURL}>카카오 로그인</Link>
-            <Link href={'/welcome'}>welcome페이지 강제이동</Link>
-          </div>
-        </>
-      )} */}
-      <h1 className="text-xl">Home</h1>
-      <div className="flex flex-col justify-center items-center h-full">
-        <Link href={authURL}>카카오 로그인</Link>
-        <Link href={'/welcome'}>welcome페이지 강제이동</Link>
+      {isToken && <Splash />}
+      <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
+        <Link href={authURL}>
+          <Image src={kakaoLogin} alt="login-Button" />
+        </Link>
       </div>
     </Layout>
   );
