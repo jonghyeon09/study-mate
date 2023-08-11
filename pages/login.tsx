@@ -6,11 +6,11 @@ import { profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { setToken, token } from '@/lib/token';
 
 export default function Login() {
   const { login } = useAuthKakao();
   const router = useRouter();
-  const [token, setToken] = useLocalStorage<string>('token', '');
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',

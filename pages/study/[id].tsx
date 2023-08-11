@@ -8,7 +8,6 @@ function Study() {
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-
   return (
     <Layout>
       {isLoading ? <div>로딩...</div> : <StudyHeader></StudyHeader>}
