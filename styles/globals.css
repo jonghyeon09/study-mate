@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 :root {
+  --h-header: 54px;
   --color-indigo: #4834c5;
   --color-main: #f5f5f5;
   --color-gray: #a4a4a4;
