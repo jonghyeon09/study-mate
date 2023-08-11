@@ -4,12 +4,12 @@ import IconLayout from '../common/IconLayout';
 
 type Props = {
   className?: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 function CloseIcon({ className, onClick }: Props) {
   return (
-    <IconLayout onClick={onClick} className={className}>
+    <IconLayout onClick={(e) => onClick && onClick(e)} className={className}>
       <Image src={close} alt="close icon" width={24} height={24} />
     </IconLayout>
   );

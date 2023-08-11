@@ -2,15 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
+:root {
+  --h-header: 54px;
+  --color-indigo: #4834c5;
+  --color-main: #f5f5f5;
+  --color-gray: #a4a4a4;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
   }
 } */
 
+.border-shadow {
+  @apply border-2 border-black rounded-md shadow-[0_4px_0_0_rgb(0,0,0)];
+}
+
+.input-shadow {
+  @apply border-2 border-black rounded shadow-[0_2px_0_0_rgb(0,0,0)];
+}
+
 .modal {
-  @apply relative w-[342px] h-[222px] bg-white border-2 border-black 
-  rounded-lg z-50 drop-shadow-[0_4px_0_#000] px-6;
+  @apply relative w-[342px] bg-white z-50 px-6;
+}
+
+.input {
+  @apply focus:outline-none w-full p-1.5 font-medium;
+}
+
+.input-title {
+  @apply text-xl font-bold leading-[30px];
 }

@@ -1,18 +1,17 @@
 type Props = {
   className?: string;
   children: React.ReactNode;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-function IconLayout({ children, className, onClick }: Props) {
+function IconLayout({ children, className = '', onClick }: Props) {
   return (
-    <button
-      className={`w-[36px] h-[36px] flex items-center justify-center ${className}`}
-      type="button"
+    <div
+      className={`w-[36px] h-[36px] flex items-center justify-center cursor-pointer ${className}`}
       onClick={onClick}
     >
       {children}
-    </button>
+    </div>
   );
 }
 

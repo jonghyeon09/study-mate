@@ -1,30 +1,37 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-type RetunType<T> = [value: T, setValue: React.Dispatch<T>];
+function isString(value: any): value is string {
+  return typeof value === 'string';
+}
 
-function useLocalStorage<T = string>(
-  key: string,
-  initialValue = ''
-): RetunType<T> {
-  const [value, setValue] = useState(() => {
-    let currentValue;
+function useLocalStorage<T>(key: string, initialValue: T) {
+  // 로컬 스토리지에서 값을 가져와 상태를 초기화합니다.
+  const storedValue =
+    typeof window != 'undefined' ? localStorage.getItem(key) : null;
+  const initial = storedValue
+    ? isString(initialValue)
+      ? storedValue
+      : JSON.parse(storedValue)
+    : initialValue;
 
-    try {
-      currentValue = JSON.parse(
-        localStorage.getItem(key) || String(initialValue)
-      );
-    } catch (error) {
-      currentValue = initialValue;
-    }
+  const [value, setValue] = useState<T>(initial);
 
-    return currentValue;
-  });
+  // 값이 변경될 때마다 로컬 스토리지를 업데이트합니다.
+  const setStoredValue = (newValue: T) => {
+    setValue(newValue);
+    const valueToStore = isString(newValue)
+      ? newValue
+      : JSON.stringify(newValue);
+    localStorage.setItem(key, valueToStore);
+  };
 
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [key, value]);
+  // 값 삭제 기능
+  const removeStoredValue = () => {
+    setValue(initialValue);
+    localStorage.removeItem(key);
+  };
 
-  return [value, setValue];
+  return [value, setStoredValue, removeStoredValue] as const;
 }
 
 export default useLocalStorage;

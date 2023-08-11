@@ -1,39 +1,72 @@
 import CreateStudy from '@/components/CreateStudy';
 import Layout from '@/components/common/Layout';
+import UnderLine from '@/components/common/UnderLine';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { isLoginState } from '@/recoil/atoms';
 import type { profile } from '@/types';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useState, useEffect, useRef } from 'react';
+import caleander from '@/public/icons/caleander.png';
+import Image from 'next/image';
+import Button from '@/components/common/Button';
+import { SCDream } from './index';
+import { token } from '@/lib/cookies';
 
 export default function Welcome() {
-  const [profile] = useLocalStorage<profile>('profile');
+  const [profile] = useLocalStorage<profile>('profile', {
+    username: '',
+    profileImage: '',
+    lastAccessedStudyId: 0,
+  });
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
-  const isLogin = useRecoilValue(isLoginState);
+  const [underLineWidth, setUnderLineWidth] = useState(0);
   const router = useRouter();
+  const pRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!isLogin) router.push('/');
-  }, [isLogin, router]);
+    if (!token) router.push('/');
+  }, [router]);
 
   useEffect(() => {
     setUserName(profile.username);
   }, [profile.username]);
 
+  useEffect(() => {
+    if (pRef.current) {
+      setUnderLineWidth(pRef.current.clientWidth - 6);
+    }
+  }, [userName]);
+
   return (
-    <Layout>
-      <div className="flex flex-col items-center justify-center h-full">
-        <div>
-          <p>{userName}님 반가워요!</p>
-          <p>함께 도전할 친구들을 기다려요.</p>
+    <Layout
+      className={`${SCDream.className} bg-[--color-main] px-[24px] flex flex-col justify-center`}
+    >
+      <div className="flex flex-col justify-center">
+        <div className="relative flex items-end">
+          <p className="text-4xl z-10" ref={pRef}>
+            {userName}
+          </p>
+          <p className="text-xl font-light">님 반가워요!</p>
+          <UnderLine width={underLineWidth} height={12} />
         </div>
-        <button className="flex" type="button" onClick={() => setOpen(true)}>
-          스터디 시작하기
-        </button>
+        <p className="text-xl font-light">함께 도전할 친구들을 기다려요.</p>
       </div>
-      {open && <CreateStudy onClose={() => setOpen(false)} />}
+
+      <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center border-shadow mt-[22px]">
+        <Image src={caleander} alt="caleander" className="mb-[-6px]" />
+      </div>
+
+      <Button className="mt-[36px]" onClick={() => setOpen(true)}>
+        <p className="text-white font-bold">스터디 시작하기</p>
+      </Button>
+
+      {open && <CreateStudy first onClose={() => setOpen(false)} />}
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }
