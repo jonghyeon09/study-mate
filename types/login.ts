@@ -11,6 +11,7 @@ export interface TokenResponse {
 export interface profile {
   username: string;
   profileImage: string;
+  lastAccessedStudyId: string;
 }
 
 export interface LoginUser {

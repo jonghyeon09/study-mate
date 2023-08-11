@@ -6,7 +6,6 @@ import localFont from 'next/font/local';
 import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
-import { token } from '@/lib/token';
 
 export const SCDream = localFont({
   src: [
@@ -52,20 +51,20 @@ export const SCDream = localFont({
 export default function Home() {
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { isLoading, data } = useQuery({
+  const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
 
   // 로그아웃 하지 않고 실행
   useEffect(() => {
-    if (!data) return;
-    if (data.study.length !== 0) {
-      router.push(`/study/${data.userId}`);
+    if (!studyList) return;
+    if (studyList.study.length !== 0) {
+      router.push(`/study/${studyList.userId}`);
     } else {
       router.push(`/welcome`);
     }
-  }, [data, router]);
+  }, [studyList, router]);
 
   return (
     <Layout className={SCDream.className}>

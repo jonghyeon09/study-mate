@@ -1,6 +1,6 @@
 import config from '@/config';
 import axios from 'axios';
-import { token } from '@/lib/token';
+import { token } from '@/lib/cookies';
 
 const apiClient = axios.create({
   baseURL: config.API_URL,

@@ -6,7 +6,7 @@ import { profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { setToken, token } from '@/lib/token';
+import { setToken, token } from '@/lib/cookies';
 
 export default function Login() {
   const { login } = useAuthKakao();
@@ -14,6 +14,7 @@ export default function Login() {
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
+    lastAccessedStudyId: '',
   });
   const setIsLogin = useSetRecoilState(isLoginState);
 
