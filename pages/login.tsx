@@ -14,7 +14,7 @@ export default function Login() {
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
-    lastAccessedStudyId: '',
+    lastAccessedStudyId: 0,
   });
   const setIsLogin = useSetRecoilState(isLoginState);
 

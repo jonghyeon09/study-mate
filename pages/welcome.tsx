@@ -16,6 +16,7 @@ export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
+    lastAccessedStudyId: 0,
   });
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');

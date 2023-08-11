@@ -4,6 +4,8 @@ import StudyHeader from '@/components/StudyHeader';
 import { getStudyList } from '@/services';
 import { GetServerSidePropsContext } from 'next';
 import { getStudyDetail } from '@/services/getStudyDetail';
+import Spinner from '@/components/common/Spinner';
+import { useEffect } from 'react';
 
 function Study() {
   const { isLoading, data: studyList } = useQuery({
@@ -11,7 +13,7 @@ function Study() {
     queryFn: getStudyList,
   });
   const studyId = studyList?.study[0].studyId;
-  const { status, data: studyDetail } = useQuery({
+  const { isFetching: detailFeching, data: studyDetail } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
@@ -24,7 +26,12 @@ function Study() {
       ) : (
         <>
           <StudyHeader />
-          <main></main>
+          <div>
+            <p>스터디 {studyDetail?.elapsed}일차</p>
+          </div>
+          <main className="relative w-full">
+            {detailFeching && <Spinner />}
+          </main>
         </>
       )}
     </Layout>

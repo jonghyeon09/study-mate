@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { currentState } from '@/recoil/atoms';
 import { useEffect, useState } from 'react';
 import type { Study } from '@/types';
+import { getStudyDetail } from '@/services/getStudyDetail';
 
 type Props = {
   children?: React.ReactNode;
@@ -19,9 +20,14 @@ function StudyHeader({ children }: Props) {
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
+  const { refetch } = useQuery({
+    queryKey: ['studyDetail', current.studyId],
+    queryFn: () => getStudyDetail(current.studyId),
+  });
 
   const handelSelectStudy = (name: Study) => {
     setCurrent(name);
+    refetch();
   };
 
   useEffect(() => {
