@@ -1,3 +1,4 @@
+import type { CreateStudy } from '@/types';
 import apiClient from './apiClient';
 
 type Data = {
@@ -5,13 +6,12 @@ type Data = {
   openDate?: string;
 };
 
-export const createStudy = async ({ description }: Data) => {
+export const createStudy = async (data: Data) => {
   try {
-    const response = await apiClient.post('/study', {
-      description,
-    });
+    const response = await apiClient.post<CreateStudy>('/study', data);
     return response.data;
   } catch (error) {
+    alert('스터디 생성 실패');
     throw error;
   }
 };

@@ -1,4 +1,4 @@
-import { LoginUser } from '@/types';
+import type { LoginUser } from '@/types';
 import axios from 'axios';
 import config from '@/config';
 

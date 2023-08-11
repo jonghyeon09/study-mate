@@ -18,3 +18,8 @@ export interface LoginUser {
   user: profile;
   isNew: boolean;
 }
+
+export interface CreateStudy {
+  createdId: string;
+  status: 'Created';
+}

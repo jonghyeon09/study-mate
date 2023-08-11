@@ -12,7 +12,7 @@ type Props = {
 
 function CreateStudy({ onClose }: Props) {
   const { value, onChange, reset } = useInput();
-  const { mutate } = useMutation(createStudy);
+  const { data, mutate } = useMutation(createStudy);
 
   const handleCreateStudy = () => {
     mutate({ description: value });
