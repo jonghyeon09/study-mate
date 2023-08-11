@@ -55,7 +55,7 @@ function Study() {
         </div>
 
         <div className="w-full h-[390px] bg-[--color-main]">
-          <Calendar onChange={onChange} value={value} />
+          <Calendar locale="ko" onChange={onChange} value={value} />
         </div>
 
         <section className="w-full h-full bg-[--color-gray] p-[24px]">
