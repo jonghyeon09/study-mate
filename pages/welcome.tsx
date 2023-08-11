@@ -61,7 +61,7 @@ export default function Welcome() {
         <p className="text-white font-bold">스터디 시작하기</p>
       </Button>
 
-      {open && <CreateStudy onClose={() => setOpen(false)} />}
+      {open && <CreateStudy first onClose={() => setOpen(false)} />}
     </Layout>
   );
 }

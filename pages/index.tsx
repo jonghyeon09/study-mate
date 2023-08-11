@@ -6,6 +6,9 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import localFont from 'next/font/local';
+import { useQuery } from '@tanstack/react-query';
+import { getStudyList } from '@/services';
+import { useRouter } from 'next/router';
 
 export const SCDream = localFont({
   src: [
@@ -52,6 +55,12 @@ export default function Home() {
   const { authURL } = useAuthKakao();
   const [token] = useLocalStorage('token', '');
   const setIsLogin = useSetRecoilState(isLoginState);
+  const router = useRouter();
+  const { isLoading, data } = useQuery({
+    queryKey: ['studyList'],
+    queryFn: getStudyList,
+  });
+  console.log(data);
 
   // 로그아웃 하지 않고 실행
   useEffect(() => {
@@ -60,19 +69,27 @@ export default function Home() {
     }
   }, [setIsLogin, token]);
 
-  // useEffect(() => {
-  //   if (token) {
-  //     // 스터디로 이동하는 로직 추가
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (!data) return;
+    if (data.study.length !== 0) {
+      router.push(`/study/${data.userId}`);
+    } else {
+      router.push(`/welcome`);
+    }
+  }, [data, router]);
 
   return (
     <Layout className={SCDream.className}>
-      <h1 className="text-xl">Home</h1>
-      <div className="flex justify-center items-center h-full">
-        <Link href={authURL}>카카오 로그인</Link>
-        <Link href={'/welcome'}>welcome</Link>
-      </div>
+      {isLoading && <div>로딩중...</div>}
+      {!isLoading && (
+        <>
+          <h1 className="text-xl">Home</h1>
+          <div className="flex flex-col justify-center items-center h-full">
+            <Link href={authURL}>카카오 로그인</Link>
+            <Link href={'/welcome'}>welcome페이지 강제이동</Link>
+          </div>
+        </>
+      )}
     </Layout>
   );
 }

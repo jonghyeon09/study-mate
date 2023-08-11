@@ -5,18 +5,29 @@ import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
 import { useMutation } from '@tanstack/react-query';
 import { createStudy } from '@/services';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 type Props = {
+  first?: boolean;
   onClose: () => void;
 };
 
-function CreateStudy({ onClose }: Props) {
+function CreateStudy({ first = false, onClose }: Props) {
   const { value, onChange, reset } = useInput();
   const { data, mutate } = useMutation(createStudy);
+  const router = useRouter();
 
   const handleCreateStudy = () => {
     mutate({ description: value });
   };
+
+  useEffect(() => {
+    if (first && data) {
+      router.push(`/study/${data.createdId}`);
+      console.log(data);
+    }
+  }, [data, first, router]);
 
   return (
     <Modal className="flex flex-col justify-between relative">
