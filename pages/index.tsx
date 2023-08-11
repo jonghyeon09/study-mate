@@ -60,7 +60,6 @@ export default function Home() {
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-  console.log(data);
 
   // 로그아웃 하지 않고 실행
   useEffect(() => {
@@ -80,8 +79,9 @@ export default function Home() {
 
   return (
     <Layout className={SCDream.className}>
-      {isLoading && <div>로딩중...</div>}
-      {!isLoading && (
+      {isLoading ? (
+        <div>로딩중...</div>
+      ) : (
         <>
           <h1 className="text-xl">Home</h1>
           <div className="flex flex-col justify-center items-center h-full">

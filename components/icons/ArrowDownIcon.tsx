@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import close from '@/public/icons/close.png';
+import arrow_down from '@/public/icons/arrow_down.png';
 import IconLayout from '../common/IconLayout';
 
 type Props = {
@@ -7,12 +7,12 @@ type Props = {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-function CloseIcon({ className, onClick }: Props) {
+function ArrowDownIcon({ className, onClick }: Props) {
   return (
     <IconLayout onClick={(e) => onClick && onClick(e)} className={className}>
-      <Image src={close} alt="close icon" width={24} height={24} />
+      <Image src={arrow_down} alt="close icon" width={24} height={24} />
     </IconLayout>
   );
 }
 
-export default CloseIcon;
+export default ArrowDownIcon;

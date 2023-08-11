@@ -1,14 +1,17 @@
+import MenuIcon from '../icons/MenuIcon';
+import Dropdown from './Dropdown';
+import Layout from './Layout';
+
 type Props = {
   children?: React.ReactNode;
 };
 
 function StudyHeader({ children }: Props) {
   return (
-    <div className="w-full h-[52px] mb-[24px] bg-red-100">
-      <div className="h-full flex items-center justify-between px-[12px]">
-        {children}
-      </div>
-    </div>
+    <Layout>
+      <Dropdown studyName=""></Dropdown>
+      <MenuIcon />
+    </Layout>
   );
 }
 
