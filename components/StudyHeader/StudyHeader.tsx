@@ -23,6 +23,7 @@ function StudyHeader({ children }: Props) {
   const { refetch } = useQuery({
     queryKey: ['studyDetail', current.studyId],
     queryFn: () => getStudyDetail(current.studyId),
+    enabled: !!current.studyId,
   });
 
   const handelSelectStudy = (name: Study) => {
@@ -38,13 +39,13 @@ function StudyHeader({ children }: Props) {
 
   return (
     <Header>
-      <button onClick={() => setIsOpen((prev) => !prev)}>
+      <button type="button" onClick={() => setIsOpen((prev) => !prev)}>
         <Dropdown
           isOpen={isOpen}
           studyList={studyList?.study}
           onClick={handelSelectStudy}
         >
-          <p className="font-medium">{current.description}</p>
+          <p className="font-medium text-base">{current.description}</p>
         </Dropdown>
       </button>
       <MenuIcon />

@@ -2,15 +2,14 @@ import CreateStudy from '@/components/CreateStudy';
 import Layout from '@/components/common/Layout';
 import UnderLine from '@/components/common/UnderLine';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { isLoginState } from '@/recoil/atoms';
 import type { profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
 import caleander from '@/public/icons/caleander.png';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import { SCDream } from './index';
+import { token } from '@/lib/cookies';
 
 export default function Welcome() {
   const [profile] = useLocalStorage<profile>('profile', {
@@ -21,13 +20,12 @@ export default function Welcome() {
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const [underLineWidth, setUnderLineWidth] = useState(0);
-  const isLogin = useRecoilValue(isLoginState);
   const router = useRouter();
   const pRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    if (!isLogin) router.push('/');
-  }, [isLogin, router]);
+    if (!token) router.push('/');
+  }, [router]);
 
   useEffect(() => {
     setUserName(profile.username);
@@ -65,4 +63,10 @@ export default function Welcome() {
       {open && <CreateStudy first onClose={() => setOpen(false)} />}
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }

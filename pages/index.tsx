@@ -6,6 +6,7 @@ import localFont from 'next/font/local';
 import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
 
 export const SCDream = localFont({
   src: [
@@ -86,4 +87,10 @@ export default function Home() {
       </div>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {},
+  };
 }

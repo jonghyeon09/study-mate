@@ -1,14 +1,13 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { isLoginState } from '@/recoil/atoms';
 import { profile } from '@/types';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { setToken, token } from '@/lib/cookies';
+import { useEffect, useState } from 'react';
+import { setToken } from '@/lib/cookies';
 
 export default function Login() {
+  const [isLogin, setIsLogin] = useState(false);
   const { login } = useAuthKakao();
   const router = useRouter();
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
@@ -16,7 +15,6 @@ export default function Login() {
     profileImage: '',
     lastAccessedStudyId: 0,
   });
-  const setIsLogin = useSetRecoilState(isLoginState);
 
   const handleLogin = async () => {
     const { code } = router.query;
@@ -34,17 +32,13 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (token) {
+    if (isLogin) {
       router.push('/');
     } else {
       handleLogin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router, token]);
+  }, [router, isLogin]);
 
-  return (
-    <Layout>
-      <h1>Loading...</h1>
-    </Layout>
-  );
+  return <Layout></Layout>;
 }

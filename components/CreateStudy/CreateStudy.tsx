@@ -25,7 +25,6 @@ function CreateStudy({ first = false, onClose }: Props) {
   useEffect(() => {
     if (first && data) {
       router.push(`/study/${data.createdId}`);
-      console.log(data);
     }
   }, [data, first, router]);
 
