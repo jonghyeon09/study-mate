@@ -10,8 +10,11 @@ import { useSetRecoilState } from 'recoil';
 export default function Login() {
   const { login } = useAuthKakao();
   const router = useRouter();
-  const [token, setToken] = useLocalStorage<string>('token');
-  const [profile, setProfile] = useLocalStorage<profile>('profile');
+  const [token, setToken] = useLocalStorage<string>('token', '');
+  const [profile, setProfile] = useLocalStorage<profile>('profile', {
+    username: '',
+    profileImage: '',
+  });
   const setIsLogin = useSetRecoilState(isLoginState);
 
   const handleLogin = async () => {

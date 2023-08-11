@@ -50,7 +50,7 @@ export const SCDream = localFont({
 
 export default function Home() {
   const { authURL } = useAuthKakao();
-  const [token] = useLocalStorage('token');
+  const [token] = useLocalStorage('token', '');
   const setIsLogin = useSetRecoilState(isLoginState);
 
   // 로그아웃 하지 않고 실행
