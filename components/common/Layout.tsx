@@ -5,10 +5,12 @@ type Props = {
 
 function Layout({ className = '', children }: Props) {
   return (
-    <div
-      className={`relative h-screen max-h-screen mx-auto max-w-screen-sm ${className}`}
-    >
-      {children}
+    <div className="w-full mx-auto">
+      <div
+        className={`relative max-h-screen mx-auto max-w-screen-sm overflow-y-auto ${className}`}
+      >
+        {children}
+      </div>
     </div>
   );
 }

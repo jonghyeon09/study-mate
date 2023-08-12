@@ -57,7 +57,7 @@ function Study() {
     <Layout className={`${SCDream.className}`}>
       {isLoading ? <Splash /> : null}
       <StudyHeader />
-      <main className="relative w-full min-h-screen overflow-y-auto pt-[--h-header]">
+      <main className="relative w-full min-h-screen pt-[--h-header]">
         {detailFeching && <Spinner />}
 
         <div className="w-full px-[24px] mb-[16px] z-10">
