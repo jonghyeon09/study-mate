@@ -69,7 +69,11 @@ export default function Home() {
   useEffect(() => {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
-      router.push(`/study/${studyList.userId}`);
+      // router.push(`/study/${studyList.userId}`);
+      router.push({
+        pathname: '/study/[id]',
+        query: { id: studyList.userId, study: studyList.study[0].studyId },
+      });
     } else {
       router.push(`/welcome`);
     }

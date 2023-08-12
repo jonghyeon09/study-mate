@@ -15,6 +15,7 @@ import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
 import { currentDateState } from '@/recoil/atoms';
 import formatDate from '@/utils/formatDate';
+import { useRouter } from 'next/router';
 
 type ValuePiece = Date | null;
 type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -24,11 +25,12 @@ function Study() {
   const [date, onDate] = useState<TCalendar>(new Date());
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const lineRef = useRef<HTMLSpanElement>(null);
+  const { query, push } = useRouter();
   const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-  const studyId = studyList?.study[0].studyId;
+  const studyId = typeof query.study === 'string' ? query.study : undefined;
   const { isFetching: detailFeching, data: studyDetail } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),

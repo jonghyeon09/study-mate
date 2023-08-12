@@ -5,8 +5,8 @@ export const isLoginState = atom({
   key: 'isLogin',
   default: false,
 });
-
-export const currentState = atom<Study>({
+/**선택한 스터디 */
+export const currentStudyState = atom<Study>({
   key: 'currentStudy',
   default: {
     studyId: '',
@@ -17,7 +17,7 @@ export const currentState = atom<Study>({
     openDate: '',
   },
 });
-
+/**캘린더 날짜 선택 */
 export const currentDateState = atom<string | null>({
   key: '',
   default: null,
