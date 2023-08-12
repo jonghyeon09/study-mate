@@ -9,12 +9,14 @@ import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
 import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
+import useUpdateQuery from '@/hooks/useUpdateQuery';
 
 export default function Login() {
   const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { login } = useAuthKakao();
   const router = useRouter();
+  const { updateQuery } = useUpdateQuery();
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
@@ -57,14 +59,14 @@ export default function Login() {
   useEffect(() => {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
-      router.push({
-        pathname: '/study/[id]',
-        query: { id: studyList.userId, study: studyList.study[0].studyId },
+      updateQuery('/study/[id]', {
+        id: studyList.userId,
+        study: studyList.study[0].studyId,
       });
     } else {
       router.push(`/welcome`);
     }
-  }, [studyList, router]);
+  }, [studyList, router, updateQuery]);
 
   return (
     <Layout>

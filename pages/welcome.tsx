@@ -9,9 +9,11 @@ import caleander from '@/public/icons/caleander.png';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import { SCDream } from './index';
-import { token } from '@/lib/cookies';
+import { isLoginState } from '@/recoil/atoms';
+import { useRecoilState } from 'recoil';
 
 export default function Welcome() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [profile] = useLocalStorage<profile>('profile', {
     username: '',
     profileImage: '',
@@ -23,9 +25,9 @@ export default function Welcome() {
   const router = useRouter();
   const pRef = useRef<HTMLParagraphElement>(null);
 
-  useEffect(() => {
-    if (!token) router.push('/');
-  }, [router]);
+  // useEffect(() => {
+  //   if (!isLogin) router.push('/');
+  // }, [isLogin, router]);
 
   useEffect(() => {
     setUserName(profile.username);
