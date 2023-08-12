@@ -88,14 +88,16 @@ export default function Home() {
   }, [setIsLogin, token]);
 
   return (
-    <Layout className={SCDream.className}>
+    <>
       {isFetching && <Splash />}
-      <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
-        <Link href={authURL}>
-          <Image src={kakaoLogin} alt="login-Button" />
-        </Link>
-      </div>
-    </Layout>
+      <Layout className={SCDream.className}>
+        <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
+          <Link href={authURL}>
+            <Image src={kakaoLogin} alt="login-Button" />
+          </Link>
+        </div>
+      </Layout>
+    </>
   );
 }
 

@@ -18,6 +18,7 @@ function SaveButton({
       }`}
       onClick={onClick}
       disabled={disabled}
+      type="submit"
     >
       <p
         className={`font-bold text-white ${

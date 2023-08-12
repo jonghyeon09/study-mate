@@ -5,9 +5,9 @@ type Props = {
 
 function Layout({ className = '', children }: Props) {
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full h-screen mx-auto">
       <div
-        className={`relative max-h-screen mx-auto max-w-screen-sm overflow-y-auto ${className}`}
+        className={`relative h-full max-h-screen mx-auto max-w-screen-sm overflow-y-auto overflow-x-hidden ${className}`}
       >
         {children}
       </div>

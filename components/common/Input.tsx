@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import CloseIcon from '../icons/CloseIcon';
 
 type Props = {
-  type: string;
+  type?: string;
   placeholder?: string;
   value?: string;
   className?: string;
@@ -47,13 +47,14 @@ function Input({
     <div className="relative">
       <input
         type={type}
+        name="inputField"
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         className={
           isFocused
-            ? `input input-shadow text-[--color-indigo] ${className}`
-            : `input input-shadow ${className}`
+            ? `input input-shadow placeholder:font-medium text-[--color-indigo] ${className}`
+            : `input input-shadow placeholder:font-medium ${className}`
         }
         maxLength={maxLength}
         ref={inputRef}
@@ -62,7 +63,7 @@ function Input({
       />
       <span
         ref={spanRef}
-        className="absolute top-0 left- whitespace-nowrap opacity-0 pointer-events-none"
+        className="absolute top-0 left-0 whitespace-nowrap opacity-0 pointer-events-none"
       >
         {value}
       </span>

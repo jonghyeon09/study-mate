@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import MenuIcon from '../icons/MenuIcon';
 import Dropdown from './Dropdown';
-import Header from './Header';
+import Header from '../common/Header';
 import { getStudyList } from '@/services';
 import { useRecoilState } from 'recoil';
 import { currentStudyState } from '@/recoil/atoms';
