@@ -26,8 +26,8 @@ function StudyHeader({ children }: Props) {
     enabled: !!current.studyId,
   });
 
-  const handelSelectStudy = (name: Study) => {
-    setCurrent(name);
+  const handelSelectStudy = (current: Study) => {
+    setCurrent(current);
     refetch();
   };
 

@@ -17,3 +17,8 @@ export const currentState = atom<Study>({
     openDate: '',
   },
 });
+
+export const currentDateState = atom<string | null>({
+  key: '',
+  default: null,
+});

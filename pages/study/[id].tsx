@@ -12,13 +12,17 @@ import traceBtn from '@/public/icons/trace_btn.png';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Splash from '@/components/Splash/Splash';
+import { useRecoilState } from 'recoil';
+import { currentDateState } from '@/recoil/atoms';
+import formatDate from '@/utils/formatDate';
 
 type ValuePiece = Date | null;
-type Value = ValuePiece | [ValuePiece, ValuePiece];
+type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
   const [underLineWidth, setUnderLineWidth] = useState(0);
-  const [value, onChange] = useState<Value>(new Date());
+  const [date, onDate] = useState<TCalendar>(new Date());
+  const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const lineRef = useRef<HTMLSpanElement>(null);
   const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
@@ -36,6 +40,16 @@ function Study() {
       setUnderLineWidth(lineRef.current.offsetWidth + 2);
     }
   }, [detailFeching]);
+
+  useEffect(() => {
+    setCurrentDate(formatDate(date));
+  }, [date, setCurrentDate]);
+
+  useEffect(() => {
+    if (currentDate) {
+      // console.log(currentDate);
+    }
+  }, [currentDate]);
 
   return (
     <Layout className={`${SCDream.className}`}>
@@ -59,8 +73,9 @@ function Study() {
           <Calendar
             className={`${SCDream.className}`}
             locale="ko"
-            onChange={onChange}
-            value={value}
+            onChange={onDate}
+            value={date}
+            view="month"
           />
         </div>
 
