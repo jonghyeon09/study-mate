@@ -5,9 +5,11 @@ import { profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { setToken } from '@/lib/cookies';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '@/recoil/atoms';
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { login } = useAuthKakao();
   const router = useRouter();
   const [profile, setProfile] = useLocalStorage<profile>('profile', {

@@ -11,7 +11,8 @@ import Image from 'next/image';
 import kakaoLogin from '@/public/icons/kakao_login.png';
 import Splash from '@/components/Splash/Splash';
 import { token } from '@/lib/cookies';
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '@/recoil/atoms';
 
 export const SCDream = localFont({
   src: [
@@ -55,13 +56,13 @@ export const SCDream = localFont({
 });
 
 export default function Home() {
-  const [isToken, setIsToken] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
   const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
-    enabled: isToken,
+    enabled: isLogin,
   });
 
   // 로그아웃 하지 않고 실행
@@ -76,13 +77,12 @@ export default function Home() {
 
   useEffect(() => {
     if (token) {
-      setIsToken(true);
+      setIsLogin(true);
     }
-  }, []);
+  }, [setIsLogin]);
 
   return (
     <Layout className={SCDream.className}>
-      {isToken && <Splash />}
       <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
         <Link href={authURL}>
           <Image src={kakaoLogin} alt="login-Button" />
