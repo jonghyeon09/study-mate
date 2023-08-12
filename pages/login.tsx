@@ -4,12 +4,14 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import { profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { setToken, token } from '@/lib/cookies';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
+import { useQuery } from '@tanstack/react-query';
+import { getStudyList } from '@/services';
 
 export default function Login() {
+  const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { login } = useAuthKakao();
   const router = useRouter();
@@ -17,6 +19,11 @@ export default function Login() {
     username: '',
     profileImage: '',
     lastAccessedStudyId: 0,
+  });
+  const { isFetching, data: studyList } = useQuery({
+    queryKey: ['studyList'],
+    queryFn: getStudyList,
+    enabled: isLogin,
   });
 
   useEffect(() => {
@@ -39,28 +46,22 @@ export default function Login() {
     if (!token) {
       handleLogin();
     }
-  }, [isLogin, login, router, setIsLogin, setProfile]);
+  }, [isLogin, login, router, setIsLogin, setProfile, setToken, token]);
 
   useEffect(() => {
     if (token) {
       setIsLogin(true);
     }
-  }, [router, setIsLogin]);
+  }, [setIsLogin, token]);
 
   useEffect(() => {
-    if (isLogin) {
-      router.push('/');
+    if (!studyList) return;
+    if (studyList.study.length !== 0) {
+      router.push(`/study/${studyList.userId}`);
+    } else {
+      router.push(`/welcome`);
     }
-  }, [isLogin, router]);
-
-  // useEffect(() => {
-  //   if (!studyList) return;
-  //   if (studyList.study.length !== 0) {
-  //     router.push(`/study/${studyList.userId}`);
-  //   } else {
-  //     router.push(`/welcome`);
-  //   }
-  // }, [studyList, router]);
+  }, [studyList, router]);
 
   return (
     <Layout>

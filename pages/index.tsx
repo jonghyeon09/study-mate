@@ -8,9 +8,10 @@ import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import kakaoLogin from '@/public/icons/kakao_login.png';
-import { token } from '@/lib/cookies';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
+import Splash from '@/components/Splash/Splash';
+import useLocalStorage from '@/hooks/useLocalStorage';
 
 export const SCDream = localFont({
   src: [
@@ -54,10 +55,11 @@ export const SCDream = localFont({
 });
 
 export default function Home() {
+  const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { isLoading, data: studyList } = useQuery({
+  const { isFetching, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
     enabled: isLogin,
@@ -77,10 +79,11 @@ export default function Home() {
     if (token) {
       setIsLogin(true);
     }
-  }, [setIsLogin]);
+  }, [setIsLogin, token]);
 
   return (
     <Layout className={SCDream.className}>
+      {isFetching && <Splash />}
       <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
         <Link href={authURL}>
           <Image src={kakaoLogin} alt="login-Button" />
