@@ -16,7 +16,7 @@ import formatDate from '@/utils/formatDate';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
-import Posts from '@/components/Posts/Posts';
+import Posting from '@/components/Posting/Posting';
 
 type ValuePiece = Date | null;
 type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -58,7 +58,7 @@ function Study() {
   return (
     <>
       {isLoading ? <Splash /> : null}
-      {<Posts />}
+      {<Posting />}
       <Layout className={`${SCDream.className}`}>
         <StudyHeader />
         <Main>

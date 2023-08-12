@@ -12,3 +12,8 @@ export interface TraceList {
   page: number;
   trace: Trace[];
 }
+
+export interface CreateTrace {
+  traceId: number;
+  status: 'Created';
+}

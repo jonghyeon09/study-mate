@@ -1,6 +1,10 @@
 import type { CreateStudy } from '@/types';
 import apiClient from './apiClient';
 
+/**
+ * description: 생성할 스터디명
+ * openDate: 스터디 개설일
+ */
 type Data = {
   description: string;
   openDate?: string;
