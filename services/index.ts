@@ -1,4 +1,4 @@
 export * from './login';
 export * from './createStudy';
 export * from './getStudyList';
-export * from './getTrace';
+export * from './getTraceList';
