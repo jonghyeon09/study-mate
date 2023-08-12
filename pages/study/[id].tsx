@@ -11,6 +11,7 @@ import Image from 'next/image';
 import traceBtn from '@/public/icons/trace_btn.png';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import Splash from '@/components/Splash/Splash';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -38,7 +39,7 @@ function Study() {
 
   return (
     <Layout className={`${SCDream.className}`}>
-      {isLoading ? <div>로딩...</div> : <></>}
+      {isLoading ? <Splash /> : null}
       <StudyHeader />
       <main className="relative w-full min-h-screen overflow-y-auto pt-[--h-header]">
         {detailFeching && <Spinner />}
@@ -55,7 +56,12 @@ function Study() {
         </div>
 
         <div className="w-full h-[390px] bg-[--color-main]">
-          <Calendar locale="ko" onChange={onChange} value={value} />
+          <Calendar
+            className={`${SCDream.className}`}
+            locale="ko"
+            onChange={onChange}
+            value={value}
+          />
         </div>
 
         <section className="w-full h-full bg-[--color-gray] p-[24px]">
