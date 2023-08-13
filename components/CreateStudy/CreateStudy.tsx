@@ -3,10 +3,14 @@ import Input from '../common/Input';
 import SaveButton from '../common/SaveButton';
 import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
-import { useMutation } from '@tanstack/react-query';
-import { createStudy } from '@/services';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createStudy, getStudyList } from '@/services';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import useUpdateQuery from '@/hooks/useUpdateQuery';
+import { isLoginState } from '@/recoil/atoms';
+import { useRecoilState } from 'recoil';
+import { getStudyDetail } from '@/services/getStudyDetail';
 
 type Props = {
   first?: boolean;
@@ -16,24 +20,36 @@ type Props = {
 function CreateStudy({ first = false, onClose }: Props) {
   const { value, onChange, reset } = useInput();
   const { data, mutate } = useMutation(createStudy);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const router = useRouter();
+  const { updateQuery } = useUpdateQuery();
+  const { isFetching, data: studyList } = useQuery({
+    queryKey: ['studyList'],
+    queryFn: getStudyList,
+  });
 
   const handleCreateStudy = () => {
     mutate({ description: value });
   };
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
-    if (first && data) {
-      router.push(`/study/${data.createdId}`);
+    if (data && studyList) {
+      updateQuery('/study/[id]', {
+        id: studyList.userId,
+        study: studyList.study[0].studyId,
+      });
     }
-  }, [data, first, router]);
+  }, [data, isLogin, router, studyList, updateQuery]);
 
   return (
     <Modal className="flex flex-col justify-between relative">
       <CloseIcon onClick={onClose} className="absolute top-3 right-3" />
       <div className="flex items-end h-[48px] py-[6px]">
         <p className="font-medium text-[20px] leading-[16px]">
-          스터디 시작하기
+          {first && '스터디 시작하기'}
+          {!first && '새 스터디 만들기'}
         </p>
       </div>
       <div className="mt-auto">

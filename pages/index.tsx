@@ -6,12 +6,14 @@ import localFont from 'next/font/local';
 import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
 import Image from 'next/image';
 import kakaoLogin from '@/public/icons/kakao_login.png';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
-import { token } from '@/lib/cookies';
-import { useState } from 'react';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import useUpdateQuery from '@/hooks/useUpdateQuery';
+import logo from '@/public/icons/login_logo.png';
 
 export const SCDream = localFont({
   src: [
@@ -55,20 +57,33 @@ export const SCDream = localFont({
 });
 
 export default function Home() {
-  const [isToken, setIsToken] = useState(false);
+  const [token, setToken] = useLocalStorage('token', '');
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { isLoading, data: studyList } = useQuery({
+  // const { updateQuery } = useUpdateQuery();
+  const { isFetching, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
-    enabled: isToken,
+    enabled: isLogin,
   });
 
   // 로그아웃 하지 않고 실행
   useEffect(() => {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
-      router.push(`/study/${studyList.userId}`);
+      // router.push(`/study/${studyList.userId}`);
+      // updateQuery('/study/[id]', {
+      //   id: studyList.userId,
+      //   study: studyList.study[0].studyId,
+      // });
+      router.push({
+        pathname: '/study/[id]',
+        query: {
+          id: studyList.userId,
+          study: studyList.study[0].studyId,
+        },
+      });
     } else {
       router.push(`/welcome`);
     }
@@ -76,19 +91,24 @@ export default function Home() {
 
   useEffect(() => {
     if (token) {
-      setIsToken(true);
+      setIsLogin(true);
     }
-  }, []);
+  }, [setIsLogin, token]);
 
   return (
-    <Layout className={SCDream.className}>
-      {isToken && <Splash />}
-      <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
-        <Link href={authURL}>
-          <Image src={kakaoLogin} alt="login-Button" />
-        </Link>
-      </div>
-    </Layout>
+    <>
+      {isFetching && <Splash />}
+      <Layout className={SCDream.className}>
+        <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
+          <Image src={logo} alt="logo" />
+        </div>
+        <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
+          <Link href={authURL}>
+            <Image src={kakaoLogin} alt="login-Button" />
+          </Link>
+        </div>
+      </Layout>
+    </>
   );
 }
 
