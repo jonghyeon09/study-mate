@@ -15,6 +15,12 @@
   :root {
   }
 } */
+@layer text {
+  p,
+  span {
+    @apply font-medium;
+  }
+}
 
 .border-shadow {
   @apply border-2 border-black rounded-md shadow-[0_4px_0_0_rgb(0,0,0)];
@@ -38,4 +44,12 @@
 
 .input-title-sub {
   @apply font-medium text-sm text-[--color-gray2];
+}
+
+.custom-pagination {
+  @apply relative w-full flex justify-center items-center h-[16px] my-[17px] !important;
+}
+
+.swiper-pagination-bullet {
+  @apply w-[12px] h-[12px] bg-black !important;
 }

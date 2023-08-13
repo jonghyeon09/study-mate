@@ -11,18 +11,20 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
-import { currentDateState } from '@/recoil/atoms';
-import formatDate from '@/utils/formatDate';
+import { currentDateState, currentStudyState } from '@/recoil/atoms';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
 import Posting from '@/components/Posting/Posting';
 import Image from 'next/image';
+import dayjs from 'dayjs';
+import Posts from '@/components/Posts';
 
 type ValuePiece = Date | null;
 type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
+  const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [date, setDate] = useState<TCalendar>(new Date());
@@ -33,12 +35,13 @@ function Study() {
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-  const studyId = typeof query.study === 'string' ? query.study : undefined;
+  const studyId = currentStudy.studyId;
   const { isFetching: detailFeching, data: studyDetail } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
   });
+
   const {
     isFetching,
     refetch,
@@ -56,9 +59,30 @@ function Study() {
     enabled: !!studyId,
   });
 
+  // function tileClassName({ date, view }) {
+  //   if (view !== 'month') return null;
+
+  //   const traceDate = studyDetail?.traceDate;
+  //   const datesWithDots: Date[] = [];
+  //   if (traceDate) {
+  //     traceDate.forEach((date: any) => {
+  //       datesWithDots.push(dayjs(date));
+  //     });
+  //   }
+
+  //   if (datesWithDots.some((d) => d.isSame(date, 'day'))) {
+  //     return <div className="dot"></div>;
+  //   }
+  //   return null;
+  // }
+
   const handleDateChange = (selectedDate: TCalendar) => {
     setDate(selectedDate);
     refetch();
+  };
+
+  const handleFormatDay = (locale: string | undefined, date: Date) => {
+    return date.getDate().toString();
   };
 
   useEffect(() => {
@@ -68,14 +92,11 @@ function Study() {
   }, [detailFeching]);
 
   useEffect(() => {
-    setCurrentDate(formatDate(date));
-  }, [date, setCurrentDate]);
+    const foramtDate = dayjs(date as Date).format('YYYY-MM-DD');
 
-  // useEffect(() => {
-  //   if (date) {
-  //     refetch();
-  //   }
-  // }, [date, refetch]);
+    setCurrentDate(foramtDate);
+    refetch();
+  }, [date, refetch, setCurrentDate]);
 
   return (
     <>
@@ -109,6 +130,11 @@ function Study() {
               onChange={handleDateChange}
               value={date}
               view="month"
+              calendarType="gregory"
+              prev2Label={null}
+              next2Label={null}
+              formatDay={handleFormatDay}
+              // tileContent={tileClassName}
             />
           </div>
 
@@ -123,27 +149,27 @@ function Study() {
               >
                 <RandomImage />
               </button>
-              {traceList?.trace?.map(
-                ({ mainImage, traceId, title, writer }) => (
-                  <div
-                    key={traceId}
-                    className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px]"
-                  >
-                    <div className="relative w-full h-full ">
-                      <Image alt="등록사진" src={mainImage} fill></Image>
-                    </div>
-                    <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
-                      <p className="font-medium text-white">{title}</p>
-                      <p className="font-medium text-white text-sm opacity-80">
-                        {writer}
-                      </p>
-                    </div>
+              {traceList?.trace?.map((trace) => (
+                <div
+                  key={trace.traceId}
+                  className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
+                >
+                  <div className="relative w-full h-full ">
+                    <Image alt="등록사진" src={trace.mainImage} fill></Image>
                   </div>
-                )
-              )}
+                  <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
+                    <p className="font-medium text-white">{trace.title}</p>
+                    <p className="font-medium text-white text-sm opacity-80">
+                      {trace.writer}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         </Main>
+
+        {/* <Posts></Posts> */}
       </Layout>
     </>
   );
