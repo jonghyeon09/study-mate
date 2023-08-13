@@ -13,7 +13,7 @@ function Dropdown({ isOpen, studyList, children, onClick }: Props) {
     <div className="flex items-center cursor-pointer">
       {children}
       {isOpen && (
-        <ul className="flex flex-col absolute top-[54px] font-medium leading-6 bg-white input-shadow py-[12px] z-50">
+        <ul className="flex flex-col absolute top-[54px] font-medium leading-6 bg-white input-shadow py-[12px] z-50 max-h-[50vh] overflow-auto">
           {studyList?.map((study) => (
             <li
               className="cursor-pointer p-[12px] hover:bg-slate-100"
