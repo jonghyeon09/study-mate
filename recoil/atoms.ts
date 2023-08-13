@@ -18,7 +18,12 @@ export const currentStudyState = atom<Study>({
   },
 });
 /**캘린더 날짜 선택 */
-export const currentDateState = atom<string | undefined>({
-  key: '',
-  default: undefined,
+export const currentDateState = atom<string>({
+  key: 'currentDate',
+  default: '',
 });
+// /**인증 게시글 */
+// export const currentTraceState = atom({
+//   key: 'currentTrace',
+//   studyId:
+// });

@@ -20,22 +20,24 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 
-type ValuePiece = Date | null;
-type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
+// type ValuePiece = Date | null;
+// type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
   const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
+  const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
-  const [date, setDate] = useState<TCalendar>(new Date());
-  const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
+  const [isOpenDetail, setIsOpenDetail] = useState(false);
+  const [traceId, setTraceId] = useState<number>();
+  const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, push } = useRouter();
   const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-  const studyId = currentStudy.studyId;
+  const studyId = typeof query.study == 'string' ? query.study : undefined;
   const { isFetching: detailFeching, data: studyDetail } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),
@@ -47,7 +49,7 @@ function Study() {
     refetch,
     data: traceList,
   } = useQuery({
-    queryKey: ['traceList'],
+    queryKey: ['traceList', currentDate],
     queryFn: () =>
       getTraceList({
         studyId: studyId,
@@ -56,7 +58,7 @@ function Study() {
           page: 1,
         },
       }),
-    enabled: !!studyId,
+    enabled: !!currentDate,
   });
 
   // function tileClassName({ date, view }) {
@@ -76,13 +78,20 @@ function Study() {
   //   return null;
   // }
 
-  const handleDateChange = (selectedDate: TCalendar) => {
+  const handleDateChange = (selectedDate: any) => {
     setDate(selectedDate);
-    refetch();
+    const foramtDate = dayjs(selectedDate).format('YYYY-MM-DD');
+
+    setCurrentDate(foramtDate);
   };
 
   const handleFormatDay = (locale: string | undefined, date: Date) => {
     return date.getDate().toString();
+  };
+
+  const handleClickTrace = (id: number) => {
+    setTraceId(id);
+    setIsOpenDetail(true);
   };
 
   useEffect(() => {
@@ -95,7 +104,6 @@ function Study() {
     const foramtDate = dayjs(date as Date).format('YYYY-MM-DD');
 
     setCurrentDate(foramtDate);
-    refetch();
   }, [date, refetch, setCurrentDate]);
 
   return (
@@ -153,6 +161,7 @@ function Study() {
                 <div
                   key={trace.traceId}
                   className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
+                  onClick={() => handleClickTrace(trace.traceId)}
                 >
                   <div className="relative w-full h-full ">
                     <Image alt="등록사진" src={trace.mainImage} fill></Image>
@@ -169,7 +178,9 @@ function Study() {
           </section>
         </Main>
 
-        {/* <Posts></Posts> */}
+        {isOpenDetail && (
+          <Posts traceId={traceId} onClose={() => setIsOpenDetail(false)} />
+        )}
       </Layout>
     </>
   );

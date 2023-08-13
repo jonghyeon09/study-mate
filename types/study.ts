@@ -1,6 +1,6 @@
 export interface CreateStudy {
   createdId: string;
-  status: 'Created';
+  status: string;
 }
 
 export interface Study {
@@ -13,7 +13,7 @@ export interface Study {
 }
 
 export interface StudyList {
-  status: 'Ok';
+  status: string;
   userId: number;
   study: Study[];
 }
@@ -32,7 +32,7 @@ export interface TodaysTrace {
 }
 
 export interface StudyDetail {
-  status: 'Ok';
+  status: string;
   study: Study;
   today: string;
   elapsed: number;

@@ -2,7 +2,7 @@ import type { TraceList } from '@/types';
 import apiClient from './apiClient';
 
 type Options = {
-  studyId: string | undefined;
+  studyId?: string | undefined;
   params?: {
     date?: string;
     page?: number;

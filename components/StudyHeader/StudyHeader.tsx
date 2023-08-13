@@ -5,10 +5,11 @@ import Header from '../common/Header';
 import { getStudyList } from '@/services';
 import { useRecoilState } from 'recoil';
 import { currentStudyState } from '@/recoil/atoms';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { Study } from '@/types';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import { useRouter } from 'next/router';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 type Props = {
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ type Props = {
 function StudyHeader({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [current, setCurrent] = useRecoilState(currentStudyState);
+  const dropdownRef = useRef<HTMLButtonElement>(null);
   const { query, pathname, push } = useRouter();
   const { data: studyList } = useQuery({
     queryKey: ['studyList'],
@@ -26,6 +28,10 @@ function StudyHeader({ children }: Props) {
     queryKey: ['studyDetail', current.studyId],
     queryFn: () => getStudyDetail(current.studyId),
     enabled: !!current.studyId,
+  });
+
+  useOutsideClick(dropdownRef, () => {
+    setIsOpen(false);
   });
 
   const handelSelectStudy = (current: Study) => {
@@ -52,7 +58,11 @@ function StudyHeader({ children }: Props) {
 
   return (
     <Header>
-      <button type="button" onClick={() => setIsOpen((prev) => !prev)}>
+      <button
+        type="button"
+        ref={dropdownRef}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         <Dropdown
           isOpen={isOpen}
           studyList={studyList?.study}

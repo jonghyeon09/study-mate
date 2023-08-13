@@ -6,7 +6,7 @@ export interface Trace {
 }
 
 export interface TraceList {
-  status: 'Ok';
+  status: string;
   studyId: string;
   date: string;
   page: number;
@@ -15,5 +15,17 @@ export interface TraceList {
 
 export interface CreateTrace {
   traceId: number;
-  status: 'Created';
+  status: string;
+}
+
+export interface TraceDetail {
+  status: string;
+  trace: {
+    traceId: number;
+    title: string;
+    writer: string;
+    description: string;
+    mainImage: string;
+    allImages: string[];
+  };
 }
