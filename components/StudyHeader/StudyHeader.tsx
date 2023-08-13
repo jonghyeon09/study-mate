@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import MenuIcon from '../icons/MenuIcon';
 import Dropdown from './Dropdown';
-import Header from './Header';
+import Header from '../common/Header';
 import { getStudyList } from '@/services';
 import { useRecoilState } from 'recoil';
-import { currentState } from '@/recoil/atoms';
+import { currentStudyState } from '@/recoil/atoms';
 import { useEffect, useState } from 'react';
 import type { Study } from '@/types';
 import { getStudyDetail } from '@/services/getStudyDetail';
+import { useRouter } from 'next/router';
 
 type Props = {
   children?: React.ReactNode;
@@ -15,7 +16,8 @@ type Props = {
 
 function StudyHeader({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [current, setCurrent] = useRecoilState(currentState);
+  const [current, setCurrent] = useRecoilState(currentStudyState);
+  const { query, pathname, push } = useRouter();
   const { data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
@@ -26,9 +28,20 @@ function StudyHeader({ children }: Props) {
     enabled: !!current.studyId,
   });
 
-  const handelSelectStudy = (name: Study) => {
-    setCurrent(name);
+  const handelSelectStudy = (current: Study) => {
+    push({
+      pathname,
+      query: {
+        ...query,
+        study: current.studyId,
+      },
+    });
+    setCurrent(current);
     refetch();
+  };
+
+  const handleClickMenu = () => {
+    alert('구현중...');
   };
 
   useEffect(() => {
@@ -48,7 +61,7 @@ function StudyHeader({ children }: Props) {
           <p className="font-medium text-base">{current.description}</p>
         </Dropdown>
       </button>
-      <MenuIcon />
+      <MenuIcon onClick={handleClickMenu} />
     </Header>
   );
 }
