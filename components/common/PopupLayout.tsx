@@ -5,7 +5,7 @@ type Props = {
 
 function PopupLayout({ className, children }: Props) {
   return (
-    <div className={`fixed z-[1000] w-full h-screen ${className}`}>
+    <div className={`fixed z-[1000] w-full h-screen max-h-screen ${className}`}>
       {children}
     </div>
   );

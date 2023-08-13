@@ -25,7 +25,7 @@ type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 function Study() {
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
-  const [date, onDate] = useState<TCalendar>(new Date());
+  const [date, setDate] = useState<TCalendar>(new Date());
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, push } = useRouter();
@@ -39,10 +39,11 @@ function Study() {
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
   });
-  const params = {
-    date: currentDate,
-  };
-  const { isFetching, data: traceList } = useQuery({
+  const {
+    isFetching,
+    refetch,
+    data: traceList,
+  } = useQuery({
     queryKey: ['traceList'],
     queryFn: () =>
       getTraceList({
@@ -55,6 +56,11 @@ function Study() {
     enabled: !!studyId,
   });
 
+  const handleDateChange = (selectedDate: TCalendar) => {
+    setDate(selectedDate);
+    refetch();
+  };
+
   useEffect(() => {
     if (lineRef.current) {
       setUnderLineWidth(lineRef.current.offsetWidth + 2);
@@ -65,11 +71,11 @@ function Study() {
     setCurrentDate(formatDate(date));
   }, [date, setCurrentDate]);
 
-  useEffect(() => {
-    if (currentDate) {
-      // console.log(currentDate);
-    }
-  }, [currentDate]);
+  // useEffect(() => {
+  //   if (date) {
+  //     refetch();
+  //   }
+  // }, [date, refetch]);
 
   return (
     <>
@@ -100,7 +106,7 @@ function Study() {
             <Calendar
               className={`${SCDream.className}`}
               locale="ko"
-              onChange={onDate}
+              onChange={handleDateChange}
               value={date}
               view="month"
             />
@@ -128,7 +134,7 @@ function Study() {
                     </div>
                     <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
                       <p className="font-medium text-white">{title}</p>
-                      <p className="font-medium text-white text-sm opacity-20">
+                      <p className="font-medium text-white text-sm opacity-80">
                         {writer}
                       </p>
                     </div>

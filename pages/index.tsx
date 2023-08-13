@@ -97,17 +97,20 @@ export default function Home() {
 
   return (
     <>
-      {isFetching && <Splash />}
-      <Layout className={SCDream.className}>
-        <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
-          <Image src={logo} alt="logo" />
-        </div>
-        <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
-          <Link href={authURL}>
-            <Image src={kakaoLogin} alt="login-Button" />
-          </Link>
-        </div>
-      </Layout>
+      {isFetching ? (
+        <Splash />
+      ) : (
+        <Layout className={SCDream.className}>
+          <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
+            <Image src={logo} alt="logo" />
+          </div>
+          <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
+            <Link href={authURL}>
+              <Image src={kakaoLogin} alt="login-Button" />
+            </Link>
+          </div>
+        </Layout>
+      )}
     </>
   );
 }
