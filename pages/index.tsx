@@ -12,7 +12,6 @@ import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import useUpdateQuery from '@/hooks/useUpdateQuery';
 import logo from '@/public/icons/login_logo.png';
 
 export const SCDream = localFont({
@@ -61,7 +60,6 @@ export default function Home() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  // const { updateQuery } = useUpdateQuery();
   const { isFetching, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
@@ -72,11 +70,6 @@ export default function Home() {
   useEffect(() => {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
-      // router.push(`/study/${studyList.userId}`);
-      // updateQuery('/study/[id]', {
-      //   id: studyList.userId,
-      //   study: studyList.study[0].studyId,
-      // });
       router.push({
         pathname: '/study/[id]',
         query: {

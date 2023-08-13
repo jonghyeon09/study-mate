@@ -7,7 +7,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createStudy, getStudyList } from '@/services';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useUpdateQuery from '@/hooks/useUpdateQuery';
 import { isLoginState } from '@/recoil/atoms';
 import { useRecoilState } from 'recoil';
 import { getStudyDetail } from '@/services/getStudyDetail';
@@ -21,8 +20,7 @@ function CreateStudy({ first = false, onClose }: Props) {
   const { value, onChange, reset } = useInput();
   const { data, mutate } = useMutation(createStudy);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const router = useRouter();
-  const { updateQuery } = useUpdateQuery();
+  const { push } = useRouter();
   const { isFetching, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
@@ -36,12 +34,15 @@ function CreateStudy({ first = false, onClose }: Props) {
 
   useEffect(() => {
     if (data && studyList) {
-      updateQuery('/study/[id]', {
-        id: studyList.userId,
-        study: studyList.study[0].studyId,
+      push({
+        pathname: '/study/[id]',
+        query: {
+          id: studyList.userId,
+          study: studyList.study[0].studyId,
+        },
       });
     }
-  }, [data, isLogin, router, studyList, updateQuery]);
+  }, [data, push, studyList]);
 
   return (
     <Modal className="flex flex-col justify-between relative">
