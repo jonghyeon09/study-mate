@@ -1,7 +1,7 @@
 import Layout from '@/components/common/Layout';
 import { useQuery } from '@tanstack/react-query';
 import StudyHeader from '@/components/StudyHeader';
-import { getStudyList } from '@/services';
+import { getStudyList, getTraceList } from '@/services';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import Spinner from '@/components/common/Spinner';
 import { useRef, useState, useEffect } from 'react';
@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
 import Posting from '@/components/Posting/Posting';
+import Image from 'next/image';
 
 type ValuePiece = Date | null;
 type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -36,6 +37,21 @@ function Study() {
   const { isFetching: detailFeching, data: studyDetail } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),
+    enabled: !!studyId,
+  });
+  const params = {
+    date: currentDate,
+  };
+  const { isFetching, data: traceList } = useQuery({
+    queryKey: ['traceList'],
+    queryFn: () =>
+      getTraceList({
+        studyId: studyId,
+        params: {
+          date: currentDate,
+          page: 1,
+        },
+      }),
     enabled: !!studyId,
   });
 
@@ -101,7 +117,24 @@ function Study() {
               >
                 <RandomImage />
               </button>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
+              {traceList?.trace?.map(
+                ({ mainImage, traceId, title, writer }) => (
+                  <div
+                    key={traceId}
+                    className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px]"
+                  >
+                    <div className="relative w-full h-full ">
+                      <Image alt="등록사진" src={mainImage} fill></Image>
+                    </div>
+                    <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
+                      <p className="font-medium text-white">{title}</p>
+                      <p className="font-medium text-white text-sm opacity-20">
+                        {writer}
+                      </p>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
           </section>
         </Main>

@@ -18,7 +18,7 @@ export const currentStudyState = atom<Study>({
   },
 });
 /**캘린더 날짜 선택 */
-export const currentDateState = atom<string | null>({
+export const currentDateState = atom<string | undefined>({
   key: '',
-  default: null,
+  default: undefined,
 });

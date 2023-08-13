@@ -38,7 +38,7 @@ function Posts({ onClick, onSave }: Props) {
   const queryClient = useQueryClient();
   const { mutate } = useMutation(createTrace, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['trace'] });
+      queryClient.invalidateQueries({ queryKey: ['traceList'] });
     },
   });
 

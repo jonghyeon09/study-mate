@@ -61,7 +61,7 @@ export default function Home() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { updateQuery } = useUpdateQuery();
+  // const { updateQuery } = useUpdateQuery();
   const { isFetching, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
@@ -73,14 +73,21 @@ export default function Home() {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
       // router.push(`/study/${studyList.userId}`);
-      updateQuery('/study/[id]', {
-        id: studyList.userId,
-        study: studyList.study[0].studyId,
+      // updateQuery('/study/[id]', {
+      //   id: studyList.userId,
+      //   study: studyList.study[0].studyId,
+      // });
+      router.push({
+        pathname: '/study/[id]',
+        query: {
+          id: studyList.userId,
+          study: studyList.study[0].studyId,
+        },
       });
     } else {
       router.push(`/welcome`);
     }
-  }, [studyList, router, updateQuery]);
+  }, [studyList, router]);
 
   useEffect(() => {
     if (token) {

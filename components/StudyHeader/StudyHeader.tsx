@@ -40,6 +40,10 @@ function StudyHeader({ children }: Props) {
     refetch();
   };
 
+  const handleClickMenu = () => {
+    alert('구현중...');
+  };
+
   useEffect(() => {
     if (studyList?.study) {
       setCurrent(studyList?.study[0]);
@@ -57,7 +61,7 @@ function StudyHeader({ children }: Props) {
           <p className="font-medium text-base">{current.description}</p>
         </Dropdown>
       </button>
-      <MenuIcon />
+      <MenuIcon onClick={handleClickMenu} />
     </Header>
   );
 }
