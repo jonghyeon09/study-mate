@@ -95,6 +95,12 @@ function Posts({ onClick }: Props) {
       description: formState.textareaField,
       images: selectedImages,
     });
+    setSelectedImages([]);
+    setPreviewImages([]);
+    setFormState({
+      inputField: '',
+      textareaField: '',
+    });
   };
 
   const handleReset = () => {
