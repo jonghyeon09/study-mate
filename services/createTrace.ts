@@ -2,20 +2,17 @@ import type { CreateTrace } from '@/types';
 import apiClient from './apiClient';
 
 type Data = {
+  studyId: string;
   title: string;
   description: string;
-  images: FormData;
+  images: File[];
 };
 
-export const createTrace = async (studyId: string, data: Data) => {
+export const createTrace = async (data: Data) => {
   try {
     const response = await apiClient.post<CreateTrace>(
-      `/study/${studyId}/trace`,
-      {
-        title: data.title,
-        description: data.description,
-        images: data.images,
-      },
+      `/study/${data.studyId}/trace`,
+      data,
       {
         headers: {
           'Content-Type': 'multipart/form-data',

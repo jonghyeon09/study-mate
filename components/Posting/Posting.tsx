@@ -12,13 +12,19 @@ import { SCDream } from '@/pages';
 import { useState, useEffect } from 'react';
 import { useRef } from 'react';
 import PhotoLayout from './PhotoLayout';
+import { createTrace } from '@/services/createTrace';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 
 type FormState = {
   inputField: string;
   textareaField: string;
 };
+type Props = {
+  onClick: () => void;
+};
 
-function Posts() {
+function Posts({ onClick }: Props) {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [isActive, setIsActive] = useState([true, false, false]);
@@ -27,6 +33,13 @@ function Posts() {
     textareaField: '',
   });
   const inputFileRef = useRef<HTMLInputElement>(null);
+  const { query } = useRouter();
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation(createTrace, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['trace'] });
+    },
+  });
 
   const handleButtonClick = () => {
     inputFileRef.current?.click(); // input 태그의 click 메서드 호출
@@ -54,28 +67,6 @@ function Posts() {
     setSelectedImages(files);
   };
 
-  const handleUpload = async () => {
-    const formData = new FormData();
-    selectedImages.forEach((file) => {
-      formData.append('images', file);
-    });
-
-    // try {
-    //   const response = await axios.post(
-    //     'https://your-api-endpoint.com/upload',
-    //     formData,
-    //     {
-    //       headers: {
-    //         'Content-Type': 'multipart/form-data',
-    //       },
-    //     }
-    //   );
-    //   console.log('Upload Successful:', response.data);
-    // } catch (error) {
-    //   console.error('Error uploading the files:', error);
-    // }
-  };
-
   const handleRemoveImage = (i: number) => {
     const newSelected = selectedImages.filter(
       (file) => file !== selectedImages[i]
@@ -96,8 +87,14 @@ function Posts() {
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    mutate({
+      studyId: query.study as string,
+      title: formState.inputField,
+      description: formState.textareaField,
+      images: selectedImages,
+    });
   };
 
   const handleReset = () => {
@@ -122,7 +119,7 @@ function Posts() {
     <PopupLayout className={SCDream.className}>
       <Layout className="w-full h-screen bg-white">
         <Header className="flex justify-center text-center">
-          <ArrowLeftIcon className="absolute" />
+          <ArrowLeftIcon onClick={onClick} />
           <div className="w-full relative flex justify-center">
             <p className="font-medium text-xl">인증하기</p>
           </div>
@@ -185,7 +182,9 @@ function Posts() {
               maxLength={50}
             ></textarea>
             <div className="absolute bottom-0 left-0 w-full px-[24px]">
-              <SaveButton>저장하기</SaveButton>
+              <SaveButton disabled={formState.inputField.length == 0}>
+                저장하기
+              </SaveButton>
             </div>
           </form>
         </Main>
