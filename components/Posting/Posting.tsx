@@ -22,9 +22,10 @@ type FormState = {
 };
 type Props = {
   onClick: () => void;
+  onSave: () => void;
 };
 
-function Posts({ onClick }: Props) {
+function Posts({ onClick, onSave }: Props) {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [isActive, setIsActive] = useState([true, false, false]);
@@ -101,6 +102,7 @@ function Posts({ onClick }: Props) {
       inputField: '',
       textareaField: '',
     });
+    onSave();
   };
 
   const handleReset = () => {

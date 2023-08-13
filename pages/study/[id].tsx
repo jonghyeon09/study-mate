@@ -23,7 +23,7 @@ type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
   const [underLineWidth, setUnderLineWidth] = useState(0);
-  const [isOpenPosts, setIsOpenPosts] = useState(false);
+  const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [date, onDate] = useState<TCalendar>(new Date());
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const lineRef = useRef<HTMLSpanElement>(null);
@@ -58,7 +58,12 @@ function Study() {
   return (
     <>
       {isLoading ? <Splash /> : null}
-      {<Posting />}
+      {isOpenPosting && (
+        <Posting
+          onClick={() => setIsOpenPosting(false)}
+          onSave={() => setIsOpenPosting(false)}
+        />
+      )}
       <Layout className={`${SCDream.className}`}>
         <StudyHeader />
         <Main>
@@ -90,15 +95,12 @@ function Study() {
               <p className="font-bold text-xl">스터디인증</p>
             </div>
             <div className="flex flex-wrap justify-center gap-[12px]">
-              <button className="relative w-[165px] h-[204px]">
+              <button
+                className="relative w-[165px] h-[204px]"
+                onClick={() => setIsOpenPosting(true)}
+              >
                 <RandomImage />
               </button>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
-              <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
               <div className="w-[165px] max-w-full h-[204px] bg-slate-50"></div>
             </div>
           </section>
