@@ -86,3 +86,14 @@ abbr[title] {
   background: #6f48eb !important;
   color: white !important;
 }
+
+.dot {
+  width: 5px;
+  height: 5px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}
