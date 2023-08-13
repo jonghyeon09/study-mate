@@ -13,6 +13,7 @@ import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import useUpdateQuery from '@/hooks/useUpdateQuery';
+import logo from '@/public/icons/login_logo.png';
 
 export const SCDream = localFont({
   src: [
@@ -91,6 +92,9 @@ export default function Home() {
     <>
       {isFetching && <Splash />}
       <Layout className={SCDream.className}>
+        <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
+          <Image src={logo} alt="logo" />
+        </div>
         <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
           <Link href={authURL}>
             <Image src={kakaoLogin} alt="login-Button" />
