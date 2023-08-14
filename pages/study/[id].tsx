@@ -8,7 +8,6 @@ import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
 import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
 import { currentDateState, currentStudyState } from '@/recoil/atoms';
@@ -46,7 +45,7 @@ function Study() {
   });
 
   const {
-    isFetching,
+    isFetching: traceListFeching,
     refetch,
     data: traceList,
   } = useQuery({
@@ -126,7 +125,7 @@ function Study() {
       <Layout className={`${SCDream.className}`}>
         <StudyHeader />
         <Main>
-          {detailFeching && <Spinner />}
+          {detailFeching || traceListFeching ? <Spinner /> : null}
 
           <div className="w-full px-[24px] mb-[16px] z-10">
             <span className="font-bold text-2xl">
@@ -152,6 +151,8 @@ function Study() {
               formatDay={handleFormatDay}
               tileContent={tileClassName}
               formatShortWeekday={shortWeekdayLabel}
+              prevLabel={<button>{'<'}</button>}
+              nextLabel={<button>{'>'}</button>}
             />
           </div>
 
