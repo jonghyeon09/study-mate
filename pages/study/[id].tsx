@@ -63,22 +63,22 @@ function Study() {
     enabled: !!currentDate,
   });
 
-  // function tileClassName({ date, view }) {
-  //   if (view !== 'month') return null;
+  const tileClassName = ({ date, view }: any) => {
+    if (view !== 'month') return null;
 
-  //   const traceDate = studyDetail?.traceDate;
-  //   const datesWithDots: Date[] = [];
-  //   if (traceDate) {
-  //     traceDate.forEach((date: any) => {
-  //       datesWithDots.push(dayjs(date));
-  //     });
-  //   }
+    const traceDate = studyDetail?.traceDate;
+    const datesWithDots: dayjs.Dayjs[] = [];
+    if (traceDate) {
+      traceDate.forEach((date: any) => {
+        datesWithDots.push(dayjs(date));
+      });
+    }
 
-  //   if (datesWithDots.some((d) => d.isSame(date, 'day'))) {
-  //     return <div className="dot"></div>;
-  //   }
-  //   return null;
-  // }
+    if (datesWithDots.some((d) => d.isSame(date, 'day'))) {
+      return <div className="dot"></div>;
+    }
+    return null;
+  };
 
   const handleDateChange = (selectedDate: any) => {
     setDate(selectedDate);
@@ -145,7 +145,7 @@ function Study() {
               prev2Label={null}
               next2Label={null}
               formatDay={handleFormatDay}
-              // tileContent={tileClassName}
+              tileContent={tileClassName}
             />
           </div>
 
@@ -153,7 +153,7 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디인증</p>
             </div>
-            <div className="flex flex-wrap justify-between gap-[12px]">
+            <div className="flex flex-wrap gap-[12px]">
               {/* <div className="grid grid-cols-2 gap-[12px]"> */}
               <button
                 className="relative w-[165px] h-[204px]"

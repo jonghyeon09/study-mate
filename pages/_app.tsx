@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/customCalendar.css';
 import {
   Hydrate,
   QueryClient,

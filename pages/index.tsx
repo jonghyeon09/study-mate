@@ -15,47 +15,6 @@ import useLocalStorage from '@/hooks/useLocalStorage';
 import logo from '@/public/icons/login_logo.png';
 import { NextSeo } from 'next-seo';
 
-export const SCDream = localFont({
-  src: [
-    {
-      path: '../public/fonts/SCDream1.otf',
-      weight: '100',
-    },
-    {
-      path: '../public/fonts/SCDream2.otf',
-      weight: '200',
-    },
-    {
-      path: '../public/fonts/SCDream3.otf',
-      weight: '300',
-    },
-    {
-      path: '../public/fonts/SCDream4.otf',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/SCDream5.otf',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/SCDream6.otf',
-      weight: '600',
-    },
-    {
-      path: '../public/fonts/SCDream7.otf',
-      weight: '700',
-    },
-    {
-      path: '../public/fonts/SCDream8.otf',
-      weight: '800',
-    },
-    {
-      path: '../public/fonts/SCDream9.otf',
-      weight: '900',
-    },
-  ],
-});
-
 export default function Home() {
   const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -118,3 +77,44 @@ export async function getStaticProps() {
     props: {},
   };
 }
+
+export const SCDream = localFont({
+  src: [
+    {
+      path: '../public/fonts/SCDream1.otf',
+      weight: '100',
+    },
+    {
+      path: '../public/fonts/SCDream2.otf',
+      weight: '200',
+    },
+    {
+      path: '../public/fonts/SCDream3.otf',
+      weight: '300',
+    },
+    {
+      path: '../public/fonts/SCDream4.otf',
+      weight: '400',
+    },
+    {
+      path: '../public/fonts/SCDream5.otf',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/SCDream6.otf',
+      weight: '600',
+    },
+    {
+      path: '../public/fonts/SCDream7.otf',
+      weight: '700',
+    },
+    {
+      path: '../public/fonts/SCDream8.otf',
+      weight: '800',
+    },
+    {
+      path: '../public/fonts/SCDream9.otf',
+      weight: '900',
+    },
+  ],
+});
