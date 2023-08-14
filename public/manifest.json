@@ -1,0 +1,21 @@
+{
+  "name": "STUDY MATE",
+  "short_name": "STUDY MATE",
+  "description": "스터디 인증 공유 서비스",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#4834C5",
+  "theme_color": "#4834C5",
+  "icons": [
+    {
+      "src": "/icons/pwa_152.jpg",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/pwa_192.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
