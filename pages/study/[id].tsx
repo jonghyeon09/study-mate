@@ -10,7 +10,7 @@ import { SCDream } from '..';
 import Calendar from 'react-calendar';
 import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
-import { currentDateState, currentStudyState } from '@/recoil/atoms';
+import { currentDateState } from '@/recoil/atoms';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
@@ -24,7 +24,6 @@ import { NextSeo } from 'next-seo';
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
-  const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
@@ -33,17 +32,20 @@ function Study() {
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, push } = useRouter();
-  const { isLoading, data: studyList } = useQuery({
+  const { data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
   const studyId = typeof query.study == 'string' ? query.study : undefined;
-  const { isFetching: detailFeching, data: studyDetail } = useQuery({
+  const {
+    isLoading,
+    isFetching: detailFeching,
+    data: studyDetail,
+  } = useQuery({
     queryKey: ['studyDetail', studyId],
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
   });
-
   const {
     isFetching: traceListFeching,
     refetch,
@@ -139,21 +141,23 @@ function Study() {
           </div>
 
           <div className="w-full h-[390px] bg-[--color-main]">
-            <Calendar
-              className={`${SCDream.className}`}
-              locale="ko"
-              onChange={handleDateChange}
-              value={date}
-              view="month"
-              calendarType="gregory"
-              prev2Label={null}
-              next2Label={null}
-              formatDay={handleFormatDay}
-              tileContent={tileClassName}
-              formatShortWeekday={shortWeekdayLabel}
-              prevLabel={<button>{'<'}</button>}
-              nextLabel={<button>{'>'}</button>}
-            />
+            {!isLoading && (
+              <Calendar
+                className={`${SCDream.className}`}
+                locale="ko"
+                onChange={handleDateChange}
+                value={date}
+                view="month"
+                calendarType="gregory"
+                prev2Label={null}
+                next2Label={null}
+                formatDay={handleFormatDay}
+                tileContent={tileClassName}
+                formatShortWeekday={shortWeekdayLabel}
+                prevLabel={isLoading && <button>{'<'}</button>}
+                nextLabel={isLoading && <button>{'>'}</button>}
+              />
+            )}
           </div>
 
           <section className="w-full h-full bg-[--color-gray] p-[24px]">

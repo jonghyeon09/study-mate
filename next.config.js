@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const isDevelopment = process.env.NODE_ENV === 'development';
 const withPWA = require('next-pwa')({
   dest: 'public',
+  disable: isDevelopment,
 });
 const nextConfig = {
   reactStrictMode: true,
