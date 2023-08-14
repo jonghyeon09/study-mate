@@ -31,11 +31,7 @@ function Study() {
   const [traceId, setTraceId] = useState<number>();
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
-  const { query, push } = useRouter();
-  const { data: studyList } = useQuery({
-    queryKey: ['studyList'],
-    queryFn: getStudyList,
-  });
+  const { query, asPath } = useRouter();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const {
     isLoading,
@@ -48,7 +44,7 @@ function Study() {
   });
   const {
     isFetching: traceListFeching,
-    refetch,
+    refetch: refechTraceList,
     data: traceList,
   } = useQuery({
     queryKey: ['traceList', currentDate],
@@ -112,7 +108,14 @@ function Study() {
     const foramtDate = dayjs(date as Date).format('YYYY-MM-DD');
 
     setCurrentDate(foramtDate);
-  }, [date, refetch, setCurrentDate]);
+  }, [date, setCurrentDate]);
+
+  useEffect(() => {
+    if (asPath) {
+      setDate(new Date());
+      refechTraceList();
+    }
+  }, [asPath, refechTraceList]);
 
   return (
     <>
