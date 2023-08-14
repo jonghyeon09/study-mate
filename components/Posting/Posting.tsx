@@ -190,7 +190,11 @@ function Posts({ onClick, onSave }: Props) {
               maxLength={50}
             ></textarea>
             <div className="absolute bottom-0 left-0 w-full px-[24px]">
-              <SaveButton disabled={formState.inputField.length == 0}>
+              <SaveButton
+                disabled={
+                  formState.inputField.length == 0 && selectedImages.length == 0
+                }
+              >
                 저장하기
               </SaveButton>
             </div>
