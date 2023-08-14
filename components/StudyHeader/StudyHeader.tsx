@@ -4,7 +4,7 @@ import Dropdown from './Dropdown';
 import Header from '../common/Header';
 import { getStudyList } from '@/services';
 import { useRecoilState } from 'recoil';
-import { currentStudyState } from '@/recoil/atoms';
+import { currentDateState, currentStudyState } from '@/recoil/atoms';
 import { useEffect, useState, useRef } from 'react';
 import type { Study } from '@/types';
 import { getStudyDetail } from '@/services/getStudyDetail';
@@ -17,6 +17,7 @@ type Props = {
 
 function StudyHeader({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [current, setCurrent] = useRecoilState(currentStudyState);
   const dropdownRef = useRef<HTMLButtonElement>(null);
   const { query, pathname, push } = useRouter();

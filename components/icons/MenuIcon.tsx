@@ -10,7 +10,7 @@ type Props = {
 function MenuIcon({ className, onClick }: Props) {
   return (
     <IconLayout onClick={(e) => onClick && onClick(e)} className={className}>
-      <Image src={menu} alt="close icon" width={24} height={24} />
+      <Image src={menu} alt="menu icon" width={24} height={24} />
     </IconLayout>
   );
 }
