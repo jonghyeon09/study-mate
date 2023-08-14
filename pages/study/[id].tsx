@@ -167,11 +167,11 @@ function Study() {
                   className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
                   onClick={() => handleClickTrace(trace.traceId)}
                 >
-                  <div className="relative w-full h-full ">
-                    {trace.traceId && (
+                  {trace?.mainImage && (
+                    <div className="relative w-full h-full ">
                       <Image alt="등록사진" src={trace.mainImage} fill></Image>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
                     <p className="font-medium text-white">{trace.title}</p>
                     <p className="font-medium text-white text-sm opacity-80">
@@ -192,11 +192,11 @@ function Study() {
   );
 }
 
-// export async function getServerSideProps() {
-//   return {
-//     props: {},
-//   };
-// }
+export async function getServerSideProps() {
+  return {
+    props: {},
+  };
+}
 
 // export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 //   const queryClient = new QueryClient();
