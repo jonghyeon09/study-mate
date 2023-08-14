@@ -8,7 +8,7 @@ import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+// import 'react-calendar/dist/Calendar.css';
 import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
 import { currentDateState, currentStudyState } from '@/recoil/atoms';
@@ -20,7 +20,6 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
-import { GetStaticPaths } from 'next';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -78,6 +77,12 @@ function Study() {
       return <div className="dot"></div>;
     }
     return null;
+  };
+
+  const shortWeekdayLabel = (locale: string | undefined, date: Date) => {
+    return new Intl.DateTimeFormat('en-US', { weekday: 'short' })
+      .format(date)
+      .toUpperCase();
   };
 
   const handleDateChange = (selectedDate: any) => {
@@ -146,6 +151,7 @@ function Study() {
               next2Label={null}
               formatDay={handleFormatDay}
               tileContent={tileClassName}
+              formatShortWeekday={shortWeekdayLabel}
             />
           </div>
 
