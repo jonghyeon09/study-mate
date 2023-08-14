@@ -11,6 +11,7 @@ import Button from '@/components/common/Button';
 import { SCDream } from './index';
 import { isLoginState } from '@/recoil/atoms';
 import { useRecoilState } from 'recoil';
+import { NextSeo } from 'next-seo';
 
 export default function Welcome() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -41,30 +42,33 @@ export default function Welcome() {
   }, [userName]);
 
   return (
-    <Layout
-      className={`${SCDream.className} bg-[--color-main] px-[24px] flex flex-col justify-center`}
-    >
-      <div className="flex flex-col justify-center">
-        <div className="relative flex items-end">
-          <p className="text-4xl z-10" ref={pRef}>
-            {userName}
-          </p>
-          <p className="text-xl font-light">님 반가워요!</p>
-          <UnderLine width={underLineWidth} height={12} />
+    <>
+      <NextSeo title="STUDY MATE" description="환영 합니다~" />
+      <Layout
+        className={`${SCDream.className} bg-[--color-main] px-[24px] flex flex-col justify-center`}
+      >
+        <div className="flex flex-col justify-center">
+          <div className="relative flex items-end">
+            <p className="text-4xl z-10" ref={pRef}>
+              {userName}
+            </p>
+            <p className="text-xl font-light">님 반가워요!</p>
+            <UnderLine width={underLineWidth} height={12} />
+          </div>
+          <p className="text-xl font-light">함께 도전할 친구들을 기다려요.</p>
         </div>
-        <p className="text-xl font-light">함께 도전할 친구들을 기다려요.</p>
-      </div>
 
-      <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center border-shadow mt-[22px]">
-        <Image src={caleander} alt="caleander" className="mb-[-6px]" />
-      </div>
+        <div className="w-full h-[371px] bg-[--color-gray] pt-[21px] px-[21px] flex justify-center border-shadow mt-[22px]">
+          <Image src={caleander} alt="caleander" className="mb-[-6px]" />
+        </div>
 
-      <Button className="mt-[36px]" onClick={() => setOpen(true)}>
-        <p className="text-white font-bold">스터디 시작하기</p>
-      </Button>
+        <Button className="mt-[36px]" onClick={() => setOpen(true)}>
+          <p className="text-white font-bold">스터디 시작하기</p>
+        </Button>
 
-      {open && <CreateStudy first onClose={() => setOpen(false)} />}
-    </Layout>
+        {open && <CreateStudy first onClose={() => setOpen(false)} />}
+      </Layout>
+    </>
   );
 }
 

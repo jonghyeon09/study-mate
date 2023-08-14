@@ -13,6 +13,7 @@ import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import logo from '@/public/icons/login_logo.png';
+import { NextSeo } from 'next-seo';
 
 export const SCDream = localFont({
   src: [
@@ -90,6 +91,10 @@ export default function Home() {
 
   return (
     <>
+      <NextSeo
+        title="STUDY MATE"
+        description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
+      />
       {isFetching ? (
         <Splash />
       ) : (
