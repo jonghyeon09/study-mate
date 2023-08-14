@@ -19,6 +19,8 @@ import Posting from '@/components/Posting/Posting';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
+import { NextSeo } from 'next-seo';
+import { GetStaticPaths } from 'next';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -108,6 +110,7 @@ function Study() {
 
   return (
     <>
+      <NextSeo title="STUDY MATE" description="스터디를 인증하세요" />
       {isLoading ? <Splash /> : null}
       {isOpenPosting && (
         <Posting
@@ -150,7 +153,8 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디인증</p>
             </div>
-            <div className="flex flex-wrap justify-center gap-[12px]">
+            <div className="flex flex-wrap justify-between gap-[12px]">
+              {/* <div className="grid grid-cols-2 gap-[12px]"> */}
               <button
                 className="relative w-[165px] h-[204px]"
                 onClick={() => setIsOpenPosting(true)}
@@ -163,9 +167,11 @@ function Study() {
                   className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
                   onClick={() => handleClickTrace(trace.traceId)}
                 >
-                  <div className="relative w-full h-full ">
-                    <Image alt="등록사진" src={trace.mainImage} fill></Image>
-                  </div>
+                  {trace?.mainImage && (
+                    <div className="relative w-full h-full ">
+                      <Image alt="등록사진" src={trace.mainImage} fill></Image>
+                    </div>
+                  )}
                   <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
                     <p className="font-medium text-white">{trace.title}</p>
                     <p className="font-medium text-white text-sm opacity-80">
