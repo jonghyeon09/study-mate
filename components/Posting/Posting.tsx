@@ -33,6 +33,7 @@ function Posts({ onClick, onSave }: Props) {
     inputField: '',
     textareaField: '',
   });
+  const [disabled, setDisabled] = useState(true);
   const inputFileRef = useRef<HTMLInputElement>(null);
   const { query } = useRouter();
   const queryClient = useQueryClient();
@@ -122,6 +123,23 @@ function Posts({ onClick, onSave }: Props) {
 
     setIsActive(buttons);
   }, [previewImages]);
+  // console.log(
+  //   formState.inputField.length !== 0 && previewImages.length !== 0
+  //     ? true
+  //     : false
+  // );
+
+  useEffect(() => {
+    const input = formState.inputField.length === 0;
+    const file = selectedImages.length === 0;
+    const preview = previewImages.length === 0;
+    const cant = input || file || preview;
+    setDisabled(cant);
+  }, [
+    formState.inputField.length,
+    previewImages.length,
+    selectedImages.length,
+  ]);
 
   return (
     <PopupLayout className={SCDream.className}>
@@ -190,13 +208,7 @@ function Posts({ onClick, onSave }: Props) {
               maxLength={50}
             ></textarea>
             <div className="absolute bottom-0 left-0 w-full px-[24px]">
-              <SaveButton
-                disabled={
-                  formState.inputField.length == 0 && selectedImages.length == 0
-                }
-              >
-                저장하기
-              </SaveButton>
+              <SaveButton disabled={disabled}>저장하기</SaveButton>
             </div>
           </form>
         </Main>

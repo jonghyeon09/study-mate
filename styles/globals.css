@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url(./customCalendar.css);
 
 :root {
   --h-header: 54px;
