@@ -119,8 +119,12 @@ function Study() {
 
   return (
     <>
-      <NextSeo title="STUDY MATE" description="스터디를 인증하세요" />
-      {isLoading ? <Splash /> : null}
+      <NextSeo
+        title="STUDY MATE"
+        description="스터디를 인증하세요"
+        themeColor="#4834C5"
+      />
+      {isLoading && <Splash />}
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}

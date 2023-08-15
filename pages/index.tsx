@@ -20,7 +20,7 @@ export default function Home() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { isFetching, data: studyList } = useQuery({
+  const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
     enabled: isLogin,
@@ -53,10 +53,10 @@ export default function Home() {
       <NextSeo
         title="STUDY MATE"
         description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
+        themeColor="#4834C5"
       />
-      {isFetching ? (
-        <Splash />
-      ) : (
+      {isLoading && <Splash />}
+      {!studyList && (
         <Layout className={SCDream.className}>
           <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
             <Image src={logo} alt="logo" />
