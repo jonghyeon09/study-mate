@@ -29,7 +29,7 @@ function Profile({}: Props) {
           />
         )}
       </div>
-      <p className="font-bold text-white">{profile?.username}</p>
+      <p className="font-bold text-white">{profile && profile?.username}</p>
     </div>
   );
 }
