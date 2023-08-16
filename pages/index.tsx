@@ -14,6 +14,7 @@ import Splash from '@/components/Splash/Splash';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import logo from '@/public/icons/login_logo.png';
 import { NextSeo } from 'next-seo';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [token, setToken] = useLocalStorage('token', '');
@@ -55,7 +56,7 @@ export default function Home() {
         description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
         themeColor="#4834C5"
       />
-      {isLogin && <Splash />}
+      <AnimatePresence>{isLogin && <Splash />}</AnimatePresence>
       {!isLogin && (
         <Layout className={SCDream.className}>
           <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
