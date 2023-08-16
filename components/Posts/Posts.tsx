@@ -21,8 +21,8 @@ function Posts({ traceId, onClose }: Props) {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
   const { data: traceDetail } = useQuery({
-    queryKey: ['traceDetail', currentStudy.studyId, traceId],
-    queryFn: () => getTraceDetail(currentStudy.studyId, traceId),
+    queryKey: ['traceDetail', currentStudy?.studyId, traceId],
+    queryFn: () => getTraceDetail(currentStudy?.studyId, traceId),
     enabled: !!traceId,
   });
 
@@ -51,7 +51,9 @@ function Posts({ traceId, onClose }: Props) {
         {traceDetail?.trace.allImages.map((image, i) => (
           <SwiperSlide key={i}>
             <div className="relative w-full h-full">
-              {image && <Image alt="스터디 사진" src={image} fill />}
+              {image && (
+                <Image alt="스터디 사진" src={image} fill objectFit="contain" />
+              )}
             </div>
           </SwiperSlide>
         ))}

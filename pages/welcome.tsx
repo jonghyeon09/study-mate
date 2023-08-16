@@ -15,11 +15,7 @@ import { NextSeo } from 'next-seo';
 
 export default function Welcome() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const [profile] = useLocalStorage<profile>('profile', {
-    username: '',
-    profileImage: '',
-    lastAccessedStudyId: 0,
-  });
+  const [profile] = useLocalStorage<profile>('profile');
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const [underLineWidth, setUnderLineWidth] = useState(0);
@@ -32,8 +28,10 @@ export default function Welcome() {
   // }, [isLogin, router]);
 
   useEffect(() => {
-    setUserName(profile.username);
-  }, [profile.username]);
+    if (profile) {
+      setUserName(profile.username);
+    }
+  }, [profile]);
 
   useEffect(() => {
     if (pRef.current) {

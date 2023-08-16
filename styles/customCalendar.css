@@ -21,17 +21,17 @@
 }
 
 .react-calendar__navigation {
-  @apply h-[24px] text-black font-bold !important;
+  @apply h-[24px] flex flex-row items-center justify-start text-black font-bold !important;
 }
 .react-calendar__navigation button,
 .react-calendar__navigation button > span {
   @apply text-black font-bold !important;
 }
 .react-calendar__navigation__label {
-  @apply pointer-events-none mx-[7px] !important;
+  @apply flex-grow-0 pointer-events-none mx-[7px] !important;
 }
 .react-calendar__navigation__arrow {
-  @apply w-[24px] h-[24px] !important;
+  @apply w-[24px] h-[24px] text-black !important;
 }
 
 .react-calendar__month-view__weekdays {

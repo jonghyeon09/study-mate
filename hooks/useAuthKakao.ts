@@ -8,6 +8,9 @@ function useAuthKakao() {
   const [authURL, setAuthURL] = useState('');
   const url = `${config.KAKAO_AUTH_URL}?response_type=code&client_id=${config.KAKAO_API_KEY}&redirect_uri=${config.REDIRECT_URI}`;
 
+  /**
+   * @deprecated
+   */
   const login = useCallback(async (authCode: string | string[]) => {
     try {
       const { data } = await axios<TokenResponse>({
@@ -33,7 +36,7 @@ function useAuthKakao() {
     setAuthURL(url);
   }, [url]);
 
-  return { authURL, login };
+  return { authURL };
 }
 
 export default useAuthKakao;

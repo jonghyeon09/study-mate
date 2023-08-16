@@ -4,7 +4,7 @@ function isString(value: any): value is string {
   return typeof value === 'string';
 }
 
-function useLocalStorage<T>(key: string, initialValue: T) {
+function useLocalStorage<T>(key: string, initialValue?: T) {
   // 로컬 스토리지에서 값을 가져와 상태를 초기화합니다.
   const storedValue =
     typeof window != 'undefined' ? localStorage.getItem(key) : null;
@@ -14,7 +14,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
       : JSON.parse(storedValue)
     : initialValue;
 
-  const [value, setValue] = useState<T>(initial);
+  const [value, setValue] = useState<T | undefined>(initial);
 
   // 값이 변경될 때마다 로컬 스토리지를 업데이트합니다.
   const setStoredValue = (newValue: T) => {

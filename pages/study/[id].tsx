@@ -1,16 +1,15 @@
 import Layout from '@/components/common/Layout';
 import { useQuery } from '@tanstack/react-query';
 import StudyHeader from '@/components/StudyHeader';
-import { getStudyList, getTraceList } from '@/services';
+import { getTraceList } from '@/services';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import Spinner from '@/components/common/Spinner';
 import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
-import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
-import { currentDateState } from '@/recoil/atoms';
+import { currentDateState, isOpenSideState } from '@/recoil/atoms';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
@@ -19,12 +18,15 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
+import { motion } from 'framer-motion';
+import SideMenu from '@/components/SideMenu/SideMenu';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
+  const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -119,17 +121,25 @@ function Study() {
 
   return (
     <>
-      <NextSeo title="STUDY MATE" description="스터디를 인증하세요" />
-      {isLoading ? <Splash /> : null}
+      <NextSeo
+        title="STUDY MATE"
+        description="스터디를 인증하세요"
+        themeColor="#4834C5"
+      />
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
       )}
-      <Layout className={`${SCDream.className}`}>
+      <Layout
+        className={`${SCDream.className} ${
+          isOpenSide ? 'overflow-y-hidden' : ''
+        }`}
+      >
         <StudyHeader />
         <Main>
+          {isOpenSide && <SideMenu />}
           {detailFeching || traceListFeching ? <Spinner /> : null}
 
           <div className="w-full px-[24px] mb-[16px] z-10">
@@ -157,8 +167,8 @@ function Study() {
                 formatDay={handleFormatDay}
                 tileContent={tileClassName}
                 formatShortWeekday={shortWeekdayLabel}
-                prevLabel={isLoading && <button>{'<'}</button>}
-                nextLabel={isLoading && <button>{'>'}</button>}
+                prevLabel={'<'}
+                nextLabel={'>'}
               />
             )}
           </div>
@@ -167,7 +177,7 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디인증</p>
             </div>
-            <div className="flex flex-wrap gap-[12px]">
+            <ul className="flex flex-wrap gap-[12px]">
               {/* <div className="grid grid-cols-2 gap-[12px]"> */}
               <button
                 className="relative w-[165px] h-[204px]"
@@ -175,15 +185,30 @@ function Study() {
               >
                 <RandomImage />
               </button>
-              {traceList?.trace?.map((trace) => (
-                <div
+              {traceList?.trace?.map((trace, i) => (
+                <motion.li
                   key={trace.traceId}
                   className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
                   onClick={() => handleClickTrace(trace.traceId)}
+                  custom={i}
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: (custom) => ({
+                      opacity: 1,
+                      transition: { delay: custom * 0.1 },
+                    }),
+                  }}
                 >
                   {trace?.mainImage && (
-                    <div className="relative w-full h-full ">
-                      <Image alt="등록사진" src={trace.mainImage} fill></Image>
+                    <div className="relative w-full h-full">
+                      <Image
+                        alt="등록사진"
+                        src={trace.mainImage}
+                        fill
+                        objectFit="contain"
+                      />
                     </div>
                   )}
                   <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
@@ -192,9 +217,9 @@ function Study() {
                       {trace.writer}
                     </p>
                   </div>
-                </div>
+                </motion.li>
               ))}
-            </div>
+            </ul>
           </section>
         </Main>
 

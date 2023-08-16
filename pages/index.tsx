@@ -14,13 +14,14 @@ import Splash from '@/components/Splash/Splash';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import logo from '@/public/icons/login_logo.png';
 import { NextSeo } from 'next-seo';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Home() {
   const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const { authURL } = useAuthKakao();
   const router = useRouter();
-  const { isFetching, data: studyList } = useQuery({
+  const { isLoading, data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
     enabled: isLogin,
@@ -53,12 +54,12 @@ export default function Home() {
       <NextSeo
         title="STUDY MATE"
         description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
+        themeColor="#4834C5"
       />
-      {isFetching ? (
-        <Splash />
-      ) : (
+      <AnimatePresence>{isLogin && <Splash />}</AnimatePresence>
+      {!isLogin && (
         <Layout className={SCDream.className}>
-          <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
             <Image src={logo} alt="logo" />
           </div>
           <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
