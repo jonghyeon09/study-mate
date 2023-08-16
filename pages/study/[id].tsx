@@ -8,7 +8,6 @@ import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
-import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
 import { currentDateState, isOpenSideState } from '@/recoil/atoms';
 import { useRouter } from 'next/router';
@@ -19,13 +18,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
-import {
-  AnimatePresence,
-  motion,
-  stagger,
-  useAnimate,
-  Variants,
-} from 'framer-motion';
+import { motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 
 // type ValuePiece = Date | null;
@@ -41,7 +34,6 @@ function Study() {
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
-  const [scope, animate] = useAnimate();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const {
     isLoading,

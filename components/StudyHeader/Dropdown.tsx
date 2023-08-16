@@ -22,7 +22,7 @@ function Dropdown({ isOpen, studyList, onClick }: Props) {
             transition: {
               type: 'spring',
               bounce: 0,
-              duration: 0.7,
+              duration: 0.3,
               delayChildren: 0.3,
               staggerChildren: 0.05,
             },

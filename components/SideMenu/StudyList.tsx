@@ -1,13 +1,40 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
+import { useQuery } from '@tanstack/react-query';
+import { getStudyList } from '@/services';
+import { useRecoilState } from 'recoil';
+import { currentStudyState } from '@/recoil/atoms';
+import { useRouter } from 'next/router';
+import { getStudyDetail } from '@/services/getStudyDetail';
+import { Study } from '@/types';
 
-type Props = {
-  list?: string[];
-};
-
-function StudyList({ list }: Props) {
+function StudyList() {
   const [isOpen, setIsOpen] = useState(false);
+  const [current, setCurrent] = useRecoilState(currentStudyState);
+  const { query, pathname, push } = useRouter();
+  const { data: studyList } = useQuery({
+    queryKey: ['studyList'],
+    queryFn: getStudyList,
+  });
+  const { refetch } = useQuery({
+    queryKey: ['studyDetail', current.studyId],
+    queryFn: () => getStudyDetail(current.studyId),
+    enabled: !!current.studyId,
+  });
+
+  const handelSelectStudy = (study: Study) => {
+    setIsOpen(false);
+    push({
+      pathname,
+      query: {
+        ...query,
+        study: study.studyId,
+      },
+    });
+    setCurrent(study);
+    refetch();
+  };
 
   return (
     <motion.div
@@ -40,7 +67,7 @@ function StudyList({ list }: Props) {
             transition: {
               type: 'spring',
               bounce: 0,
-              duration: 0.7,
+              duration: 0.3,
               delayChildren: 0.3,
               staggerChildren: 0.05,
             },
@@ -55,9 +82,14 @@ function StudyList({ list }: Props) {
           },
         }}
       >
-        {list?.map((item, i) => (
+        {studyList?.study?.map((item, i) => (
           <li key={i} className="text-white">
-            {item}
+            <button
+              className="w-full text-start"
+              onClick={() => handelSelectStudy(item)}
+            >
+              {item.description}
+            </button>
           </li>
         ))}
       </motion.ul>

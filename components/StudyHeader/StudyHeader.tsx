@@ -53,7 +53,6 @@ function StudyHeader({ children }: Props) {
   };
 
   const handleClickMenu = () => {
-    // alert('구현중...');
     setIsOpenSide((prev) => !prev);
   };
 

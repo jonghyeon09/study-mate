@@ -1,9 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
 import Profile from './Profile';
 import StudyList from './StudyList';
+import { getStudyList } from '@/services';
+import { currentStudyState } from '@/recoil/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 type Props = {};
 
 function SideMenu({}: Props) {
+  const currentStudy = useRecoilValue(currentStudyState);
+  const { data: studyList } = useQuery({
+    queryKey: ['studyList'],
+    queryFn: getStudyList,
+  });
+
   return (
     <>
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
@@ -12,7 +22,7 @@ function SideMenu({}: Props) {
         <Profile />
 
         <div className="flex flex-col gap-[12px] mt-[108px]">
-          <button className="text-white text-start">새 스터디 만드리</button>
+          <button className="text-white text-start">새 스터디 만들기</button>
           <button className="text-white text-start">스터디 목록</button>
         </div>
 
@@ -22,7 +32,10 @@ function SideMenu({}: Props) {
 
         <div className="flex flex-col gap-[12px] mt-[20px]">
           <button className="text-white text-start">스터디 팀원</button>
-          <button className="text-white text-start">공지사항 작성</button>
+          {currentStudy.role === 'master' && (
+            <button className="text-white text-start">공지사항 작성</button>
+          )}
+
           <button className="text-white text-start">
             스터디 초대링크 복사
           </button>

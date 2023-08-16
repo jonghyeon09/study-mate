@@ -8,7 +8,7 @@ export interface Study {
   enabled: boolean;
   studyLeadUserId: number;
   description: string;
-  role: string;
+  role: 'master' | 'guest';
   openDate: string;
 }
 
