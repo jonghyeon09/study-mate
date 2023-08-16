@@ -1,19 +1,48 @@
 import Layout from '@/components/common/Layout';
 import useAuthKakao from '@/hooks/useAuthKakao';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { profile } from '@/types';
+import type { LoginUser, TokenResponse, profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
 import Splash from '@/components/Splash/Splash';
-import { useQuery } from '@tanstack/react-query';
-import { getStudyList } from '@/services';
+import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
+import { getLoginUser, getStudyList } from '@/services';
+import {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next';
+import axios from 'axios';
+import config from '@/config';
 
-export default function Login() {
+export const getServerSideProps: GetServerSideProps<{
+  loginUser: LoginUser;
+}> = async ({ query }: GetServerSidePropsContext) => {
+  const { code } = query;
+  const { data } = await axios<TokenResponse>({
+    method: 'post',
+    url: config.KAKAO_TOKEN_URL,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    data: {
+      grant_type: 'authorization_code',
+      client_id: config.KAKAO_API_KEY,
+      code,
+    },
+  });
+  const loginUser = await getLoginUser(data.access_token);
+
+  return { props: { loginUser } };
+};
+
+export default function Login({
+  loginUser,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [token, setToken] = useLocalStorage('token', '');
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  const { login } = useAuthKakao();
   const router = useRouter();
   const [profile, setProfile] = useLocalStorage<profile>('profile', {
     username: '',
@@ -27,26 +56,12 @@ export default function Login() {
   });
 
   useEffect(() => {
-    const handleLogin = async () => {
-      if (isLogin) return;
-      const { code } = router.query;
+    setToken(loginUser.token);
+    setProfile(loginUser.user);
+    setIsLogin(true);
 
-      if (code) {
-        const res = await login(code);
-        const newUser = res.isNew;
-
-        setToken(res.token);
-        setProfile(res.user);
-        setIsLogin(true);
-
-        if (newUser) router.push('/welcome');
-      }
-    };
-
-    if (!token) {
-      handleLogin();
-    }
-  }, [isLogin, login, router, setIsLogin, setProfile, setToken, token]);
+    if (loginUser.isNew) router.push('/welcome');
+  }, [loginUser, router, setIsLogin, setProfile, setToken]);
 
   useEffect(() => {
     if (token) {
@@ -57,10 +72,6 @@ export default function Login() {
   useEffect(() => {
     if (!studyList) return;
     if (studyList.study.length !== 0) {
-      // updateQuery('/study/[id]', {
-      //   id: studyList.userId,
-      //   study: studyList.study[0].studyId,
-      // });
       router.push({
         pathname: '/study/[id]',
         query: {
@@ -78,10 +89,4 @@ export default function Login() {
       <Splash />
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  return {
-    props: {},
-  };
 }
