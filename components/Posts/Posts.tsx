@@ -21,8 +21,8 @@ function Posts({ traceId, onClose }: Props) {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
   const { data: traceDetail } = useQuery({
-    queryKey: ['traceDetail', currentStudy.studyId, traceId],
-    queryFn: () => getTraceDetail(currentStudy.studyId, traceId),
+    queryKey: ['traceDetail', currentStudy?.studyId, traceId],
+    queryFn: () => getTraceDetail(currentStudy?.studyId, traceId),
     enabled: !!traceId,
   });
 

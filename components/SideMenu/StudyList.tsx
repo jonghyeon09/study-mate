@@ -18,9 +18,9 @@ function StudyList() {
     queryFn: getStudyList,
   });
   const { refetch } = useQuery({
-    queryKey: ['studyDetail', current.studyId],
-    queryFn: () => getStudyDetail(current.studyId),
-    enabled: !!current.studyId,
+    queryKey: ['studyDetail', current?.studyId],
+    queryFn: () => getStudyDetail(current?.studyId),
+    enabled: !!current?.studyId,
   });
 
   const handelSelectStudy = (study: Study) => {

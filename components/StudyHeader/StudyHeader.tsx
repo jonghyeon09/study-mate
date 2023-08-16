@@ -30,9 +30,9 @@ function StudyHeader({ children }: Props) {
     queryFn: getStudyList,
   });
   const { refetch } = useQuery({
-    queryKey: ['studyDetail', current.studyId],
-    queryFn: () => getStudyDetail(current.studyId),
-    enabled: !!current.studyId,
+    queryKey: ['studyDetail', current?.studyId],
+    queryFn: () => getStudyDetail(current?.studyId),
+    enabled: !!current?.studyId,
   });
 
   useOutsideClick(dropdownRef, () => {
@@ -76,7 +76,7 @@ function StudyHeader({ children }: Props) {
             whileTap={{ scale: 0.97 }}
             onClick={() => setIsOpen((prev) => !prev)}
           >
-            <p className="font-medium text-base">{current.description}</p>
+            <p className="font-medium text-base">{current?.description}</p>
             <motion.div
               variants={{
                 open: { rotate: 180 },

@@ -32,7 +32,7 @@ function SideMenu({}: Props) {
 
         <div className="flex flex-col gap-[12px] mt-[20px]">
           <button className="text-white text-start">스터디 팀원</button>
-          {currentStudy.role === 'master' && (
+          {currentStudy?.role === 'master' && (
             <button className="text-white text-start">공지사항 작성</button>
           )}
 
