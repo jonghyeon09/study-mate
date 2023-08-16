@@ -59,7 +59,7 @@ export default function Home() {
       <AnimatePresence>{isLogin && <Splash />}</AnimatePresence>
       {!isLogin && (
         <Layout className={SCDream.className}>
-          <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
             <Image src={logo} alt="logo" />
           </div>
           <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
