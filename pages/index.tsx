@@ -55,8 +55,8 @@ export default function Home() {
         description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
         themeColor="#4834C5"
       />
-      {isLoading && <Splash />}
-      {!studyList && (
+      {isLogin && <Splash />}
+      {!isLogin && (
         <Layout className={SCDream.className}>
           <div className="absolute top-[205px] left-1/2 -translate-x-1/2">
             <Image src={logo} alt="logo" />

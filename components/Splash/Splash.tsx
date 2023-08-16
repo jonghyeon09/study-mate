@@ -10,10 +10,9 @@ function Splash() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
+        className="flex items-center justify-center absolute w-full h-full bg-[--color-indigo]"
       >
-        <div className="flex items-center justify-center absolute w-full h-full bg-[--color-indigo]">
-          <Image alt="logo" src={logo} />
-        </div>
+        <Image alt="logo" src={logo} />
       </motion.div>
     </PopupLayout>
   );
