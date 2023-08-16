@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import useOutsideClick from '@/hooks/useOutsideClick';
 import { motion } from 'framer-motion';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
+import { memo } from 'react';
 
 type Props = {
   children?: React.ReactNode;
@@ -95,4 +96,4 @@ function StudyHeader({ children }: Props) {
   );
 }
 
-export default StudyHeader;
+export default memo(StudyHeader);

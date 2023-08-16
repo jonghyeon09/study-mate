@@ -1,7 +1,7 @@
 import Layout from '@/components/common/Layout';
 import { useQuery } from '@tanstack/react-query';
 import StudyHeader from '@/components/StudyHeader';
-import { getStudyList, getTraceList } from '@/services';
+import { getTraceList } from '@/services';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import Spinner from '@/components/common/Spinner';
 import { useRef, useState, useEffect } from 'react';
@@ -19,7 +19,13 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
-import { AnimatePresence } from 'framer-motion';
+import {
+  AnimatePresence,
+  motion,
+  stagger,
+  useAnimate,
+  Variants,
+} from 'framer-motion';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -33,6 +39,7 @@ function Study() {
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
+  const [scope, animate] = useAnimate();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const {
     isLoading,
@@ -118,6 +125,13 @@ function Study() {
     }
   }, [asPath, refechTraceList]);
 
+  const itemsVariants: Variants = {
+    visible: (custom) => ({
+      opacity: 1,
+      transition: { delay: custom * 0.2 },
+    }),
+  };
+
   return (
     <>
       <NextSeo
@@ -162,8 +176,8 @@ function Study() {
                 formatDay={handleFormatDay}
                 tileContent={tileClassName}
                 formatShortWeekday={shortWeekdayLabel}
-                prevLabel={<button>{'<'}</button>}
-                nextLabel={<button>{'>'}</button>}
+                prevLabel={'<'}
+                nextLabel={'>'}
               />
             )}
           </div>
@@ -172,7 +186,7 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디인증</p>
             </div>
-            <div className="flex flex-wrap gap-[12px]">
+            <ul className="flex flex-wrap gap-[12px]">
               {/* <div className="grid grid-cols-2 gap-[12px]"> */}
               <button
                 className="relative w-[165px] h-[204px]"
@@ -180,15 +194,25 @@ function Study() {
               >
                 <RandomImage />
               </button>
-              {traceList?.trace?.map((trace) => (
-                <div
+              {traceList?.trace?.map((trace, i) => (
+                <motion.li
                   key={trace.traceId}
                   className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
                   onClick={() => handleClickTrace(trace.traceId)}
+                  custom={i}
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: (custom) => ({
+                      opacity: 1,
+                      transition: { delay: custom * 0.1 },
+                    }),
+                  }}
                 >
                   {trace?.mainImage && (
-                    <div className="relative w-full h-full ">
-                      <Image alt="등록사진" src={trace.mainImage} fill></Image>
+                    <div className="relative w-full h-full">
+                      <Image alt="등록사진" src={trace.mainImage} fill />
                     </div>
                   )}
                   <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
@@ -197,9 +221,9 @@ function Study() {
                       {trace.writer}
                     </p>
                   </div>
-                </div>
+                </motion.li>
               ))}
-            </div>
+            </ul>
           </section>
         </Main>
 
