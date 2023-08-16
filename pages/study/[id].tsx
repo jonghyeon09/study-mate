@@ -19,6 +19,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
+import { AnimatePresence } from 'framer-motion';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
@@ -124,7 +125,7 @@ function Study() {
         description="스터디를 인증하세요"
         themeColor="#4834C5"
       />
-      {isLoading && <Splash />}
+      <AnimatePresence>{isLoading && <Splash />}</AnimatePresence>
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}
