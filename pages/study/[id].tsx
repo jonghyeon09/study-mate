@@ -10,7 +10,7 @@ import { SCDream } from '..';
 import Calendar from 'react-calendar';
 import Splash from '@/components/Splash/Splash';
 import { useRecoilState } from 'recoil';
-import { currentDateState } from '@/recoil/atoms';
+import { currentDateState, isOpenSideState } from '@/recoil/atoms';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
@@ -26,12 +26,14 @@ import {
   useAnimate,
   Variants,
 } from 'framer-motion';
+import SideMenu from '@/components/SideMenu/SideMenu';
 
 // type ValuePiece = Date | null;
 // type TCalendar = ValuePiece | [ValuePiece, ValuePiece];
 
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
+  const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -125,13 +127,6 @@ function Study() {
     }
   }, [asPath, refechTraceList]);
 
-  const itemsVariants: Variants = {
-    visible: (custom) => ({
-      opacity: 1,
-      transition: { delay: custom * 0.2 },
-    }),
-  };
-
   return (
     <>
       <NextSeo
@@ -139,16 +134,20 @@ function Study() {
         description="스터디를 인증하세요"
         themeColor="#4834C5"
       />
-      <AnimatePresence>{isLoading && <Splash />}</AnimatePresence>
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
       )}
-      <Layout className={`${SCDream.className}`}>
+      <Layout
+        className={`${SCDream.className} ${
+          isOpenSide ? 'overflow-y-hidden' : ''
+        }`}
+      >
         <StudyHeader />
         <Main>
+          {isOpenSide && <SideMenu />}
           {detailFeching || traceListFeching ? <Spinner /> : null}
 
           <div className="w-full px-[24px] mb-[16px] z-10">

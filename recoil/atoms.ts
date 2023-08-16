@@ -22,6 +22,12 @@ export const currentDateState = atom<string>({
   key: 'currentDate',
   default: '',
 });
+
+export const isOpenSideState = atom({
+  key: 'isOpenSide',
+  default: false,
+});
+
 // /**인증 게시글 */
 // export const currentTraceState = atom({
 //   key: 'currentTrace',

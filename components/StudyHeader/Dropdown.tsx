@@ -1,7 +1,6 @@
-import useOutsideClick from '@/hooks/useOutsideClick';
 import type { Study } from '@/types';
 import { motion } from 'framer-motion';
-import { RefObject, useRef } from 'react';
+import { useRef } from 'react';
 
 type Props = {
   isOpen: boolean;
