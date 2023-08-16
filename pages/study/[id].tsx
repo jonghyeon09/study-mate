@@ -162,8 +162,8 @@ function Study() {
                 formatDay={handleFormatDay}
                 tileContent={tileClassName}
                 formatShortWeekday={shortWeekdayLabel}
-                prevLabel={isLoading && <button>{'<'}</button>}
-                nextLabel={isLoading && <button>{'>'}</button>}
+                prevLabel={<button>{'<'}</button>}
+                nextLabel={<button>{'>'}</button>}
               />
             )}
           </div>
