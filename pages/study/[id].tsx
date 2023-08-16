@@ -212,7 +212,12 @@ function Study() {
                 >
                   {trace?.mainImage && (
                     <div className="relative w-full h-full">
-                      <Image alt="등록사진" src={trace.mainImage} fill />
+                      <Image
+                        alt="등록사진"
+                        src={trace.mainImage}
+                        fill
+                        objectFit="contain"
+                      />
                     </div>
                   )}
                   <div className="absolute bottom-0 left-0 w-full h-[80px] p-[12px] bg-black">
