@@ -19,6 +19,8 @@ function SideMenu({}: Props) {
     queryFn: getStudyList,
   });
 
+  const handleCreateStudy = () => setIsOpenCreate(true);
+
   return (
     <>
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
@@ -38,7 +40,9 @@ function SideMenu({}: Props) {
         <Profile />
 
         <div className="flex flex-col gap-[12px] mt-[108px]">
-          <button className="text-white text-start">새 스터디 만들기</button>
+          <button className="text-white text-start" onClick={handleCreateStudy}>
+            새 스터디 만들기
+          </button>
           <button className="text-white text-start">스터디 목록</button>
         </div>
 

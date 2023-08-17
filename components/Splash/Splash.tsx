@@ -1,7 +1,7 @@
 import logo from '@/public/icons/logo.png';
 import Image from 'next/image';
 import PopupLayout from '../common/PopupLayout';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 function Splash() {
   return (

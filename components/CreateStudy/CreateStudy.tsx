@@ -18,21 +18,22 @@ type Props = {
 
 function CreateStudy({ first = false, onClose }: Props) {
   const { value, onChange, reset } = useInput();
-  const { data, mutate } = useMutation(createStudy);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const { data, mutate } = useMutation(createStudy, {
+    onSuccess: () => alert('새로운 스터디가 생성되었습니다!'),
+  });
   const { push } = useRouter();
-  const { isFetching, data: studyList } = useQuery({
+  const { data: studyList } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
 
   const handleCreateStudy = () => {
     mutate({ description: value });
+    onClose();
   };
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
+    if (!first) return;
     if (data && studyList) {
       push({
         pathname: '/study/[id]',
@@ -42,7 +43,7 @@ function CreateStudy({ first = false, onClose }: Props) {
         },
       });
     }
-  }, [data, push, studyList]);
+  }, [data, first, push, studyList]);
 
   return (
     <Modal className="flex flex-col justify-between relative">

@@ -60,7 +60,7 @@ function StudyList() {
         </motion.div>
       </motion.button>
       <motion.ul
-        className="flex flex-col gap-[12px] absolute top-[36px] w-[192px] p-[12px] border-2 border-white rounded-md bg-black"
+        className="flex flex-col gap-[12px] absolute top-[36px] w-[192px] max-h-[30vh] overflow-y-auto p-[12px] border-2 border-white rounded-md bg-black"
         variants={{
           open: {
             clipPath: 'inset(0% 0% 0% 0%)',
