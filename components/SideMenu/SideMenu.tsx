@@ -5,10 +5,14 @@ import { getStudyList } from '@/services';
 import { currentStudyState } from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
+import CreateStudy from '../CreateStudy';
+import { createPortal } from 'react-dom';
+import { useState } from 'react';
 
 type Props = {};
 
 function SideMenu({}: Props) {
+  const [isOpenCreate, setIsOpenCreate] = useState(false);
   const currentStudy = useRecoilValue(currentStudyState);
   const { data: studyList } = useQuery({
     queryKey: ['studyList'],
@@ -18,6 +22,11 @@ function SideMenu({}: Props) {
   return (
     <>
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
+
+      {createPortal(
+        isOpenCreate && <CreateStudy onClose={() => setIsOpenCreate(false)} />,
+        document.body
+      )}
 
       <motion.nav
         className="w-[300px] h-[calc(100%-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
