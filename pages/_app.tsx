@@ -17,20 +17,22 @@ import { AnimatePresence } from 'framer-motion';
 export default function App({ Component, pageProps }: AppProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [queryClient] = useState(() => new QueryClient());
-  const { events } = useRouter();
+  const { events, query } = useRouter();
 
   useEffect(() => {
     const handleStart = () => setIsLoading(true);
     const handleComplete = () => setIsLoading(false);
 
-    events.on('routeChangeStart', handleStart);
-    events.on('routeChangeComplete', handleComplete);
-
-    return () => {
+    if (!query.study) {
       events.on('routeChangeStart', handleStart);
       events.on('routeChangeComplete', handleComplete);
+    }
+
+    return () => {
+      events.off('routeChangeStart', handleStart);
+      events.off('routeChangeComplete', handleComplete);
     };
-  }, [events]);
+  }, [events, query]);
 
   return (
     <RecoilRoot>
