@@ -47,7 +47,7 @@ function StudyList() {
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <p className="text-white text-start">스터디 명</p>
+        <p className="text-white text-start">{current?.description}</p>
         <motion.div
           variants={{
             open: { rotate: 180 },

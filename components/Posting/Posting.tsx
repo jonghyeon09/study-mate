@@ -123,11 +123,6 @@ function Posts({ onClick, onSave }: Props) {
 
     setIsActive(buttons);
   }, [previewImages]);
-  // console.log(
-  //   formState.inputField.length !== 0 && previewImages.length !== 0
-  //     ? true
-  //     : false
-  // );
 
   useEffect(() => {
     const input = formState.inputField.length === 0;

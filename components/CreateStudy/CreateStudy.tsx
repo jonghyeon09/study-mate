@@ -3,7 +3,7 @@ import Input from '../common/Input';
 import SaveButton from '../common/SaveButton';
 import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createStudy, getStudyList } from '@/services';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -18,8 +18,12 @@ type Props = {
 
 function CreateStudy({ first = false, onClose }: Props) {
   const { value, onChange, reset } = useInput();
+  const queryClient = useQueryClient();
   const { data, mutate } = useMutation(createStudy, {
-    onSuccess: () => alert('새로운 스터디가 생성되었습니다!'),
+    onSuccess: () => {
+      alert('새로운 스터디가 생성되었습니다!');
+      queryClient.invalidateQueries({ queryKey: ['studyList'] });
+    },
   });
   const { push } = useRouter();
   const { data: studyList } = useQuery({
