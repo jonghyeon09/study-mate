@@ -24,8 +24,9 @@ function Profile({}: Props) {
           <Image
             src={profile.profileImage}
             alt="프로필 사진"
-            fill
-            objectFit="contain"
+            width={60}
+            height={60}
+            style={{ objectFit: 'contain' }}
           />
         )}
       </div>

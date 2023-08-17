@@ -207,7 +207,7 @@ function Study() {
                         alt="등록사진"
                         src={trace.mainImage}
                         fill
-                        objectFit="contain"
+                        style={{ objectFit: 'contain' }}
                       />
                     </div>
                   )}
