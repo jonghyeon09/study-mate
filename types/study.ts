@@ -42,3 +42,16 @@ export interface StudyDetail {
   todaysTrace: TodaysTrace[];
   studyList: Pick<Study, 'studyId' | 'description'>;
 }
+
+export interface Attendance {
+  userId: number;
+  username: string;
+  profileImage: string | null;
+  master: boolean;
+}
+
+export interface Members {
+  status: string;
+  studyId: string;
+  attendance: Attendance[];
+}
