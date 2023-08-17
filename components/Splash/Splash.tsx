@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 
 function Splash() {
   return (
-    <PopupLayout>
+    <PopupLayout key={'splash'}>
       <motion.div
         initial={false}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
+        transition={{ duration: 0.5 }}
         className="flex items-center justify-center absolute w-full h-full bg-[--color-indigo]"
       >
         <Image alt="logo" src={logo} />

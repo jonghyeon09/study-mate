@@ -84,9 +84,5 @@ export default function Login({
     }
   }, [studyList, router]);
 
-  return (
-    <Layout>
-      <Splash />
-    </Layout>
-  );
+  return <Splash />;
 }

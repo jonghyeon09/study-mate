@@ -12,6 +12,7 @@ import { SCDream } from './index';
 import { isLoginState } from '@/recoil/atoms';
 import { useRecoilState } from 'recoil';
 import { NextSeo } from 'next-seo';
+import { createPortal } from 'react-dom';
 
 export default function Welcome() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -19,6 +20,7 @@ export default function Welcome() {
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const [underLineWidth, setUnderLineWidth] = useState(0);
+  const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
   const router = useRouter();
   const pRef = useRef<HTMLParagraphElement>(null);
 
@@ -38,6 +40,13 @@ export default function Welcome() {
       setUnderLineWidth(pRef.current.clientWidth - 6);
     }
   }, [userName]);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (body) {
+      setPotalEl(body);
+    }
+  }, []);
 
   return (
     <>
@@ -63,8 +72,11 @@ export default function Welcome() {
         <Button className="mt-[36px]" onClick={() => setOpen(true)}>
           <p className="text-white font-bold">스터디 시작하기</p>
         </Button>
-
-        {open && <CreateStudy first onClose={() => setOpen(false)} />}
+        {potalEl &&
+          createPortal(
+            open && <CreateStudy first onClose={() => setOpen(false)} />,
+            document.body
+          )}
       </Layout>
     </>
   );

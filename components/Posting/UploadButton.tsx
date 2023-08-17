@@ -30,7 +30,12 @@ function UploadButton({ isActive = false, src, onClick, onRemove }: Props) {
             className="absolute top-0 right-0 z-50"
             onClick={onRemove}
           />
-          <Image alt="업로드 사진" src={src} fill objectFit="contain" />
+          <Image
+            alt="업로드 사진"
+            src={src}
+            fill
+            style={{ objectFit: 'contain' }}
+          />
         </>
       )}
     </>

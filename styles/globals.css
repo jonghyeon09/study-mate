@@ -14,6 +14,10 @@
   :root {
   }
 } */
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
 @layer text {
   p,
   span {

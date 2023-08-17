@@ -38,7 +38,7 @@ function StudyList() {
 
   return (
     <motion.div
-      className="relative"
+      className="relative z-10"
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
     >
@@ -47,7 +47,7 @@ function StudyList() {
         whileTap={{ scale: 0.97 }}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <p className="text-white text-start">스터디 명</p>
+        <p className="text-white text-start">{current?.description}</p>
         <motion.div
           variants={{
             open: { rotate: 180 },
@@ -60,7 +60,7 @@ function StudyList() {
         </motion.div>
       </motion.button>
       <motion.ul
-        className="flex flex-col gap-[12px] absolute top-[36px] w-[192px] p-[12px] border-2 border-white rounded-md bg-black"
+        className="flex flex-col gap-[12px] absolute top-[36px] w-[192px] max-h-[30vh] overflow-y-auto p-[12px] border-2 border-white rounded-md bg-black"
         variants={{
           open: {
             clipPath: 'inset(0% 0% 0% 0%)',

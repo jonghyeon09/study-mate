@@ -18,7 +18,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 
 // type ValuePiece = Date | null;
@@ -126,20 +126,23 @@ function Study() {
         description="스터디를 인증하세요"
         themeColor="#4834C5"
       />
+
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
       )}
+
       <Layout
         className={`${SCDream.className} ${
           isOpenSide ? 'overflow-y-hidden' : ''
         }`}
       >
         <StudyHeader />
+
         <Main>
-          {isOpenSide && <SideMenu />}
+          <AnimatePresence>{isOpenSide && <SideMenu />}</AnimatePresence>
           {detailFeching || traceListFeching ? <Spinner /> : null}
 
           <div className="w-full px-[24px] mb-[16px] z-10">
@@ -207,7 +210,7 @@ function Study() {
                         alt="등록사진"
                         src={trace.mainImage}
                         fill
-                        objectFit="contain"
+                        style={{ objectFit: 'contain' }}
                       />
                     </div>
                   )}
