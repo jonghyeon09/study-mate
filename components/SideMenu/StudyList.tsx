@@ -38,7 +38,7 @@ function StudyList() {
 
   return (
     <motion.div
-      className="relative"
+      className="relative z-10"
       initial={false}
       animate={isOpen ? 'open' : 'closed'}
     >

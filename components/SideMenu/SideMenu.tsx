@@ -4,6 +4,7 @@ import StudyList from './StudyList';
 import { getStudyList } from '@/services';
 import { currentStudyState } from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { motion } from 'framer-motion';
 
 type Props = {};
 
@@ -18,7 +19,13 @@ function SideMenu({}: Props) {
     <>
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
-      <nav className="w-[300px] h-[calc(100%-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50">
+      <motion.nav
+        className="w-[300px] h-[calc(100%-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
+        initial={{ translateX: '100%' }}
+        animate={{ translateX: 0 }}
+        exit={{ translateX: '100%' }}
+        transition={{ duration: 0.3 }}
+      >
         <Profile />
 
         <div className="flex flex-col gap-[12px] mt-[108px]">
@@ -44,7 +51,7 @@ function SideMenu({}: Props) {
         <button className="absolute bottom-[60px] text-white text-start">
           로그아웃
         </button>
-      </nav>
+      </motion.nav>
     </>
   );
 }

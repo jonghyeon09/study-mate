@@ -18,7 +18,7 @@ import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 
 // type ValuePiece = Date | null;
@@ -139,7 +139,7 @@ function Study() {
       >
         <StudyHeader />
         <Main>
-          {isOpenSide && <SideMenu />}
+          <AnimatePresence>{isOpenSide && <SideMenu />}</AnimatePresence>
           {detailFeching || traceListFeching ? <Spinner /> : null}
 
           <div className="w-full px-[24px] mb-[16px] z-10">
