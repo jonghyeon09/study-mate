@@ -21,8 +21,7 @@ export const isOpenSideState = atom({
   default: false,
 });
 
-// /**인증 게시글 */
-// export const currentTraceState = atom({
-//   key: 'currentTrace',
-//   studyId:
-// });
+export const isOpenMembersState = atom({
+  key: 'isOpenMembers',
+  default: false,
+});

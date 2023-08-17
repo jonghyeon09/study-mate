@@ -126,18 +126,21 @@ function Study() {
         description="스터디를 인증하세요"
         themeColor="#4834C5"
       />
+
       {isOpenPosting && (
         <Posting
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
       )}
+
       <Layout
         className={`${SCDream.className} ${
           isOpenSide ? 'overflow-y-hidden' : ''
         }`}
       >
         <StudyHeader />
+
         <Main>
           <AnimatePresence>{isOpenSide && <SideMenu />}</AnimatePresence>
           {detailFeching || traceListFeching ? <Spinner /> : null}

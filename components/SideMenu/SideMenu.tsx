@@ -2,17 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import Profile from './Profile';
 import StudyList from './StudyList';
 import { getStudyList } from '@/services';
-import { currentStudyState } from '@/recoil/atoms';
+import { currentStudyState, isOpenMembersState } from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
 import CreateStudy from '../CreateStudy';
 import { createPortal } from 'react-dom';
 import { useState } from 'react';
+import MemberList from '../MemberList/MemberList';
 
 type Props = {};
 
 function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
   const currentStudy = useRecoilValue(currentStudyState);
   const { data: studyList } = useQuery({
     queryKey: ['studyList'],
@@ -23,6 +25,7 @@ function SideMenu({}: Props) {
 
   return (
     <>
+      {isOpenMembers && <MemberList />}
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
       {createPortal(
@@ -46,12 +49,19 @@ function SideMenu({}: Props) {
           <button className="text-white text-start">스터디 목록</button>
         </div>
 
-        <h1 className="text-white text-2xl font-bold mt-[24px]">관리</h1>
+        <h1 className="text-white text-2xl font-bold mt-[24px] mb-[8px]">
+          관리
+        </h1>
 
         <StudyList />
 
         <div className="flex flex-col gap-[12px] mt-[20px]">
-          <button className="text-white text-start">스터디 팀원</button>
+          <button
+            className="text-white text-start"
+            onClick={() => setIsOpenMembers(true)}
+          >
+            스터디 팀원
+          </button>
           {currentStudy?.role === 'master' && (
             <button className="text-white text-start">공지사항 작성</button>
           )}
