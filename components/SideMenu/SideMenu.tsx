@@ -7,7 +7,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
 import CreateStudy from '../CreateStudy';
 import { createPortal } from 'react-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList/MemberList';
 
 type Props = {};
@@ -90,4 +90,4 @@ function SideMenu({}: Props) {
   );
 }
 
-export default SideMenu;
+export default memo(SideMenu);

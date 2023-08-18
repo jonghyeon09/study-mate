@@ -11,9 +11,9 @@ export const currentStudyState = atom<Study | undefined>({
   default: undefined,
 });
 /**캘린더 날짜 선택 */
-export const currentDateState = atom<string>({
+export const currentDateState = atom<string | undefined>({
   key: 'currentDate',
-  default: '',
+  default: undefined,
 });
 
 export const isOpenSideState = atom({
