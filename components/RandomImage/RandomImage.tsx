@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Image1 from '@/public/icons/trace_btn.png';
 import Image2 from '@/public/icons/trace_btn_2.png';
 import Image3 from '@/public/icons/trace_btn_3.png';
@@ -10,7 +11,9 @@ function RandomImage() {
 
   const selectedImage = images[randomIndex];
 
-  return <Image alt="인증등록버튼" src={selectedImage} />;
+  return (
+    <Image alt="인증등록버튼" src={selectedImage} width={165} height={204} />
+  );
 }
 
-export default RandomImage;
+export default memo(RandomImage);

@@ -52,7 +52,17 @@ function Posts({ traceId, onClose }: Props) {
           <SwiperSlide key={i}>
             <div className="relative w-full h-full">
               {image && (
-                <Image alt="스터디 사진" src={image} fill objectFit="contain" />
+                <Image
+                  alt="스터디 사진"
+                  src={image}
+                  width={290}
+                  height={294}
+                  style={{
+                    objectFit: 'contain',
+                    // width: 'auto',
+                    // height: 'auto',
+                  }}
+                />
               )}
             </div>
           </SwiperSlide>
