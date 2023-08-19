@@ -25,3 +25,8 @@ export const isOpenMembersState = atom({
   key: 'isOpenMembers',
   default: false,
 });
+
+export const isOpenStudyListState = atom({
+  key: 'isOpenStudyList',
+  default: false,
+});
