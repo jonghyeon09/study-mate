@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import { Study } from '@/types';
 
-function StudyList() {
+function StudyDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [current, setCurrent] = useRecoilState(currentStudyState);
   const { query, pathname, push } = useRouter();
@@ -97,4 +97,4 @@ function StudyList() {
   );
 }
 
-export default StudyList;
+export default StudyDropdown;
