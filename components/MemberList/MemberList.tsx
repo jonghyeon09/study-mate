@@ -9,6 +9,7 @@ import { getMembers } from '@/services/getMembers';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import solo from '@/public/icons/solo.png';
+import { memo } from 'react';
 
 function MemberList() {
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
@@ -70,4 +71,4 @@ function MemberList() {
   );
 }
 
-export default MemberList;
+export default memo(MemberList);

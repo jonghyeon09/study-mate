@@ -5,11 +5,8 @@ import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createStudy, getStudyList } from '@/services';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import { useRouter } from 'next/router';
-import { isLoginState } from '@/recoil/atoms';
-import { useRecoilState } from 'recoil';
-import { getStudyDetail } from '@/services/getStudyDetail';
 
 type Props = {
   first?: boolean;
@@ -79,4 +76,4 @@ function CreateStudy({ first = false, onClose }: Props) {
   );
 }
 
-export default CreateStudy;
+export default memo(CreateStudy);
