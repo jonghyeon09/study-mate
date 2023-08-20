@@ -9,6 +9,7 @@ import { getMembers } from '@/services/getMembers';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import solo from '@/public/icons/solo.png';
+import { memo } from 'react';
 
 function MemberList() {
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
@@ -29,8 +30,8 @@ function MemberList() {
           </div>
         </Header>
 
-        <Main className="flex bg-white p-[24px] overflow-y-auto">
-          <ul className="flex flex-col flex-1 ">
+        <Main className="flex bg-white overflow-y-auto">
+          <ul className="flex flex-col flex-1 gap-[12px] py-[24px]">
             {members && members.attendance.length <= 1 && (
               <div className="w-full flex flex-col items-center absolute top-1/3 left-0">
                 <div className="w-full h-[180px] relative">
@@ -48,17 +49,11 @@ function MemberList() {
               members.attendance.length >= 2 &&
               members.attendance.map((member) =>
                 member.master ? (
-                  <li
-                    key={member.userId}
-                    className="flex items-center h-[54px] px-[12px] input-shadow text-xl"
-                  >
+                  <li key={member.userId} className="popup-list">
                     운영자: {member.username}
                   </li>
                 ) : (
-                  <li
-                    key={member.userId}
-                    className="flex items-center h-[54px] px-[12px] input-shadow text-xl"
-                  >
+                  <li key={member.userId} className="popup-list">
                     {member.username}
                   </li>
                 )
@@ -70,4 +65,4 @@ function MemberList() {
   );
 }
 
-export default MemberList;
+export default memo(MemberList);

@@ -1,19 +1,26 @@
 import { useQuery } from '@tanstack/react-query';
 import Profile from './Profile';
-import StudyList from './StudyList';
+import StudyDropdown from './StudyDropdown';
 import { getStudyList } from '@/services';
-import { currentStudyState, isOpenMembersState } from '@/recoil/atoms';
+import {
+  currentStudyState,
+  isOpenMembersState,
+  isOpenStudyListState,
+} from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { motion } from 'framer-motion';
 import CreateStudy from '../CreateStudy';
 import { createPortal } from 'react-dom';
 import { useState, useEffect, memo } from 'react';
-import MemberList from '../MemberList/MemberList';
+import MemberList from '../MemberList';
+import StudyList from '../StudyList';
 
 type Props = {};
 
 function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [isOpenStudyList, setIsOpenStudyList] =
+    useRecoilState(isOpenStudyListState);
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
   const currentStudy = useRecoilValue(currentStudyState);
@@ -21,8 +28,6 @@ function SideMenu({}: Props) {
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-
-  const handleCreateStudy = () => setIsOpenCreate(true);
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -34,8 +39,7 @@ function SideMenu({}: Props) {
   return (
     <>
       {isOpenMembers && <MemberList />}
-      <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
-
+      {isOpenStudyList && <StudyList />}
       {potalEl &&
         createPortal(
           isOpenCreate && (
@@ -43,6 +47,7 @@ function SideMenu({}: Props) {
           ),
           document.body
         )}
+      <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
       <motion.nav
         className="w-[300px] h-[calc(100%-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
@@ -54,17 +59,25 @@ function SideMenu({}: Props) {
         <Profile />
 
         <div className="flex flex-col gap-[12px] mt-[108px]">
-          <button className="text-white text-start" onClick={handleCreateStudy}>
+          <button
+            className="text-white text-start"
+            onClick={() => setIsOpenCreate(true)}
+          >
             새 스터디 만들기
           </button>
-          <button className="text-white text-start">스터디 목록</button>
+          <button
+            className="text-white text-start"
+            onClick={() => setIsOpenStudyList(true)}
+          >
+            스터디 목록
+          </button>
         </div>
 
         <h1 className="text-white text-2xl font-bold mt-[24px] mb-[8px]">
           관리
         </h1>
 
-        <StudyList />
+        <StudyDropdown />
 
         <div className="flex flex-col gap-[12px] mt-[20px]">
           <button

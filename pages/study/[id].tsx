@@ -31,7 +31,7 @@ function Study() {
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
-  const ulRef = useRef(null);
+  const ulRef = useRef<HTMLUListElement>(null);
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const {
     isLoading,
@@ -42,32 +42,11 @@ function Study() {
     queryFn: () => getStudyDetail(studyId),
     enabled: !!studyId,
   });
-  // const {
-  //   isFetching: traceListFeching,
-  //   refetch: refechTraceList,
-  //   data: traceList,
-  // } = useQuery({
-  //   queryKey: ['traceList', currentDate],
-  //   queryFn: () =>
-  //     getTraceList({
-  //       studyId: studyId,
-  //       params: {
-  //         date: currentDate,
-  //         page: 1,
-  //       },
-  //     }),
-  //   enabled: !!currentDate,
-  // });
   const {
     data: infiniteTraceList,
     refetch: refechTraceList,
     isFetching: isFetchingTraceList,
-    error,
     fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
   } = useInfiniteQuery({
     queryKey: ['traceList', currentDate],
     queryFn: ({ pageParam = 1 }) =>
@@ -83,12 +62,6 @@ function Study() {
     },
     enabled: !!currentDate,
   });
-
-  const onIntersect = useCallback(async () => {
-    await fetchNextPage();
-  }, [fetchNextPage]);
-
-  // const target = useIntersectionObserver(onIntersect);
 
   const tileClassName = ({ date, view }: any) => {
     if (view !== 'month') return null;
@@ -161,7 +134,8 @@ function Study() {
   }, [setCurrentDate]);
 
   useEffect(() => {
-    if (!infiniteTraceList?.pages) return;
+    if (!ulRef.current) return;
+    if (!infiniteTraceList) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -176,9 +150,7 @@ function Study() {
       }
     );
 
-    if (ulRef.current) {
-      observer.observe(ulRef.current);
-    }
+    observer.observe(ulRef.current);
 
     return () => observer.disconnect();
   }, [fetchNextPage, infiniteTraceList]);

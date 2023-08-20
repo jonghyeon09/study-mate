@@ -49,6 +49,10 @@ body {
   @apply font-medium text-sm text-[--color-gray2];
 }
 
+.popup-list {
+  @apply flex items-center h-[54px] px-[12px] input-shadow text-xl;
+}
+
 .custom-pagination {
   @apply relative w-full flex justify-center items-center h-[16px] my-[17px] !important;
 }

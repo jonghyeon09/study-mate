@@ -3,56 +3,27 @@ import Input from '../common/Input';
 import SaveButton from '../common/SaveButton';
 import CloseIcon from '../icons/CloseIcon';
 import useInput from '@/hooks/useInput';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createStudy, getStudyList } from '@/services';
 import { useEffect, memo } from 'react';
-import { useRouter } from 'next/router';
 
 type Props = {
-  first?: boolean;
   onClose: () => void;
+  onUpdate: () => void;
+  setRename: (name: string) => void;
 };
 
-function CreateStudy({ first = false, onClose }: Props) {
+function UpdateStudy({ onClose, onUpdate, setRename }: Props) {
   const { value, onChange, reset } = useInput();
-  const queryClient = useQueryClient();
-  const { data, mutate } = useMutation(createStudy, {
-    onSuccess: () => {
-      alert('새로운 스터디가 생성되었습니다!');
-      queryClient.invalidateQueries({ queryKey: ['studyList'] });
-    },
-  });
-  const { push } = useRouter();
-  const { data: studyList } = useQuery({
-    queryKey: ['studyList'],
-    queryFn: getStudyList,
-  });
-
-  const handleCreateStudy = () => {
-    mutate({ description: value });
-    onClose();
-  };
 
   useEffect(() => {
-    if (!first) return;
-    if (data && studyList) {
-      push({
-        pathname: '/study/[id]',
-        query: {
-          id: studyList.userId,
-          study: studyList.study[0].studyId,
-        },
-      });
-    }
-  }, [data, first, push, studyList]);
+    setRename(value);
+  }, [setRename, value]);
 
   return (
     <Modal className="flex flex-col justify-between relative">
       <CloseIcon onClick={onClose} className="absolute top-3 right-3" />
       <div className="flex items-end h-[48px] py-[6px]">
         <p className="font-medium text-[20px] leading-[16px]">
-          {first && '스터디 시작하기'}
-          {!first && '새 스터디 만들기'}
+          스터디 수정하기
         </p>
       </div>
       <div className="mt-auto">
@@ -68,7 +39,7 @@ function CreateStudy({ first = false, onClose }: Props) {
           maxLength={10}
           reset={reset}
         />
-        <SaveButton onClick={handleCreateStudy} disabled={value.length == 0}>
+        <SaveButton onClick={onUpdate} disabled={value.length == 0}>
           저장하기
         </SaveButton>
       </div>
@@ -76,4 +47,4 @@ function CreateStudy({ first = false, onClose }: Props) {
   );
 }
 
-export default memo(CreateStudy);
+export default memo(UpdateStudy);
