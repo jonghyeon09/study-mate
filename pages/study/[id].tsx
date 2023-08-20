@@ -4,7 +4,7 @@ import StudyHeader from '@/components/StudyHeader';
 import { getTraceList } from '@/services';
 import { getStudyDetail } from '@/services/getStudyDetail';
 import Spinner from '@/components/common/Spinner';
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
@@ -31,7 +31,7 @@ function Study() {
   const [date, setDate] = useState(new Date());
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
-  const ulRef = useRef<HTMLUListElement>(null);
+  const observerRef = useRef(null);
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const {
     isLoading,
@@ -102,14 +102,6 @@ function Study() {
     setIsOpenDetail(true);
   };
 
-  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
-    const { scrollTop, clientHeight, scrollHeight } = e.currentTarget;
-
-    if (scrollTop + clientHeight == scrollHeight) {
-      fetchNextPage();
-    }
-  };
-
   useEffect(() => {
     if (lineRef.current) {
       setUnderLineWidth(lineRef.current.offsetWidth + 2);
@@ -134,7 +126,7 @@ function Study() {
   }, [setCurrentDate]);
 
   useEffect(() => {
-    if (!ulRef.current) return;
+    if (!observerRef.current) return;
     if (!infiniteTraceList) return;
 
     const observer = new IntersectionObserver(
@@ -150,7 +142,7 @@ function Study() {
       }
     );
 
-    observer.observe(ulRef.current);
+    observer.observe(observerRef.current);
 
     return () => observer.disconnect();
   }, [fetchNextPage, infiniteTraceList]);
@@ -216,7 +208,7 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디인증</p>
             </div>
-            <ul ref={ulRef} className="flex flex-wrap gap-[12px]">
+            <ul className="flex flex-wrap gap-[12px]">
               {/* <div className="grid grid-cols-2 gap-[12px]"> */}
               {currentDate == dayjs().format('YYYY-MM-DD') && (
                 <button
@@ -231,6 +223,7 @@ function Study() {
                 traceList.trace.map((trace) => (
                   <motion.li
                     key={trace.traceId}
+                    ref={observerRef}
                     className="relative w-[165px] max-w-full h-[204px] bg-white border-2 border-black rounded-md p-[12px] cursor-pointer"
                     onClick={() => handleClickTrace(trace.traceId)}
                     custom={i}
