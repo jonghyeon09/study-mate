@@ -9,7 +9,7 @@ function Modal({ children, className = '' }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-[999]">
+    <div className="fixed inset-0 flex items-center justify-center z-[1000]">
       <div className={`modal border-shadow ${className}`}>{children}</div>
       <div
         className="absolute inset-0 bg-black opacity-50"
