@@ -1,10 +1,6 @@
-import {
-  currentStudyState,
-  isOpenStudyListState,
-  selectedStudyIdState,
-} from '@/recoil/atoms';
+import { currentStudyState, isOpenStudyListState } from '@/recoil/atoms';
 import { getStudyList } from '@/services';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';
 import PopupLayout from '../common/PopupLayout';
 import Layout from '../common/Layout';
