@@ -9,7 +9,7 @@ type Data = {
   };
 };
 
-export const deleteStudy = async ({ params }: Data) => {
+export const exitStudy = async ({ params }: Data) => {
   try {
     const response = await apiClient.delete<Data>(
       `/study/${params.studyId}/attendance`
