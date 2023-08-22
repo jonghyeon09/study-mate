@@ -1,8 +1,5 @@
 import apiClient from './apiClient';
 
-/**
- * description: 스터디 이름
- */
 type Data = {
   params: {
     studyId: string;
