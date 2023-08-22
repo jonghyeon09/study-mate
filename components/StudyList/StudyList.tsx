@@ -1,4 +1,4 @@
-import { currentStudyState, isOpenStudyListState } from '@/recoil/atoms';
+import { isOpenStudyListState } from '@/recoil/atoms';
 import { getStudyList } from '@/services';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRecoilState } from 'recoil';

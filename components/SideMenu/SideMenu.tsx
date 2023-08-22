@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import Profile from './Profile';
 import StudyDropdown from './StudyDropdown';
-import { getStudyList } from '@/services';
 import {
   currentStudyState,
+  isCopyState,
   isLoginState,
   isOpenMembersState,
+  isOpenSideState,
   isOpenStudyListState,
 } from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -15,16 +15,16 @@ import { createPortal } from 'react-dom';
 import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
-import { useRouter } from 'next/router';
 import { getInviteCode } from '@/services/getInviteCode';
 
 type Props = {};
 
 function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [isOpenStudyList, setIsOpenStudyList] =
     useRecoilState(isOpenStudyListState);
+  const setIsOpenSide = useSetRecoilState(isOpenSideState);
+  const setIsCopy = useSetRecoilState(isCopyState);
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
   const currentStudy = useRecoilValue(currentStudyState);
@@ -45,7 +45,8 @@ function SideMenu({}: Props) {
     });
 
     await navigator.clipboard.writeText(code);
-    setCopied(true);
+    setIsCopy(true);
+    setIsOpenSide(false);
   };
 
   useEffect(() => {

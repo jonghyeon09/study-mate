@@ -1,7 +1,6 @@
 import Layout from '@/components/common/Layout';
 import {
   useInfiniteQuery,
-  useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
@@ -16,6 +15,7 @@ import Calendar from 'react-calendar';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   currentDateState,
+  isCopyState,
   isLoginState,
   isOpenSideState,
 } from '@/recoil/atoms';
@@ -29,10 +29,12 @@ import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
 import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
+import Toast from '@/components/common/Toast';
 
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
+  const [isCopy, setIsCopy] = useRecoilState(isCopyState);
   const isLogin = useRecoilValue(isLoginState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
@@ -166,6 +168,16 @@ function Study() {
     }
   }, [isLogin, queryClient, replace]);
 
+  useEffect(() => {
+    if (isCopy) {
+      const timer = setTimeout(() => {
+        setIsCopy(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isCopy, setIsCopy]);
+
   return (
     <>
       <NextSeo
@@ -180,6 +192,7 @@ function Study() {
           onSave={() => setIsOpenPosting(false)}
         />
       )}
+      {isCopy && <Toast>팀원 초대하기 링크가 복사되었습니다</Toast>}
 
       <Layout
         className={`${SCDream.className} ${
