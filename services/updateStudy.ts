@@ -14,10 +14,7 @@ type Data = {
 
 export const updateStudy = async ({ params, data }: Data) => {
   try {
-    const response = await apiClient.patch<Data>(
-      `/study/${params.studyId}`,
-      data
-    );
+    const response = await apiClient.patch(`/study/${params.studyId}`, data);
     return response.data;
   } catch (error) {
     alert('이름 변경 실패');

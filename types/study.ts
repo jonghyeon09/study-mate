@@ -55,3 +55,8 @@ export interface Members {
   studyId: string;
   attendance: Attendance[];
 }
+
+export interface Invite {
+  status: string;
+  code: string;
+}

@@ -16,11 +16,13 @@ import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
 import { useRouter } from 'next/router';
+import { getInviteCode } from '@/services/getInviteCode';
 
 type Props = {};
 
 function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isOpenStudyList, setIsOpenStudyList] =
     useRecoilState(isOpenStudyListState);
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
@@ -31,6 +33,19 @@ function SideMenu({}: Props) {
   const handleLogout = () => {
     localStorage.clear();
     setIsLoginState(false);
+  };
+
+  const handleCopy = async () => {
+    if (!currentStudy) return;
+
+    const { code } = await getInviteCode({
+      params: {
+        studyId: currentStudy?.studyId,
+      },
+    });
+
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
   };
 
   useEffect(() => {
@@ -94,7 +109,7 @@ function SideMenu({}: Props) {
             <button className="text-white text-start">공지사항 작성</button>
           )}
 
-          <button className="text-white text-start">
+          <button className="text-white text-start" onClick={handleCopy}>
             스터디 초대링크 복사
           </button>
         </div>
