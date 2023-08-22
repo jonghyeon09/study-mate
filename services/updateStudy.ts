@@ -1,4 +1,3 @@
-import type { CreateStudy } from '@/types';
 import apiClient from './apiClient';
 
 /**
