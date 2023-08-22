@@ -13,7 +13,6 @@ import useOutsideClick from '@/hooks/useOutsideClick';
 import { motion } from 'framer-motion';
 import ArrowDownIcon from '../icons/ArrowDownIcon';
 import { memo } from 'react';
-import SideMenu from '../SideMenu/SideMenu';
 
 type Props = {
   children?: React.ReactNode;

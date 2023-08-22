@@ -1,5 +1,10 @@
 import Layout from '@/components/common/Layout';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import StudyHeader from '@/components/StudyHeader';
 import { getTraceList } from '@/services';
 import { getStudyDetail } from '@/services/getStudyDetail';
@@ -8,8 +13,12 @@ import { useRef, useState, useEffect } from 'react';
 import UnderLine from '@/components/common/UnderLine';
 import { SCDream } from '..';
 import Calendar from 'react-calendar';
-import { useRecoilState } from 'recoil';
-import { currentDateState, isOpenSideState } from '@/recoil/atoms';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  currentDateState,
+  isLoginState,
+  isOpenSideState,
+} from '@/recoil/atoms';
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
@@ -24,6 +33,7 @@ import SideMenu from '@/components/SideMenu/SideMenu';
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
+  const isLogin = useRecoilValue(isLoginState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
@@ -32,7 +42,9 @@ function Study() {
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
   const observerRef = useRef(null);
+  const { replace } = useRouter();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
+  const queryClient = useQueryClient();
   const {
     isLoading,
     isFetching: detailFeching,
@@ -146,6 +158,13 @@ function Study() {
 
     return () => observer.disconnect();
   }, [fetchNextPage, infiniteTraceList]);
+
+  useEffect(() => {
+    if (!isLogin) {
+      queryClient.removeQueries({ queryKey: ['studyList'], exact: true });
+      replace('/');
+    }
+  }, [isLogin, queryClient, replace]);
 
   return (
     <>

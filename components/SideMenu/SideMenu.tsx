@@ -4,16 +4,18 @@ import StudyDropdown from './StudyDropdown';
 import { getStudyList } from '@/services';
 import {
   currentStudyState,
+  isLoginState,
   isOpenMembersState,
   isOpenStudyListState,
 } from '@/recoil/atoms';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
 import CreateStudy from '../CreateStudy';
 import { createPortal } from 'react-dom';
 import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
+import { useRouter } from 'next/router';
 
 type Props = {};
 
@@ -24,10 +26,12 @@ function SideMenu({}: Props) {
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
   const currentStudy = useRecoilValue(currentStudyState);
-  const { data: studyList } = useQuery({
-    queryKey: ['studyList'],
-    queryFn: getStudyList,
-  });
+  const setIsLoginState = useSetRecoilState(isLoginState);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    setIsLoginState(false);
+  };
 
   useEffect(() => {
     const body = document.querySelector('body');
@@ -50,7 +54,7 @@ function SideMenu({}: Props) {
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
       <motion.nav
-        className="w-[300px] h-[calc(100%-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
+        className="w-[300px] h-[calc(100vh-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
         initial={{ translateX: '100%' }}
         animate={{ translateX: 0 }}
         exit={{ translateX: '100%' }}
@@ -95,7 +99,10 @@ function SideMenu({}: Props) {
           </button>
         </div>
 
-        <button className="absolute bottom-[60px] text-white text-start">
+        <button
+          className="absolute bottom-[60px] text-white text-start"
+          onClick={handleLogout}
+        >
           로그아웃
         </button>
       </motion.nav>
