@@ -38,15 +38,18 @@ function Dropdown({ isOpen, studyList, onClick }: Props) {
         }}
         style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
       >
-        {studyList?.map((study) => (
-          <motion.li
-            className="cursor-pointer p-[12px] hover:bg-gray-100"
-            key={study.studyId}
-            onClick={() => onClick(study)}
-          >
-            {study.description}
-          </motion.li>
-        ))}
+        {studyList?.map(
+          (study) =>
+            study.enabled && (
+              <motion.li
+                className="cursor-pointer p-[12px] hover:bg-gray-100"
+                key={study.studyId}
+                onClick={() => onClick(study)}
+              >
+                {study.description}
+              </motion.li>
+            )
+        )}
       </motion.ul>
     </>
   );

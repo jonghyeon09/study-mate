@@ -11,6 +11,8 @@ import { updateStudy } from '@/services/updateStudy';
 import { useState, memo } from 'react';
 import { createPortal } from 'react-dom';
 import UpdateStudy from './UpdateStudy';
+import { exitStudy } from '@/services/exitStudy';
+import { deleteStudy } from '@/services/deleteStudy';
 
 function StudyList() {
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
@@ -18,12 +20,17 @@ function StudyList() {
   const [selectedStudyId, setSelectedStudyId] = useState<string>();
   const [isOpenStudyList, setIsOpenStudyList] =
     useRecoilState(isOpenStudyListState);
-  const [currentStudy, setCurrentStudy] = useRecoilState(currentStudyState);
   const { data: studyList, refetch } = useQuery({
     queryKey: ['studyList'],
     queryFn: getStudyList,
   });
-  const { mutate } = useMutation(updateStudy, {
+  const { mutate: mutateUpdate } = useMutation(updateStudy, {
+    onSuccess: () => refetch(),
+  });
+  const { mutate: mutateDelete } = useMutation(deleteStudy, {
+    onSuccess: () => refetch(),
+  });
+  const { mutate: mutateExit } = useMutation(exitStudy, {
     onSuccess: () => refetch(),
   });
 
@@ -32,7 +39,7 @@ function StudyList() {
 
     if (!selectedStudyId || !rename) return;
 
-    mutate({
+    mutateUpdate({
       params: {
         studyId: selectedStudyId,
       },
@@ -40,6 +47,26 @@ function StudyList() {
         description: rename,
       },
     });
+  };
+
+  const handleDelete = (role: string, studyId: string) => {
+    const master = role === 'master';
+
+    if (master && window.confirm('정말 종료하시겠습니까?')) {
+      mutateDelete({
+        params: {
+          studyId,
+        },
+      });
+    }
+
+    if (!master && window.confirm('정말 나가시겠습니까?')) {
+      mutateExit({
+        params: {
+          studyId,
+        },
+      });
+    }
   };
 
   const handleOpen = (studyId: string) => {
@@ -72,27 +99,34 @@ function StudyList() {
 
           <Main className="flex bg-white p-[24px] overflow-hidden overflow-y-auto">
             <ul className="flex flex-col flex-1 gap-[12px] py-[24px]">
-              {studyList?.study.map((item) => (
-                <li
-                  key={item.studyId}
-                  className="popup-list justify-between flex-wrap"
-                >
-                  <div className="flex items-center w-[192px] sm:w-3/5">
-                    <p className="truncate">{item.description}</p>
-                  </div>
-                  <div className="flex items-center text-sm font-bold">
-                    <button>나가기</button>
-                    {currentStudy?.role === 'master' && (
-                      <>
-                        <p>&nbsp;|&nbsp;</p>
-                        <button onClick={() => handleOpen(item.studyId)}>
-                          수정하기
+              {studyList?.study.map(
+                (item) =>
+                  item.enabled && (
+                    <li
+                      key={item.studyId}
+                      className="popup-list justify-between flex-wrap"
+                    >
+                      <div className="flex items-center w-[192px] sm:w-3/5">
+                        <p className="truncate">{item.description}</p>
+                      </div>
+                      <div className="flex items-center text-sm font-bold">
+                        <button
+                          onClick={() => handleDelete(item.role, item.studyId)}
+                        >
+                          {item.role === 'master' ? '종료하기' : '나가기'}
                         </button>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))}
+                        {item.role === 'master' && (
+                          <>
+                            <p>&nbsp;|&nbsp;</p>
+                            <button onClick={() => handleOpen(item.studyId)}>
+                              수정하기
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </li>
+                  )
+              )}
             </ul>
           </Main>
         </Layout>

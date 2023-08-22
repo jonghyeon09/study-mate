@@ -82,16 +82,19 @@ function StudyDropdown() {
           },
         }}
       >
-        {studyList?.study?.map((item, i) => (
-          <li key={i} className="text-white">
-            <button
-              className="w-full text-start"
-              onClick={() => handelSelectStudy(item)}
-            >
-              {item.description}
-            </button>
-          </li>
-        ))}
+        {studyList?.study?.map(
+          (item, i) =>
+            item.enabled && (
+              <li key={i} className="text-white">
+                <button
+                  className="w-full text-start"
+                  onClick={() => handelSelectStudy(item)}
+                >
+                  {item.description}
+                </button>
+              </li>
+            )
+        )}
       </motion.ul>
     </motion.div>
   );

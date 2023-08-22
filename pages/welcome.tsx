@@ -24,10 +24,9 @@ export default function Welcome() {
   const router = useRouter();
   const pRef = useRef<HTMLParagraphElement>(null);
 
-  //스터디를 전부 지우면 접근허용
-  // useEffect(() => {
-  //   if (!isLogin) router.push('/');
-  // }, [isLogin, router]);
+  useEffect(() => {
+    if (!isLogin) router.push('/');
+  }, [isLogin, router]);
 
   useEffect(() => {
     if (profile) {
