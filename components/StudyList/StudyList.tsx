@@ -99,31 +99,34 @@ function StudyList() {
 
           <Main className="flex bg-white p-[24px] overflow-hidden overflow-y-auto">
             <ul className="flex flex-col flex-1 gap-[12px] py-[24px]">
-              {studyList?.study.map((item) => (
-                <li
-                  key={item.studyId}
-                  className="popup-list justify-between flex-wrap"
-                >
-                  <div className="flex items-center w-[192px] sm:w-3/5">
-                    <p className="truncate">{item.description}</p>
-                  </div>
-                  <div className="flex items-center text-sm font-bold">
-                    <button
-                      onClick={() => handleDelete(item.role, item.studyId)}
+              {studyList?.study.map(
+                (item) =>
+                  item.enabled && (
+                    <li
+                      key={item.studyId}
+                      className="popup-list justify-between flex-wrap"
                     >
-                      {item.role === 'master' ? '종료하기' : '나가기'}
-                    </button>
-                    {item.role === 'master' && (
-                      <>
-                        <p>&nbsp;|&nbsp;</p>
-                        <button onClick={() => handleOpen(item.studyId)}>
-                          수정하기
+                      <div className="flex items-center w-[192px] sm:w-3/5">
+                        <p className="truncate">{item.description}</p>
+                      </div>
+                      <div className="flex items-center text-sm font-bold">
+                        <button
+                          onClick={() => handleDelete(item.role, item.studyId)}
+                        >
+                          {item.role === 'master' ? '종료하기' : '나가기'}
                         </button>
-                      </>
-                    )}
-                  </div>
-                </li>
-              ))}
+                        {item.role === 'master' && (
+                          <>
+                            <p>&nbsp;|&nbsp;</p>
+                            <button onClick={() => handleOpen(item.studyId)}>
+                              수정하기
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </li>
+                  )
+              )}
             </ul>
           </Main>
         </Layout>
