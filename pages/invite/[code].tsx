@@ -25,24 +25,25 @@ export default function Invite() {
   useEffect(() => {
     if (!code || !token) return;
 
-    const handleJoin = async () => {
-      const { studyId } = await joinStudy({
-        data: {
-          code,
-        },
-      });
+    try {
+      const handleJoin = async () => {
+        const { studyId } = await joinStudy({
+          data: {
+            code,
+          },
+        });
 
-      push({
-        pathname: '/study/[id]',
-        query: {
-          id: studyList?.userId,
-          study: studyId,
-        },
-      });
-    };
-
-    handleJoin();
+        push({
+          pathname: '/study/[id]',
+          query: {
+            id: studyList?.userId,
+            study: studyId,
+          },
+        });
+      };
+      handleJoin();
+    } catch (error) {
+      push('/');
+    }
   }, [code, push, studyList?.userId, token]);
-
-  return <Splash />;
 }
