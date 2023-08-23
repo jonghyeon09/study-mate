@@ -70,7 +70,7 @@ function SideMenu({}: Props) {
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
       <motion.nav
-        className="w-[300px] h-[calc(100vh-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
+        className="w-[300px] h-[calc(100vh-var(--h-header))] flex flex-col fixed md:absolute right-0 bottom-0 py-[60px] pl-[45px] bg-black z-50"
         initial={{ translateX: '100%' }}
         animate={{ translateX: 0 }}
         exit={{ translateX: '100%' }}
