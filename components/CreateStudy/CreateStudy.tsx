@@ -40,7 +40,7 @@ function CreateStudy({ first = false, onClose }: Props) {
         pathname: '/study/[id]',
         query: {
           id: studyList.userId,
-          study: studyList.study[0].studyId,
+          study: data.createdId,
         },
       });
     }

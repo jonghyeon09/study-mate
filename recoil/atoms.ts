@@ -30,3 +30,8 @@ export const isOpenStudyListState = atom({
   key: 'isOpenStudyList',
   default: false,
 });
+
+export const isCopyState = atom({
+  key: 'isCopy',
+  default: false,
+});

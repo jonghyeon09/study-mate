@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import Profile from './Profile';
 import StudyDropdown from './StudyDropdown';
-import { getStudyList } from '@/services';
 import {
   currentStudyState,
+  isCopyState,
   isLoginState,
   isOpenMembersState,
+  isOpenSideState,
   isOpenStudyListState,
 } from '@/recoil/atoms';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -15,7 +15,8 @@ import { createPortal } from 'react-dom';
 import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
-import { useRouter } from 'next/router';
+import { getInviteCode } from '@/services/getInviteCode';
+import config from '@/config';
 
 type Props = {};
 
@@ -23,6 +24,8 @@ function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenStudyList, setIsOpenStudyList] =
     useRecoilState(isOpenStudyListState);
+  const setIsOpenSide = useSetRecoilState(isOpenSideState);
+  const setIsCopy = useSetRecoilState(isCopyState);
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
   const [isOpenMembers, setIsOpenMembers] = useRecoilState(isOpenMembersState);
   const currentStudy = useRecoilValue(currentStudyState);
@@ -31,6 +34,20 @@ function SideMenu({}: Props) {
   const handleLogout = () => {
     localStorage.clear();
     setIsLoginState(false);
+  };
+
+  const handleCopy = async () => {
+    if (!currentStudy || !config.DOMAIN) return;
+
+    const { code } = await getInviteCode({
+      params: {
+        studyId: currentStudy?.studyId,
+      },
+    });
+
+    await navigator.clipboard.writeText(`${config.DOMAIN}/invite/${code}`);
+    setIsCopy(true);
+    setIsOpenSide(false);
   };
 
   useEffect(() => {
@@ -54,7 +71,7 @@ function SideMenu({}: Props) {
       <div className="w-full h-full absolute top-0 left-0 bg-black opacity-50 pt-[--h-header] overflow-hidden z-50"></div>
 
       <motion.nav
-        className="w-[300px] h-[calc(100vh-var(--h-header))] flex flex-col absolute right-0 py-[60px] pl-[45px] bg-black z-50"
+        className="w-[300px] h-[calc(100vh-var(--h-header))] flex flex-col fixed md:absolute right-0 bottom-0 py-[60px] pl-[45px] bg-black z-50"
         initial={{ translateX: '100%' }}
         animate={{ translateX: 0 }}
         exit={{ translateX: '100%' }}
@@ -94,7 +111,7 @@ function SideMenu({}: Props) {
             <button className="text-white text-start">공지사항 작성</button>
           )}
 
-          <button className="text-white text-start">
+          <button className="text-white text-start" onClick={handleCopy}>
             스터디 초대링크 복사
           </button>
         </div>

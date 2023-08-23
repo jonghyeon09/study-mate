@@ -8,7 +8,7 @@ type Data = {
 
 export const exitStudy = async ({ params }: Data) => {
   try {
-    const response = await apiClient.delete<Data>(
+    const response = await apiClient.delete(
       `/study/${params.studyId}/attendance`
     );
     return response.data;

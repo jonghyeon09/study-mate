@@ -1,7 +1,6 @@
 import Layout from '@/components/common/Layout';
 import {
   useInfiniteQuery,
-  useMutation,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
@@ -16,6 +15,7 @@ import Calendar from 'react-calendar';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   currentDateState,
+  isCopyState,
   isLoginState,
   isOpenSideState,
 } from '@/recoil/atoms';
@@ -29,19 +29,23 @@ import Posts from '@/components/Posts';
 import { NextSeo } from 'next-seo';
 import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
+import Toast from '@/components/common/Toast';
 
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
   const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
+  const [isCopy, setIsCopy] = useRecoilState(isCopyState);
   const isLogin = useRecoilValue(isLoginState);
   const [underLineWidth, setUnderLineWidth] = useState(0);
   const [isOpenPosting, setIsOpenPosting] = useState(false);
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   const [traceId, setTraceId] = useState<number>();
   const [date, setDate] = useState(new Date());
+  const [isScroll, setIsScroll] = useState(false);
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
   const observerRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { replace } = useRouter();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const queryClient = useQueryClient();
@@ -114,6 +118,17 @@ function Study() {
     setIsOpenDetail(true);
   };
 
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scroll = scrollRef.current.scrollTop;
+
+    if (scroll != 0) {
+      setIsScroll(true);
+    } else {
+      setIsScroll(false);
+    }
+  };
+
   useEffect(() => {
     if (lineRef.current) {
       setUnderLineWidth(lineRef.current.offsetWidth + 2);
@@ -166,6 +181,16 @@ function Study() {
     }
   }, [isLogin, queryClient, replace]);
 
+  useEffect(() => {
+    if (isCopy) {
+      const timer = setTimeout(() => {
+        setIsCopy(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isCopy, setIsCopy]);
+
   return (
     <>
       <NextSeo
@@ -180,13 +205,16 @@ function Study() {
           onSave={() => setIsOpenPosting(false)}
         />
       )}
+      {isCopy && <Toast>팀원 초대하기 링크가 복사되었습니다</Toast>}
 
       <Layout
         className={`${SCDream.className} ${
           isOpenSide ? 'overflow-y-hidden' : ''
         }`}
+        ref={scrollRef}
+        onScroll={handleScroll}
       >
-        <StudyHeader />
+        <StudyHeader className={isScroll ? 'border-b-2 border-black' : ''} />
 
         <Main className="flex flex-col">
           <AnimatePresence>{isOpenSide && <SideMenu />}</AnimatePresence>
