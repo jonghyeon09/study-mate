@@ -20,7 +20,7 @@ function MenuIcon({ className, onClick }: Props) {
     openTop: {
       opacity: 1,
       rotate: 45,
-      translateY: 10,
+      translateY: 6,
     },
     openMiddle: {
       opacity: 0,
@@ -30,27 +30,27 @@ function MenuIcon({ className, onClick }: Props) {
     openBottom: {
       opacity: 1,
       rotate: -45,
-      translateY: -10,
+      translateY: -6,
     },
   };
 
   return (
     <IconLayout className={className} onClick={(e) => onClick && onClick(e)}>
-      <div className="w-[24px] h-[24px] flex flex-col justify-between">
+      <div className="w-[18px] h-[14px] flex flex-col justify-between">
         <motion.div
-          className="w-full h-[4px] bg-black rounded-sm"
+          className="w-full h-[2px] bg-black"
           initial="closed"
           animate={isOpenSide ? 'openTop' : 'closed'}
           variants={lineVariants}
         ></motion.div>
         <motion.div
-          className="w-full h-[4px] bg-black rounded-sm"
+          className="w-full h-[2px] bg-black"
           initial="closed"
           animate={isOpenSide ? 'openMiddle' : 'closed'}
           variants={lineVariants}
         ></motion.div>
         <motion.div
-          className="w-full h-[4px] bg-black rounded-sm"
+          className="w-full h-[2px] bg-black"
           initial="closed"
           animate={isOpenSide ? 'openBottom' : 'closed'}
           variants={lineVariants}
