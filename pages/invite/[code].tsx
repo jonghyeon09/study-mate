@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { useRouter } from 'next/router';
-import Splash from '@/components/Splash/Splash';
 import { joinStudy } from '@/services/joinStudy';
 import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';

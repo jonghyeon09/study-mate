@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Layout from '../common/Layout';
 import Header from '../common/Header';
 import Main from '../common/Main';
@@ -9,12 +9,11 @@ import InputTitle from '../common/InputTitle';
 import Input from '../common/Input';
 import SaveButton from '../common/SaveButton';
 import { SCDream } from '@/pages';
-import { useState, useEffect } from 'react';
-import { useRef } from 'react';
 import PhotoLayout from './PhotoLayout';
 import { createTrace } from '@/services/createTrace';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { readAndCompressImage } from 'browser-image-resizer';
 
 type FormState = {
   inputField: string;
@@ -25,7 +24,7 @@ type Props = {
   onSave: () => void;
 };
 
-function Posts({ onClick, onSave }: Props) {
+function Posting({ onClick, onSave }: Props) {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [isActive, setIsActive] = useState([true, false, false]);
@@ -47,26 +46,44 @@ function Posts({ onClick, onSave }: Props) {
     inputFileRef.current?.click(); // input 태그의 click 메서드 호출
   };
 
-  const handleFilesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilesChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const files = Array.from(event.target.files || []);
+    const newPreviewImages: string[] = [];
+
     if (files.length > 3) {
       alert('최대 3장 까지 선택 가능합니다.');
       return;
     }
 
-    const newPreviewImages: string[] = [];
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        newPreviewImages.push(e.target?.result as string);
-        if (newPreviewImages.length === files.length) {
-          setPreviewImages(newPreviewImages);
-        }
+    try {
+      const config = {
+        quality: 0.7,
+        maxWidth: 290,
+        maxHeight: 290,
+        autoRotate: true,
+        debug: true,
       };
-      reader.readAsDataURL(file);
-    });
+      const resizedFiles = await Promise.all(
+        files.map((file) => readAndCompressImage(file, config))
+      );
 
-    setSelectedImages(files);
+      resizedFiles.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          newPreviewImages.push(e.target?.result as string);
+          if (newPreviewImages.length === files.length) {
+            setPreviewImages(newPreviewImages);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+
+      setSelectedImages(files);
+    } catch (error) {
+      alert('이미지 업로드 실패');
+    }
   };
 
   const handleRemoveImage = (i: number) => {
@@ -217,4 +234,4 @@ function Posts({ onClick, onSave }: Props) {
   );
 }
 
-export default Posts;
+export default Posting;

@@ -55,12 +55,9 @@ function Posts({ traceId, onClose }: Props) {
                 <Image
                   alt="스터디 사진"
                   src={image}
-                  width={290}
-                  height={290}
+                  fill
                   style={{
                     objectFit: 'contain',
-                    width: 'auto',
-                    height: 'auto',
                   }}
                 />
               )}
