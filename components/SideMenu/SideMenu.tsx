@@ -37,7 +37,7 @@ function SideMenu({}: Props) {
   };
 
   const handleCopy = async () => {
-    if (!currentStudy) return;
+    if (!currentStudy || !config.DOMAIN) return;
 
     const { code } = await getInviteCode({
       params: {
