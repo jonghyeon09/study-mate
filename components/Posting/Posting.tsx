@@ -59,7 +59,7 @@ function Posting({ onClick, onSave }: Props) {
 
     try {
       const config = {
-        quality: 0.7,
+        quality: 1,
         maxWidth: 290,
         maxHeight: 290,
         autoRotate: true,

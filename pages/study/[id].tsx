@@ -195,6 +195,14 @@ function Study() {
     }
   }, [isCopy, setIsCopy]);
 
+  useEffect(() => {
+    if (!scrollRef.current) return;
+    if (isOpenSide) {
+      const el = scrollRef.current;
+      el.scrollTo(0, 0);
+    }
+  }, [isOpenSide]);
+
   return (
     <>
       <NextSeo
