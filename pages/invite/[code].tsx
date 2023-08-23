@@ -23,7 +23,7 @@ export default function Invite() {
   }, [push, token]);
 
   useEffect(() => {
-    if (!code) return;
+    if (!code || !token) return;
 
     const handleJoin = async () => {
       const { studyId } = await joinStudy({
@@ -42,7 +42,7 @@ export default function Invite() {
     };
 
     handleJoin();
-  }, [code, push, studyList?.userId]);
+  }, [code, push, studyList?.userId, token]);
 
   return <Splash />;
 }
