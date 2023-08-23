@@ -31,7 +31,7 @@ function MemberList() {
         </Header>
 
         <Main className="flex bg-white overflow-y-auto">
-          <ul className="flex flex-col flex-1 gap-[12px] py-[24px]">
+          <ul className="flex flex-col flex-1 gap-[12px] p-[24px]">
             {members && members.attendance.length <= 1 && (
               <div className="w-full flex flex-col items-center absolute top-1/3 left-0">
                 <div className="w-full h-[180px] relative">

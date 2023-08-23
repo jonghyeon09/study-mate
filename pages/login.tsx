@@ -1,13 +1,10 @@
-import Layout from '@/components/common/Layout';
-import useAuthKakao from '@/hooks/useAuthKakao';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import type { LoginUser, TokenResponse, profile } from '@/types';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
-import Splash from '@/components/Splash/Splash';
-import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getLoginUser, getStudyList } from '@/services';
 import {
   GetServerSideProps,
@@ -16,6 +13,7 @@ import {
 } from 'next';
 import axios from 'axios';
 import config from '@/config';
+import Splash from '@/components/Splash';
 
 export const getServerSideProps: GetServerSideProps<{
   loginUser: LoginUser;

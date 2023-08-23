@@ -22,7 +22,6 @@ import {
 import { useRouter } from 'next/router';
 import RandomImage from '@/components/RandomImage';
 import Main from '@/components/common/Main';
-import Posting from '@/components/Posting/Posting';
 import Image from 'next/image';
 import dayjs from 'dayjs';
 import Posts from '@/components/Posts';
@@ -30,6 +29,11 @@ import { NextSeo } from 'next-seo';
 import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 import Toast from '@/components/common/Toast';
+import dynamic from 'next/dynamic';
+
+const Posting = dynamic(() => import('@/components/Posting'), {
+  ssr: false,
+});
 
 function Study() {
   const [currentDate, setCurrentDate] = useRecoilState(currentDateState);
@@ -253,7 +257,7 @@ function Study() {
 
           <section className="w-full h-full bg-[--color-gray] p-[24px] flex flex-col flex-1">
             <div className="w-full h-[60px] flex items-center">
-              <p className="font-bold text-xl">스터디인증</p>
+              <p className="font-bold text-xl">스터디 인증</p>
             </div>
             <ul className="flex flex-wrap gap-[12px]">
               {/* <div className="grid grid-cols-2 gap-[12px]"> */}
@@ -285,7 +289,7 @@ function Study() {
                     }}
                   >
                     {trace?.mainImage && (
-                      <div className="relative w-full h-full">
+                      <div className="flex items-start justify-center relative w-full h-full">
                         <Image
                           alt="등록사진"
                           src={trace.mainImage}
