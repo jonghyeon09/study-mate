@@ -16,6 +16,7 @@ import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
 import { getInviteCode } from '@/services/getInviteCode';
+import config from '@/config';
 
 type Props = {};
 
@@ -44,7 +45,7 @@ function SideMenu({}: Props) {
       },
     });
 
-    await navigator.clipboard.writeText(code);
+    await navigator.clipboard.writeText(`${config.DOMAIN}/invite/${code}`);
     setIsCopy(true);
     setIsOpenSide(false);
   };
