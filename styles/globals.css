@@ -34,7 +34,7 @@ body {
 }
 
 .modal {
-  @apply relative w-[342px] bg-white z-50 px-6;
+  @apply relative w-[342px] bg-white z-50 px-[24px];
 }
 
 .input {
