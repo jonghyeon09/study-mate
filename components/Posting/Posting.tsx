@@ -202,7 +202,12 @@ function Posts({ onClick, onSave }: Props) {
               onChange={handleChange}
               maxLength={50}
             ></textarea>
-            <div className="absolute bottom-0 left-0 w-full px-[24px]">
+
+            <p className="text-sm font-bold float-right mt-[12px]">
+              {formState.textareaField.length}/50
+            </p>
+
+            <div className="w-full">
               <SaveButton disabled={disabled}>저장하기</SaveButton>
             </div>
           </form>
