@@ -65,8 +65,11 @@ function Posting({ onClick, onSave }: Props) {
         autoRotate: true,
         debug: true,
       };
-      const resizedFiles = await Promise.all(
+      const Blobs = await Promise.all(
         files.map((file) => readAndCompressImage(file, config))
+      );
+      const resizedFiles = Blobs.map(
+        (blob, i) => new File([blob], files[i].name, { type: blob.type })
       );
 
       resizedFiles.forEach((file) => {
@@ -80,7 +83,7 @@ function Posting({ onClick, onSave }: Props) {
         reader.readAsDataURL(file);
       });
 
-      setSelectedImages(files);
+      setSelectedImages(resizedFiles);
     } catch (error) {
       alert('이미지 업로드 실패');
     }
