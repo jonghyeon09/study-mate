@@ -45,22 +45,22 @@ function Posts({ traceId, onClose }: Props) {
           clickable: true,
           el: '.custom-pagination',
         }}
-        className="relative h-[294px] w-full mt-[24px] bg-gray-200 rounded-md"
+        className="relative h-[290px] w-full mt-[24px] bg-gray-200 rounded-md"
         ref={sliderRef}
       >
         {traceDetail?.trace.allImages.map((image, i) => (
           <SwiperSlide key={i}>
-            <div className="relative w-full h-full">
+            <div className="flex justify-center items-center relative w-full h-full">
               {image && (
                 <Image
                   alt="스터디 사진"
                   src={image}
                   width={290}
-                  height={294}
+                  height={290}
                   style={{
                     objectFit: 'contain',
-                    // width: 'auto',
-                    // height: 'auto',
+                    width: 'auto',
+                    height: 'auto',
                   }}
                 />
               )}
