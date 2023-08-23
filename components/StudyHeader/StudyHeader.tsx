@@ -16,9 +16,10 @@ import { memo } from 'react';
 
 type Props = {
   children?: React.ReactNode;
+  className?: string;
 };
 
-function StudyHeader({ children }: Props) {
+function StudyHeader({ children, className = '' }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenSide, setIsOpenSide] = useRecoilState(isOpenSideState);
   const [current, setCurrent] = useRecoilState(currentStudyState);
@@ -63,7 +64,7 @@ function StudyHeader({ children }: Props) {
 
   return (
     <>
-      <Header>
+      <Header className={className}>
         <motion.nav
           ref={dropdownRef}
           initial={false}

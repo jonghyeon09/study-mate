@@ -41,9 +41,11 @@ function Study() {
   const [isOpenDetail, setIsOpenDetail] = useState(false);
   const [traceId, setTraceId] = useState<number>();
   const [date, setDate] = useState(new Date());
+  const [isScroll, setIsScroll] = useState(false);
   const lineRef = useRef<HTMLSpanElement>(null);
   const { query, asPath } = useRouter();
   const observerRef = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { replace } = useRouter();
   const studyId = typeof query.study == 'string' ? query.study : undefined;
   const queryClient = useQueryClient();
@@ -114,6 +116,17 @@ function Study() {
   const handleClickTrace = (id: number) => {
     setTraceId(id);
     setIsOpenDetail(true);
+  };
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scroll = scrollRef.current.scrollTop;
+
+    if (scroll != 0) {
+      setIsScroll(true);
+    } else {
+      setIsScroll(false);
+    }
   };
 
   useEffect(() => {
@@ -198,8 +211,10 @@ function Study() {
         className={`${SCDream.className} ${
           isOpenSide ? 'overflow-y-hidden' : ''
         }`}
+        ref={scrollRef}
+        onScroll={handleScroll}
       >
-        <StudyHeader />
+        <StudyHeader className={isScroll ? 'border-b-2 border-black' : ''} />
 
         <Main className="flex flex-col">
           <AnimatePresence>{isOpenSide && <SideMenu />}</AnimatePresence>
