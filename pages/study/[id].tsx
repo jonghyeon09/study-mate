@@ -212,11 +212,7 @@ function Study() {
 
   return (
     <>
-      <NextSeo
-        title="STUDY MATE"
-        description="스터디를 인증하세요"
-        themeColor="#4834C5"
-      />
+      <NextSeo title="STUDY MATE" description="스터디를 인증하세요" />
 
       {isOpenPosting && (
         <Posting
