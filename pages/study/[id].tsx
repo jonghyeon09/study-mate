@@ -220,6 +220,7 @@ function Study() {
 
       {isOpenPosting && (
         <Posting
+          currentDate={currentDate}
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
