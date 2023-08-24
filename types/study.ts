@@ -60,3 +60,9 @@ export interface Invite {
   status: string;
   code: string;
 }
+
+export interface NoticeList {
+  status: string;
+  studyId: string;
+  notice: Notice[];
+}

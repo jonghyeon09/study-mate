@@ -30,6 +30,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 import Toast from '@/components/common/Toast';
 import dynamic from 'next/dynamic';
+import { getNotice } from '@/services/getNotice';
 
 const Posting = dynamic(() => import('@/components/Posting'), {
   ssr: false,
@@ -81,6 +82,11 @@ function Study() {
       return lastPage.trace.length == 0 ? undefined : lastPage?.page + 1;
     },
     enabled: !!currentDate,
+  });
+  const { data: notice } = useQuery({
+    queryKey: ['notice', studyId],
+    queryFn: () => getNotice(studyId),
+    enabled: !!studyId,
   });
 
   const tileClassName = ({ date, view }: any) => {
