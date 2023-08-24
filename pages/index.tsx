@@ -52,7 +52,6 @@ export default function Home() {
       <NextSeo
         title="STUDY MATE"
         description="매일매일 꾸준하게 성실하게 공부기록 스터디 인증 공유 서비스"
-        // themeColor="#4834C5"
       />
       {!isLogin && (
         <Layout className={SCDream.className}>
