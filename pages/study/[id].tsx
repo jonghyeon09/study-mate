@@ -31,6 +31,7 @@ import SideMenu from '@/components/SideMenu/SideMenu';
 import Toast from '@/components/common/Toast';
 import dynamic from 'next/dynamic';
 import { getNotice } from '@/services/getNotice';
+import Notice from '@/components/Notice';
 
 const Posting = dynamic(() => import('@/components/Posting'), {
   ssr: false,
@@ -268,6 +269,9 @@ function Study() {
               />
             )}
           </div>
+
+          {/* {notice?.notice.length != 0 && <Notice />} */}
+          <Notice studyId={studyId} />
 
           <section className="w-full h-full bg-[--color-gray] p-[24px] flex flex-col flex-1">
             <div className="w-full h-[60px] flex items-center">
