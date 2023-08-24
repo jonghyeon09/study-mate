@@ -10,7 +10,7 @@ type Data = {
   };
 };
 
-export const deleteStudy = async ({ params, data }: Data) => {
+export const createNotice = async ({ params, data }: Data) => {
   try {
     const response = await apiClient.post(
       `/study/${params.studyId}/notice`,

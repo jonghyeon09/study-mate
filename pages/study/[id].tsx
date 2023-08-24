@@ -84,7 +84,7 @@ function Study() {
     },
     enabled: !!currentDate,
   });
-  const { data: notice } = useQuery({
+  const { data: noticeList } = useQuery({
     queryKey: ['notice', studyId],
     queryFn: () => getNotice(studyId),
     enabled: !!studyId,
