@@ -38,7 +38,7 @@ body {
 }
 
 .input {
-  @apply focus:outline-none w-full p-1.5 font-medium text-base;
+  @apply focus:outline-none w-full h-[36px] px-[12px] font-medium text-base;
 }
 
 .input-title {

@@ -21,8 +21,8 @@ function SaveButton({
       type="submit"
     >
       <p
-        className={`font-bold text-white ${
-          disabled ? `opacity-20 text-black` : ''
+        className={`font-bold  ${
+          disabled ? `opacity-20 text-black` : 'text-white'
         } ${className}`}
       >
         {children}

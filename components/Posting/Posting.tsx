@@ -20,11 +20,12 @@ type FormState = {
   textareaField: string;
 };
 type Props = {
+  currentDate: string | undefined;
   onClick: () => void;
   onSave: () => void;
 };
 
-function Posting({ onClick, onSave }: Props) {
+function Posting({ currentDate, onClick, onSave }: Props) {
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const [isActive, setIsActive] = useState([true, false, false]);
@@ -38,7 +39,7 @@ function Posting({ onClick, onSave }: Props) {
   const queryClient = useQueryClient();
   const { mutate } = useMutation(createTrace, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['traceList'] });
+      queryClient.invalidateQueries({ queryKey: ['traceList', currentDate] });
     },
   });
 

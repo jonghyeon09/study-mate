@@ -30,6 +30,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SideMenu from '@/components/SideMenu/SideMenu';
 import Toast from '@/components/common/Toast';
 import dynamic from 'next/dynamic';
+import { getNotice } from '@/services/getNotice';
+import Notice from '@/components/Notice';
 
 const Posting = dynamic(() => import('@/components/Posting'), {
   ssr: false,
@@ -81,6 +83,11 @@ function Study() {
       return lastPage.trace.length == 0 ? undefined : lastPage?.page + 1;
     },
     enabled: !!currentDate,
+  });
+  const { data: noticeList } = useQuery({
+    queryKey: ['notice', studyId],
+    queryFn: () => getNotice(studyId),
+    enabled: !!studyId,
   });
 
   const tileClassName = ({ date, view }: any) => {
@@ -213,6 +220,7 @@ function Study() {
 
       {isOpenPosting && (
         <Posting
+          currentDate={currentDate}
           onClick={() => setIsOpenPosting(false)}
           onSave={() => setIsOpenPosting(false)}
         />
@@ -262,6 +270,8 @@ function Study() {
               />
             )}
           </div>
+
+          {noticeList?.notice.length !== 0 && <Notice studyId={studyId} />}
 
           <section className="w-full h-full bg-[--color-gray] p-[24px] flex flex-col flex-1">
             <div className="w-full h-[60px] flex items-center">
