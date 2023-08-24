@@ -271,8 +271,7 @@ function Study() {
             )}
           </div>
 
-          {/* {notice?.notice.length != 0 && <Notice />} */}
-          <Notice studyId={studyId} />
+          {noticeList?.notice.length !== 0 && <Notice studyId={studyId} />}
 
           <section className="w-full h-full bg-[--color-gray] p-[24px] flex flex-col flex-1">
             <div className="w-full h-[60px] flex items-center">
