@@ -35,3 +35,8 @@ export const isCopyState = atom({
   key: 'isCopy',
   default: false,
 });
+
+export const isOpenCreateNoticeState = atom({
+  key: 'isOpenCreateNotice',
+  default: false,
+});

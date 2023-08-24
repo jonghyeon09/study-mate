@@ -4,6 +4,7 @@ import {
   currentStudyState,
   isCopyState,
   isLoginState,
+  isOpenCreateNoticeState,
   isOpenMembersState,
   isOpenSideState,
   isOpenStudyListState,
@@ -17,6 +18,7 @@ import MemberList from '../MemberList';
 import StudyList from '../StudyList';
 import { getInviteCode } from '@/services/getInviteCode';
 import config from '@/config';
+import CreateNotice from '../CreateNotice/CreateNotice';
 
 type Props = {};
 
@@ -24,6 +26,9 @@ function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
   const [isOpenStudyList, setIsOpenStudyList] =
     useRecoilState(isOpenStudyListState);
+  const [isOpenCreateNotice, setIsOpenCreateNotice] = useRecoilState(
+    isOpenCreateNoticeState
+  );
   const setIsOpenSide = useSetRecoilState(isOpenSideState);
   const setIsCopy = useSetRecoilState(isCopyState);
   const [potalEl, setPotalEl] = useState<HTMLBodyElement | null>(null);
@@ -61,6 +66,7 @@ function SideMenu({}: Props) {
     <>
       {isOpenMembers && <MemberList />}
       {isOpenStudyList && <StudyList />}
+      {isOpenCreateNotice && <CreateNotice />}
       {potalEl &&
         createPortal(
           isOpenCreate && (
@@ -108,7 +114,12 @@ function SideMenu({}: Props) {
             스터디 팀원
           </button>
           {currentStudy?.role === 'master' && (
-            <button className="text-white text-start">공지사항 작성</button>
+            <button
+              className="text-white text-start"
+              onClick={() => setIsOpenCreateNotice(true)}
+            >
+              공지사항 작성
+            </button>
           )}
 
           <button className="text-white text-start" onClick={handleCopy}>

@@ -44,7 +44,7 @@ function Input({
   }, [value]);
 
   return (
-    <div className="relative">
+    <div className="flex relative w-full">
       <input
         type={type}
         name="inputField"
