@@ -10,8 +10,6 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@emoji-mart/data": "^1.1.2",
-    "@emoji-mart/react": "^1.1.1",
     "@tanstack/react-query": "^4.32.6",
     "@tanstack/react-query-devtools": "^4.32.6",
     "@types/js-cookie": "^3.0.3",
@@ -22,7 +20,7 @@
     "axios": "^1.4.0",
     "browser-image-resizer": "^2.4.1",
     "dayjs": "^1.11.9",
-    "emoji-mart": "^5.5.2",
+    "emoji-picker-react": "^4.4.11",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.12",
     "framer-motion": "^10.15.2",
