@@ -11,16 +11,17 @@ import useInput from '@/hooks/useInput';
 import SaveButton from '../common/SaveButton';
 import dynamic from 'next/dynamic';
 import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getNotice } from '@/services/getNotice';
 import { createNotice } from '@/services/createNotice';
 
-const Picker = dynamic(
-  () => {
-    return import('@emoji-mart/react');
-  },
-  { ssr: false }
-);
+// const Picker = dynamic(
+//   () => {
+//     return import('@emoji-mart/react');
+//   },
+//   { ssr: false }
+// );
 
 function CreateNotice() {
   const [isEmoji, setIsEmoji] = useState(false);
@@ -109,7 +110,7 @@ function CreateNotice() {
                 />
 
                 {isEmoji && (
-                  <div className="absolute top-[50px]">
+                  <div className="absolute top-[50px] z-50">
                     <Picker
                       data={data}
                       onEmojiSelect={handleEmoji}
