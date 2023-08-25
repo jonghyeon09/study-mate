@@ -10,6 +10,7 @@ const nextConfig = {
   images: {
     domains: ['15.164.191.112', 'studymate.fenrir-dev.link', 'k.kakaocdn.net'],
   },
+  swcMinify: false,
 };
 
 module.exports = withPWA(nextConfig);
