@@ -5,7 +5,6 @@ const config = {
   KAKAO_LOGOUT: 'https://kapi.kakao.com/v1/user/logout',
   REDIRECT_URI: process.env.NEXT_PUBLIC_REDIRECT_URI,
   API_URL: process.env.NEXT_PUBLIC_API_URL,
-  DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
 } as const;
 
 export default config;

@@ -42,15 +42,16 @@ function SideMenu({}: Props) {
   };
 
   const handleCopy = async () => {
-    if (!currentStudy || !config.DOMAIN) return;
+    if (!currentStudy) return;
 
+    const DOMAIN = window.location.href.split('/study')[0];
     const { code } = await getInviteCode({
       params: {
         studyId: currentStudy?.studyId,
       },
     });
 
-    await navigator.clipboard.writeText(`${config.DOMAIN}/invite/${code}`);
+    await navigator.clipboard.writeText(`${DOMAIN}/invite/${code}`);
     setIsCopy(true);
     setIsOpenSide(false);
   };
