@@ -10,18 +10,17 @@ import Input from '../common/Input';
 import useInput from '@/hooks/useInput';
 import SaveButton from '../common/SaveButton';
 import dynamic from 'next/dynamic';
-import data from '@emoji-mart/data';
-import Picker from '@emoji-mart/react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getNotice } from '@/services/getNotice';
 import { createNotice } from '@/services/createNotice';
+import { EmojiClickData } from 'emoji-picker-react';
 
-// const Picker = dynamic(
-//   () => {
-//     return import('@emoji-mart/react');
-//   },
-//   { ssr: false }
-// );
+const Picker = dynamic(
+  () => {
+    return import('emoji-picker-react');
+  },
+  { ssr: false }
+);
 
 function CreateNotice() {
   const [isEmoji, setIsEmoji] = useState(false);
@@ -42,8 +41,8 @@ function CreateNotice() {
       }),
   });
 
-  const handleEmoji = (emoji: any) => {
-    setSelectedEmoji(emoji.native);
+  const handleEmoji = (emoji: EmojiClickData, event: MouseEvent) => {
+    setSelectedEmoji(emoji.emoji);
     setIsEmoji(false);
   };
 
@@ -65,6 +64,19 @@ function CreateNotice() {
     <>
       <PopupLayout>
         <Layout>
+          {isEmoji && (
+            <div className="absolute w-full max-w-screen-sm h-screen z-50">
+              <div className="w-full h-screen absolute top-0 bg-black opacity-50"></div>
+              <div className="absolute bottom-0 w-full h-[50vh]">
+                <Picker
+                  onEmojiClick={handleEmoji}
+                  width={'100%'}
+                  height={'100%'}
+                />
+              </div>
+            </div>
+          )}
+
           <Header>
             <ArrowLeftIcon onClick={() => setIsOpenCreateNotice(false)} />
             <div className="w-full relative flex justify-center"></div>
@@ -108,29 +120,21 @@ function CreateNotice() {
                   placeholder="공지를 적어주세요"
                   maxLength={15}
                 />
-
-                {isEmoji && (
-                  <div className="absolute top-[50px] z-50">
-                    <Picker
-                      data={data}
-                      onEmojiSelect={handleEmoji}
-                      locale={'kr'}
-                    />
-                  </div>
-                )}
               </div>
 
               <SaveButton
-                disabled={
-                  !selectedEmoji ||
-                  value.length == 0 ||
-                  (noticeList && noticeList?.notice.length >= 5)
-                }
+                // disabled={
+                //   !selectedEmoji ||
+                //   value.length == 0 ||
+                //   (noticeList && noticeList?.notice.length >= 5)
+                // }
+                disabled={!selectedEmoji || value.length == 0}
                 onClick={handleCreate}
               >
-                {noticeList && noticeList?.notice.length >= 5
+                {/* {noticeList && noticeList?.notice.length >= 5
                   ? '공지사항을 모두 추가했어요'
-                  : '공지사항 추가하기'}
+                  : '공지사항 추가하기'} */}
+                공지사항 추가하기
               </SaveButton>
             </div>
           </Main>
