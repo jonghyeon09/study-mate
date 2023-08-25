@@ -275,14 +275,12 @@ function Study() {
             </div>
             <ul className="grid grid-cols-2 md:grid-cols-3 gap-[12px]">
               {/* <ul className="flex flex-wrap gap-[12px]"> */}
-              {currentDate == dayjs().format('YYYY-MM-DD') && (
-                <button
-                  className="relative w-[165px] h-[204px]"
-                  onClick={() => setIsOpenPosting(true)}
-                >
-                  <RandomImage />
-                </button>
-              )}
+              <button
+                className="relative w-[165px] h-[204px]"
+                onClick={() => setIsOpenPosting(true)}
+              >
+                <RandomImage />
+              </button>
 
               {infiniteTraceList?.pages.map((traceList, i) =>
                 traceList.trace.map((trace) => (
