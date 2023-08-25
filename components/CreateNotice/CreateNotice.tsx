@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getNotice } from '@/services/getNotice';
 import { createNotice } from '@/services/createNotice';
-import { EmojiClickData } from 'emoji-picker-react';
+import { Emoji, EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 
 const Picker = dynamic(
   () => {
@@ -66,12 +66,17 @@ function CreateNotice() {
         <Layout>
           {isEmoji && (
             <div className="absolute w-full max-w-screen-sm h-screen z-50">
-              <div className="w-full h-screen absolute top-0 bg-black opacity-50"></div>
+              <div
+                className="w-full h-screen absolute top-0 bg-black opacity-50"
+                onClick={() => setIsEmoji(false)}
+              ></div>
               <div className="absolute bottom-0 w-full h-[50vh]">
                 <Picker
                   onEmojiClick={handleEmoji}
                   width={'100%'}
                   height={'100%'}
+                  searchDisabled
+                  emojiStyle={EmojiStyle.NATIVE}
                 />
               </div>
             </div>
