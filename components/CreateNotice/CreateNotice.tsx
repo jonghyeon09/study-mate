@@ -72,7 +72,7 @@ function CreateNotice() {
           <Main className="flex flex-col bg-white overflow-y-auto">
             <div className="flex justify-between items-end w-full h-[60px] p-[24px] pb-[6px]">
               <p className="text-xl font-bold">공지사항</p>
-              <p className="text-sm text-[--color-gray2]">최대 5개 등록 가능</p>
+              {/* <p className="text-sm text-[--color-gray2]">최대 5개 등록 가능</p> */}
             </div>
 
             <div className="flex flex-col gap-[24px] w-full p-[24px]">
@@ -90,34 +90,34 @@ function CreateNotice() {
                 </div>
               ))}
 
-              {noticeList && noticeList?.notice.length < 5 && (
-                <div className="flex gap-[4px] relative w-full h-[36px]">
-                  <button
-                    className="min-w-[44px] h-full input-shadow bg-white"
-                    onClick={() => setIsEmoji((prev) => !prev)}
-                  >
-                    {selectedEmoji}
-                  </button>
-                  <Input
-                    className="input-shadow"
-                    value={value}
-                    onChange={onChange}
-                    reset={reset}
-                    placeholder="공지를 적어주세요"
-                    maxLength={15}
-                  />
+              {/* {noticeList && noticeList?.notice.length < 5 && (
+              )} */}
+              <div className="flex gap-[4px] relative w-full h-[36px]">
+                <button
+                  className="min-w-[44px] h-full input-shadow bg-white"
+                  onClick={() => setIsEmoji((prev) => !prev)}
+                >
+                  {selectedEmoji}
+                </button>
+                <Input
+                  className="input-shadow"
+                  value={value}
+                  onChange={onChange}
+                  reset={reset}
+                  placeholder="공지를 적어주세요"
+                  maxLength={15}
+                />
 
-                  {isEmoji && (
-                    <div className="absolute top-[50px]">
-                      <Picker
-                        data={data}
-                        onEmojiSelect={handleEmoji}
-                        locale={'kr'}
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
+                {isEmoji && (
+                  <div className="absolute top-[50px]">
+                    <Picker
+                      data={data}
+                      onEmojiSelect={handleEmoji}
+                      locale={'kr'}
+                    />
+                  </div>
+                )}
+              </div>
 
               <SaveButton
                 disabled={
