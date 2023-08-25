@@ -43,32 +43,33 @@ function Notice({ studyId }: Props) {
         </motion.div>
       </button>
 
-      <motion.ul
-        className="text-white"
-        variants={{
-          open: {
-            opacity: 1,
-            height: 'auto',
-            transition: {
-              duration: 0.3,
-            },
-          },
-          closed: {
-            opacity: 0,
-            height: 0,
-            transition: {
-              duration: 0.3,
-            },
-          },
-        }}
-      >
+      <ul className="text-white">
         {noticeList?.notice.map((item, i) => (
-          <motion.li key={i} className="flex items-center gap-[4px] h-[54px]">
+          <motion.li
+            key={i}
+            className="flex items-center gap-[4px] h-[54px]"
+            variants={{
+              open: {
+                opacity: 1,
+                height: '54px',
+                transition: {
+                  duration: 0.3,
+                },
+              },
+              closed: {
+                opacity: 0,
+                height: 0,
+                transition: {
+                  duration: 0.3,
+                },
+              },
+            }}
+          >
             <p className="w-[24px] h-[24px]">{item.tag}</p>
             <p>{item.description}</p>
           </motion.li>
         ))}
-      </motion.ul>
+      </ul>
     </motion.div>
   );
 }
