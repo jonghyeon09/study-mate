@@ -17,10 +17,11 @@ import { useState, useEffect, memo } from 'react';
 import MemberList from '../MemberList';
 import StudyList from '../StudyList';
 import { getInviteCode } from '@/services/getInviteCode';
-import config from '@/config';
 import CreateNotice from '../CreateNotice/CreateNotice';
 
 type Props = {};
+
+const INVITE_URL = 'https://study-mate-potenday.vercel.app/invite';
 
 function SideMenu({}: Props) {
   const [isOpenCreate, setIsOpenCreate] = useState(false);
@@ -44,14 +45,19 @@ function SideMenu({}: Props) {
   const handleCopy = async () => {
     if (!currentStudy) return;
 
-    const DOMAIN = window.location.href.split('/study')[0];
+    const domain = window.location.origin;
     const { code } = await getInviteCode({
       params: {
         studyId: currentStudy?.studyId,
       },
     });
+    let url = `${domain}/invite/${code}`;
 
-    await navigator.clipboard.writeText(`${DOMAIN}/invite/${code}`);
+    if (domain.length == 0) {
+      url = `${INVITE_URL}/${code}`;
+    }
+
+    await navigator.clipboard.writeText(url);
     setIsCopy(true);
     setIsOpenSide(false);
   };
