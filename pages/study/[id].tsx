@@ -273,8 +273,8 @@ function Study() {
             <div className="w-full h-[60px] flex items-center">
               <p className="font-bold text-xl">스터디 인증</p>
             </div>
-            <ul className="flex flex-wrap gap-[12px]">
-              {/* <div className="grid grid-cols-2 gap-[12px]"> */}
+            <ul className="grid grid-cols-2 md:grid-cols-3 gap-[12px]">
+              {/* <ul className="flex flex-wrap gap-[12px]"> */}
               {currentDate == dayjs().format('YYYY-MM-DD') && (
                 <button
                   className="relative w-[165px] h-[204px]"
