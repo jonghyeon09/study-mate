@@ -12,7 +12,13 @@ function RandomImage() {
   const selectedImage = images[randomIndex];
 
   return (
-    <Image alt="인증등록버튼" src={selectedImage} width={165} height={204} />
+    <Image
+      alt="인증등록버튼"
+      src={selectedImage}
+      width={165}
+      height={204}
+      quality={100}
+    />
   );
 }
 

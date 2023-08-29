@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getStudyList } from '@/services';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import kakaoLogin from '@/public/icons/kakao_login.png';
+import kakao from '@/public/icons/kakao.png';
 import { useRecoilState } from 'recoil';
 import { isLoginState } from '@/recoil/atoms';
 import useLocalStorage from '@/hooks/useLocalStorage';
@@ -58,11 +58,16 @@ export default function Home() {
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2">
             <Image src={logo} alt="logo" />
           </div>
-          <div className="absolute bottom-[154px] left-1/2 -translate-x-1/2">
-            <Link href={authURL}>
-              <Image src={kakaoLogin} alt="login-Button" />
-            </Link>
-          </div>
+          <Link href={authURL}>
+            <button className="flex justify-center items-center absolute bottom-[154px] left-1/2 -translate-x-1/2 w-[300px] h-[45px] input-shadow bg-[#FEE500]">
+              <Image
+                alt="kakao"
+                src={kakao}
+                className="absolute left-[14px] top-1/2 -translate-y-1/2"
+              />
+              <p className="font-bold">카카오 로그인</p>
+            </button>
+          </Link>
         </Layout>
       )}
     </>
